@@ -1,0 +1,15 @@
+.dark-mode .user-name {
+    color: white;
+}
+
+.dark-mode .asset-email {
+    color: white;
+}
+
+.dark-mode .asset-role {
+    color: white;
+}
+
+.table-body-user-name {
+    display: flex;
+}

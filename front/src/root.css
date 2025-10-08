@@ -1,0 +1,27 @@
+:root {
+
+    --font-size-base: 18px;
+    --sidebar-light-background-color: #fafafa;
+    
+    /* --sidebar-dark-background-color:  */
+    --content-dark-background-color: #000000;
+
+    /* dark mode sidebar */
+    --sidebar-dark-mode-color-text: white;
+    --sidebar-dark-mode-hover-background-color: rgba(255, 255, 255, 0.142);
+    --sidebar-dark-mode-active-background-color: rgba(255, 255, 255, 0.142);
+
+
+    /* dark mode content */
+
+    /* navigation */
+    --content-dark-mode-navigation-add-button: white;
+    --content-dark-mode-navigation-add-button-border: 1px solid #ffffff38;
+
+    --content-dark-mode-color-text: white;
+    --content-dark-mode-content-table-tr: 1px solid #ffffff38;
+    --content-dark-mode-hover-background-color: rgba(255, 255, 255, 0.142);
+    --content-dark-mode-background-color: rgba(255, 255, 255, 0.142);
+    
+
+}

@@ -1,0 +1,80 @@
+#root {
+    display: flex;
+}
+
+.layout {
+    background-color: white;
+}
+
+.dark-mode {
+    margin: 0;
+    padding: 0;
+    background-color: #212121;
+}
+
+.dark-mode .content .content-table th {
+    color: var(--content-dark-mode-color-text);
+}
+
+.dark-mode .asset-name, .dark-mode .asset-company, .dark-mode .asset-contact {
+    color: var(--content-dark-mode-color-text);
+}
+
+.dark-mode .content-name-wrapper > p {
+    color: var(--content-dark-mode-color-text);
+}
+
+.dark-mode .navigation-add > button {
+    border: var(--content-dark-mode-navigation-add-button-border);
+    color: var(--content-dark-mode-navigation-add-button);
+}
+
+.dark-mode .navigation-filtr > button {
+    border: var(--content-dark-mode-navigation-add-button-border);
+    color: var(--content-dark-mode-navigation-add-button);
+}
+
+.dark-mode .navigation-search input {
+    background-color: var(--content-dark-mode-background-color);
+}
+
+.dark-mode .content-table thead tr {
+    border-top: var(--content-dark-mode-content-table-tr);
+    border-bottom: var(--content-dark-mode-content-table-tr);
+}
+
+.dark-mode .content-table tbody tr {
+    border-top: var(--content-dark-mode-content-table-tr);
+    border-bottom: var(--content-dark-mode-content-table-tr);
+}
+
+.dark-mode .content-table tbody tr:hover {
+    background-color: var(--content-dark-mode-hover-background-color);
+}
+
+.dark-mode .pagination__wrapper .page {
+    color: var(--content-dark-mode-color-text) !important;
+    border: var(--content-dark-mode-navigation-add-button-border);
+}
+
+.dark-mode .asset-navigation > div {
+    background-color: white;
+}
+
+.dark-mode .asset-navigation > div:hover {
+    background-color: var(--content-dark-mode-hover-background-color);
+}
+
+.notifications {
+    display: none;
+    text-align: end;
+    padding-right: 20px;
+    line-height: 30px;
+    position: absolute;
+    width: 180px;
+    height: 30px;
+    border-radius: 5px;
+    background-color: rgba(0, 255, 0, 0.377);
+    bottom: 30px;
+    right: 30px;
+}
