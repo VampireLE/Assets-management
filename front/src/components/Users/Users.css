@@ -13,3 +13,7 @@
 .table-body-user-name {
     display: flex;
 }
+
+.dark-mode .status {
+    color: white !important;
+}

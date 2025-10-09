@@ -116,11 +116,6 @@ export default function Content({ mode, setMode }) {
                                 <button>+ Add</button>
                             </div>
                             <div className="navigation-filtr">
-                                <button onClick={showAllBtn}>Show all</button>
-                                <button>Select a Ornare</button>
-                                <button>Select an Ultrices</button>
-                                <button>Select an Erat</button>
-                                <button>Clear All</button>
                             </div>
                         </div>
                         <div className="navigation-search">

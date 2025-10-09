@@ -12,7 +12,7 @@ export default function Assets() {
     
     return (
         <div className={`layout ${mode ? "dark-mode" : ""}`}>
-            <Content mode={mode} setMode={dispatch(toggleMode())}/>
+            <Content mode={mode} setMode={() => dispatch(toggleMode())}/>
         </div>
     )
 }

@@ -16,9 +16,11 @@ import logoutDark from "./../../../assets/logout-dark.svg"
 import './Sidebar.css';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useAppSelector } from '../../../app/hooks';
+import { selectMode } from '../../../features/counter/themeSlice';
 
-export default function SideBar({mode}) {
-    const {darkMode: currentMode, toggleMode} = mode;
+export default function SideBar() {
+    const currentMode = useAppSelector(selectMode);
     const navigate = useNavigate();
     const location = useLocation();
     const btnDropDownMenu = useRef(null);
