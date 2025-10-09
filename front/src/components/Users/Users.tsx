@@ -3,9 +3,11 @@ import SideBar from "../Assets/Sidebar/SideBar";
 import { useQuery } from "@tanstack/react-query";
 import search from "./../../assets/search.png";
 import "./Users.css";
+import { selectMode } from "../../features/counter/themeSlice";
+import { useAppSelector } from "../../app/hooks";
 
 export default function Users() {
-    const [mode, setMode] = useState(false);
+    const mode = useAppSelector(selectMode);
     const [paginationIsVisible, setPaginationIsVisible] = useState(true);
     const [page, setPage] = useState(1);
     const [showAll, setShowAll] = useState(false);
@@ -39,7 +41,7 @@ export default function Users() {
 
     return (
         <div className={`layout ${mode ? "dark-mode" : ""}`}>
-            <SideBar mode={{ mode, setMode }} />
+            <SideBar />
             <div className="content">
                 <div className="content-wrapper">
                     <div className="content-navigation">
@@ -48,11 +50,6 @@ export default function Users() {
                                 <button>+ Add</button>
                             </div>
                             <div className="navigation-filtr">
-                                <button>Show all</button>
-                                <button>Select a Ornare</button>
-                                <button>Select an Ultrices</button>
-                                <button>Select an Erat</button>
-                                <button>Clear All</button>
                             </div>
                         </div>
                         <div className="navigation-search">
@@ -96,7 +93,7 @@ export default function Users() {
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div>{password}</div>
+                                                    <div className="status">{password}</div>
                                                 </td>
                                                 <td>
                                                     <div className="asset-navigation">

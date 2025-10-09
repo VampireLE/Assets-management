@@ -1,9 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import LoginPage from "./../../assets/LoginPage.png"
 import "./Auth.css"
+import { useForm } from "react-hook-form";
 
 export default function Auth() {
     const navigate = useNavigate();
+    const {register, handleSubmit, formState: {errors}} = useForm();
+    const onSubmit = () => navigate('/assets')
 
     return (
     <>
@@ -31,36 +34,38 @@ export default function Auth() {
             </div>
             <div className="line-with-text">OR</div>
             <div className="login-container">
-              <form className="login-form" method="post" action="users.login">
+              <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
                 <input
                   className="form-email"
                   type="email"
-                  name="email"
                   placeholder="Email"
+                  {...register('email', {
+                    required: "Email is required",
+                    minLength: {value: 1, message: "Password must be more 1"},
+                    maxLength: {value: 20, message: "Email cannot exceed 20 characters"}
+                  })}
                 />
+                {errors.email && <p>{errors.email.message}</p>}
                 <input
                   className="form-password"
                   type="password"
-                  name="password"
                   placeholder="Password"
+                  {...register('password', {
+                    required: "Password is required",
+                    maxLength: {value: 20, message: "Email cannot exceed 20 characters"},
+                    maxLength: {value: 20, message: "Password cannot exceed 20 characters"},
+                  })}
                 />
+                {errors.password && <p>{errors.password.message}</p>}
                 <div className="remember-me">
                   <input type="checkbox" id="remember-me" name="remember-me" />
                   <label htmlFor="remember-me">Remember me</label>
                 </div>
-                <input className="form-btn" type="submit" value="Login" onClick={(e) => {
-                  e.preventDefault()
-                  navigate('/assets')
-                  }} />
+                <input className="form-btn" type="submit" value="Login"  />
               </form>
-              <p className="login-forgot">
-                Don't have an account?{" "}
-                <a href="register.users">Register</a>
-              </p>
             </div>
           </div>
         </div>
-          
         </div>
     </>
   );
