@@ -3,13 +3,13 @@
 }
 
 .layout {
-    background-color: white;
+    background-color: var(--content-light-background-color);
 }
 
 .dark-mode {
     margin: 0;
     padding: 0;
-    background-color: #212121;
+    background-color: var(--content-dark-mode-background-color);
 }
 
 .dark-mode .content .content-table th {
@@ -31,7 +31,7 @@
 
 .dark-mode .navigation-filtr > button {
     border: var(--content-dark-mode-navigation-add-button-border);
-    color: var(--content-dark-mode-navigation-add-button);
+    color: var(--content-dark-mode-navigation-button);
 }
 
 .dark-mode .navigation-search input {
@@ -57,17 +57,21 @@
     border: var(--content-dark-mode-navigation-add-button-border);
 }
 
-.dark-mode .asset-navigation > div {
-    background-color: white;
+.asset-navigation > div {
+    background-color: black;
 }
 
-.dark-mode .status {
-    color: black !important;
+.dark-mode .asset-navigation > div {
+    background-color: white;
 }
 
 .dark-mode .asset-navigation > div:hover {
     background-color: var(--content-dark-mode-hover-background-color);
 }
+
+/* .dark-mode .status {
+    color: black;
+} */
 
 .notifications {
     display: none;
@@ -78,7 +82,7 @@
     width: 180px;
     height: 30px;
     border-radius: 5px;
-    background-color: rgba(0, 255, 0, 0.377);
+    background-color: var(--notifications-success-background-color);
     bottom: 30px;
     right: 30px;
 }

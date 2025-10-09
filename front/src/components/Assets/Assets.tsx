@@ -1,5 +1,5 @@
 import './Assets.css'
-import SideBar from './Sidebar/SideBar';
+import SideBar from '../Sidebar/SideBar';
 import Content from './Content/Content';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';

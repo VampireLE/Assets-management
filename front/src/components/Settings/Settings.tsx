@@ -1,5 +1,5 @@
 import { useState } from "react";
-import SideBar from "../Assets/Sidebar/SideBar";
+import SideBar from "../Sidebar/SideBar";
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { selectMode, toggleMode } from "../../features/counter/themeSlice";

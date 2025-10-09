@@ -74,6 +74,10 @@ body {
     margin-left: 20px;
 }
 
+.navigation-add button:hover {
+    border: 1px solid #afafaf;
+    border-radius: 10px;
+}
 
 .navigation-add button {
     color: #3B68D8;
@@ -138,6 +142,7 @@ body {
     position: absolute;
     top: 6px;
     left: 10px;
+    pointer-events: none;
 }
 
 .footer-table-pagination {
@@ -209,38 +214,43 @@ td {
 .asset-navigation div {
     width: 4px;
     height: 4px;
-    background-color: black;
+    background-color: rgb(255, 255, 255);
     border-radius: 5px;
+    pointer-events: none;
 }
 
 
 .nav-active {
     display: none;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
-    gap: 8px;
     background-color: white;
-    border: 1px solid gray;
-    width: 100px;
-    height: 80px;
+    width: 150px;
+    height: 100px;
     position: absolute;
-    right: 80px;
+    right: 110px;
     top: 50px;
-    border-radius: 5px;
-    opacity: 1;
-    pointer-events: auto;
-    z-index: 1;
+    border-radius: 10px;
+    gap: 3px;
     transition: 0.5s;
-
+    z-index: 1;
+    border: 1px solid #8080804f;
 }
 
 .nav-active button {
-    font-size: 14px;
+    width: 100px;
+    height: 30px;
+    color: black;
+    font-size: 18px;
+    border-radius: 10px;
 }
 
 .nav-active button:hover {
-    background-color: #3B68D8;
+    background-color: #e2e2e2
 }
+/* #4d3434 - dark */
+/* #fdefef - light */
 
 .asset-navigation button {
     font-size: 16px;

@@ -1,23 +1,23 @@
-import dashboard from './../../../assets/dashboard.svg'
-import assets from './../../../assets/assets.svg'
-import licences from './../../../assets/certificate.svg'
-import accessories from './../../../assets/accessories.svg'
-import logout from "./../../../assets/logout.svg";
-import users from "./../../../assets/user.svg"
-import settings from "./../../../assets/settings.svg"
-import dashboardDark from "./../../../assets/dashboard-dark.svg"
-import assetsDark from "./../../../assets/assets-dark.svg"
-import licencesDark from "./../../../assets/certificate-dark.svg"
-import accessoriesDark from "./../../../assets/accessories-dark.svg"
-import usersDark from "./../../../assets/user-dark.svg"
-import settingsDark from "./../../../assets/settings-dark.svg"
-import logoutDark from "./../../../assets/logout-dark.svg"
+import dashboard from './../../assets/dashboard.svg'
+import assets from './../../assets/assets.svg'
+import licences from './../../assets/certificate.svg'
+import accessories from './../../assets/accessories.svg'
+import logout from "./../../assets/logout.svg";
+import users from "./../../assets/user.svg"
+import settings from "./../../assets/settings.svg"
+import dashboardDark from "./../../assets/dashboard-dark.svg"
+import assetsDark from "./../../assets/assets-dark.svg"
+import licencesDark from "./../../assets/certificate-dark.svg"
+import accessoriesDark from "./../../assets/accessories-dark.svg"
+import usersDark from "./../../assets/user-dark.svg"
+import settingsDark from "./../../assets/settings-dark.svg"
+import logoutDark from "./../../assets/logout-dark.svg"
 
 import './Sidebar.css';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useAppSelector } from '../../../app/hooks';
-import { selectMode } from '../../../features/counter/themeSlice';
+import { useAppSelector } from '../../app/hooks';
+import { selectMode } from '../../features/counter/themeSlice';
 
 export default function SideBar() {
     const currentMode = useAppSelector(selectMode);
@@ -68,17 +68,21 @@ export default function SideBar() {
                                 <div className="menu-others"><img src="/assets/images/accounts.png" alt="" /><a
                                     href="#">Accounts</a></div>
                             </div> */}
-                <div ref={btnDropDownMenu} className="drop-down-menu" style={menu ? {display: 'block'} : {display: 'none'}}>
-                    <div className={`menu menu-settings ${location.pathname === '/settings' && 'active'}`} onClick={() => navigate('/settings')}>
+                <div ref={btnDropDownMenu} className="drop-down-menu" style={menu ? {display: 'flex'} : {display: 'none'}}>
+                    <div className={`menu-settings ${location.pathname === '/settings' && 'active'}`} onClick={() => navigate('/settings')}>
                         <img src={currentMode ? settingsDark : settings} alt="" />
                         <a href="">Settings</a>
                     </div>
-                    <div className="menu" onClick={() => navigate('/')}>
+                    <div className="menu-logout" onClick={() => navigate('/')}>
                         <img className="logout-img" src={currentMode ? logoutDark : logout} />
                         <a>Logout</a>
                     </div>
                 </div>
-                <div className="menu btn-drop-down-menu" onClick={() => setMenu(true)}>
+                <div className="menu btn-drop-down-menu" onClick={(event) => {
+                    if (event.currentTarget) {
+                        setMenu(true)
+                    }
+                    }}>
                     <div className="sidebar-name-circle">D</div>
                     <p>Delicious Burger</p>
                 </div>

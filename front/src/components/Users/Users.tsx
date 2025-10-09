@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import SideBar from "../Assets/Sidebar/SideBar";
+import SideBar from "../Sidebar/SideBar";
 import { useQuery } from "@tanstack/react-query";
 import search from "./../../assets/search.png";
 import "./Users.css";

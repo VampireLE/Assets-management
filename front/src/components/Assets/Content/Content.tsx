@@ -3,9 +3,9 @@ import processor from "./../../../assets/processor.png"
 import { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import './Content.css';
-import SideBar from "../Sidebar/SideBar";
+import SideBar from "../../Sidebar/SideBar";
 import { useNavigate } from "react-router-dom";
-import Popup from "../Popup/Popup";
+import Popup from "../../Popup/Popup";
 
 export default function Content({ mode, setMode }) {
     const [overflow, setOverflow] = useState({});
@@ -41,10 +41,6 @@ export default function Content({ mode, setMode }) {
             queryClient.invalidateQueries(["assets"]);
         }
     })
-
-    
-
-
 
     useEffect(() => {
         const pages = document.querySelectorAll('.page');
@@ -95,7 +91,6 @@ export default function Content({ mode, setMode }) {
                 })
         })
     }, [nav])
-
 
     const showAllBtn = () => {
         setPaginationIsVisible(false);
