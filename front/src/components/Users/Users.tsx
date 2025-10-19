@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import SideBar from "../Sidebar/SideBar";
-import { useQuery } from "@tanstack/react-query";
-import search from "./../../assets/search.png";
+import { defaultScheduler, useQuery } from "@tanstack/react-query";
+import search_img from "./../../assets/search.png";
 import "./Users.css";
 import { selectMode } from "../../features/counter/themeSlice";
 import { useAppSelector } from "../../app/hooks";
@@ -11,13 +11,22 @@ export default function Users() {
     const [paginationIsVisible, setPaginationIsVisible] = useState(true);
     const [page, setPage] = useState(1);
     const [showAll, setShowAll] = useState(false);
-
-    const { data, isLoading } = useQuery({
-        queryKey: ["assets", page, showAll],
+    const [search, setSearch] = useState('');
+    const [debouncedSearch, setDebouncedSearch] = useState(search);
+    
+    useEffect(() => {
+        const timeOut = setTimeout(() => {
+            setDebouncedSearch(timeOut)
+        }, 400)
+        return () => clearTimeout(timeOut)
+    }, [])
+    
+    const { data, isLoading, isError } = useQuery({
+        queryKey: ["assets", page, showAll, search],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:3000/users?page=${page}`)
+            const res = await fetch(`http://localhost:3000/users?page=${page}${search ? '&q=' + search : ''}`)
             const json = await res.json();
-
+            
             if (Array.isArray(json)) {
                 return { data: json }
             }
@@ -25,31 +34,35 @@ export default function Users() {
         }
     })
 
+    
+
+    
     const styleStatus = (status: string) => {
         switch (status) {
             case "active":
                 return ({ backgroundColor: "#c5c6fc" });
-            case "block":
-                return ({ backgroundColor: "#fcc3c3" });
-            default:
-                return {}
-        }
-    }
-
-    useEffect(() => {
-                const pages = document.querySelectorAll('.page');
-                pages.forEach((value, index) => {
-                    value.style.border = 'none'
-                    value.style.color = 'black'
-                    if (value.innerText == String(page)) {
-                        value.style.border = '1px solid  #7140ff'
-                        value.style.color = '#4200ff'
+                case "block":
+                    return ({ backgroundColor: "#fcc3c3" });
+                    default:
+                        return {}
                     }
-                })
-            }, [data, page])
-
+                }
+                
+                // useEffect(() => {
+                    //             const pages = document.querySelectorAll('.page');
+                    //             pages.forEach((value, index) => {
+                        //                 value.style.border = 'none'
+                        //                 value.style.color = 'black'
+                        //                 if (value.innerText == String(page)) {
+                            //                     value.style.border = '1px solid  #7140ff'
+                            //                     value.style.color = '#4200ff'
+                            //                 }
+                            //             })
+                            //         }, [data, page])
+                            
     if (isLoading) return <div>Loading...</div>
-
+                            
+    console.log(data)
     return (
         <div className={`layout ${mode ? "dark-mode" : ""}`}>
             <SideBar />
@@ -64,8 +77,8 @@ export default function Users() {
                             </div>
                         </div>
                         <div className="navigation-search">
-                            <input placeholder="Search" />
-                            <img src={search} alt="search" />
+                            <input value={search} placeholder="Search" onChange={(e) => setSearch(e.target.value)} />
+                            <img src={search_img} alt="search" />
                         </div>
                     </div>
 
@@ -81,46 +94,46 @@ export default function Users() {
                             </thead>
                             <tbody>
                                 {
-                                    data.data.map((value, _) => {
-                                        const { _id, name, email, role, status, password } = value;
-                                        return (
-                                            <tr key={_id}>
-                                                <td>
-                                                    <div className="table-body-user-name">
-                                                        {/* <div className="user-name-img">D</div> */}
-                                                        <div className="user-name-wrapper">
-                                                            <div className="user-name">{name}</div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div className="asset-email">
-                                                        <div>{email}</div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div className="asset-role">
-                                                        <div>{role}</div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div className="status" style={styleStatus(status)}>{status}</div>
-                                                </td>
-                                                <td>
-                                                    <div className="asset-navigation">
-                                                        <div></div>
-                                                        <div></div>
-                                                        <div></div>
-                                                    </div>
-                                                    <div className="nav-active">
-                                                        <button>View more</button>
-                                                        <button>Edit</button>
-                                                        <button>Delete</button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        )
-                                    })
+                                    // data.data.map((value, _) => {
+                                    //     const { _id, name, email, role, status, password } = value;
+                                    //     return (
+                                    //         <tr key={_id}>
+                                    //             <td>
+                                    //                 <div className="table-body-user-name">
+                                    //                     {/* <div className="user-name-img">D</div> */}
+                                    //                     <div className="user-name-wrapper">
+                                    //                         <div className="user-name">{name}</div>
+                                    //                     </div>
+                                    //                 </div>
+                                    //             </td>
+                                    //             <td>
+                                    //                 <div className="asset-email">
+                                    //                     <div>{email}</div>
+                                    //                 </div>
+                                    //             </td>
+                                    //             <td>
+                                    //                 <div className="asset-role">
+                                    //                     <div>{role}</div>
+                                    //                 </div>
+                                    //             </td>
+                                    //             <td>
+                                    //                 <div className="status" style={styleStatus(status)}>{status}</div>
+                                    //             </td>
+                                    //             <td>
+                                    //                 <div className="asset-navigation">
+                                    //                     <div></div>
+                                    //                     <div></div>
+                                    //                     <div></div>
+                                    //                 </div>
+                                    //                 <div className="nav-active">
+                                    //                     <button>View more</button>
+                                    //                     <button>Edit</button>
+                                    //                     <button>Delete</button>
+                                    //                 </div>
+                                    //             </td>
+                                    //         </tr>
+                                    //     )
+                                    // })
                                 }
                             </tbody>
                         </table>
