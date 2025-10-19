@@ -12,6 +12,8 @@ import accessoriesDark from "./../../assets/accessories-dark.svg"
 import usersDark from "./../../assets/user-dark.svg"
 import settingsDark from "./../../assets/settings-dark.svg"
 import logoutDark from "./../../assets/logout-dark.svg"
+import components from "./../../assets/components.svg"
+import componentsDark from "./../../assets/components-dark.svg"
 
 import './Sidebar.css';
 import { useEffect, useRef, useState } from 'react';
@@ -55,6 +57,8 @@ export default function SideBar() {
                         >Licences</a></div>
                     <div className={`menu ${location.pathname === '/accessories' && 'active'}`} onClick={() => navigate('/accessories')}><img src={currentMode ? accessoriesDark : accessories} alt="" style={{width: "20px"}}/><a
                         >Accessories</a></div>
+                    <div className={`menu ${location.pathname === '/components' && 'active'}`} onClick={() => navigate('/components')}><img src={currentMode ? components : componentsDark} alt="" style={{width: "20px"}}/><a
+                        >Components</a></div>
                     <div className={`menu ${location.pathname === '/users' && 'active'}`} onClick={() => navigate('/users')}><img className='menu-img-users' src={currentMode ? usersDark : users} style={{width: "20px"}}/><a>Users</a></div>
                 </div>
             </div>

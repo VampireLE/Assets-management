@@ -25,6 +25,17 @@ export default function Users() {
         }
     })
 
+    const styleStatus = (status: string) => {
+        switch (status) {
+            case "active":
+                return ({ backgroundColor: "#c5c6fc" });
+            case "block":
+                return ({ backgroundColor: "#fcc3c3" });
+            default:
+                return {}
+        }
+    }
+
     useEffect(() => {
                 const pages = document.querySelectorAll('.page');
                 pages.forEach((value, index) => {
@@ -71,7 +82,7 @@ export default function Users() {
                             <tbody>
                                 {
                                     data.data.map((value, _) => {
-                                        const { _id, name, email, role, password } = value;
+                                        const { _id, name, email, role, status, password } = value;
                                         return (
                                             <tr key={_id}>
                                                 <td>
@@ -93,7 +104,7 @@ export default function Users() {
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div className="status">{password}</div>
+                                                    <div className="status" style={styleStatus(status)}>{status}</div>
                                                 </td>
                                                 <td>
                                                     <div className="asset-navigation">

@@ -43,6 +43,7 @@
     transform: rotate(45deg);
 }
 
+
 .popup {
     position: relative;
     width: 450px;
@@ -55,6 +56,48 @@
     flex-direction: column;
     gap: 20px;
 }
+
+.dark-mode .cls-popup::before {
+    background-color: white;
+}
+
+.dark-mode .cls-popup::after {
+    background-color: white;
+}
+
+.dark-mode .popup {
+    background-color: #2d2d2d;
+}
+
+.dark-mode .form__name > label, .dark-mode .form__contact > label, .dark-mode .form__company > label {
+    color: white;
+}
+
+.dark-mode .form__name > input, .dark-mode .form__contact > input, .dark-mode .form__company > input {
+    border: 0;
+    border-radius: 5px;
+    background-color: #393939;
+    color: rgba(255, 255, 255, 0.695);
+}
+
+.dark-mode .form__status > select {
+    outline: none;
+    border: 0;
+    border-radius: 5px;
+    color: rgba(255, 255, 255, 0.819);
+    background-color: #393939;
+}
+
+.dark-mode .form__submit > input {
+    background-color: #393939;
+    color: rgba(255, 255, 255, 0.819);
+}
+
+.dark-mode .form__submit > input:hover {
+    border: 1px solid rgba(190, 190, 190, 0.068);
+}
+
+
 
 .popup__wrapper {
     height: 100%;

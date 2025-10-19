@@ -1,3 +1,7 @@
+body {
+    background-color: var(--content-dark-mode-background-color);
+}
+
 #root {
     display: flex;
 }
@@ -35,7 +39,11 @@
 }
 
 .dark-mode .navigation-search input {
-    background-color: var(--content-dark-mode-background-color);
+    background-color: var(--content-dark-mode-background-color-input);
+}
+
+.dark-mode .navigation-search input::placeholder {
+    color: rgba(0, 0, 0, 0.734);
 }
 
 .dark-mode .content-table thead tr {
@@ -85,4 +93,11 @@
     background-color: var(--notifications-success-background-color);
     bottom: 30px;
     right: 30px;
+}
+.footer-table-pagination {
+    margin: auto 30px;
+    display: flex;
+    align-items: flex-end;      
+    justify-content: space-between; 
+    padding: 10px 0;          
 }

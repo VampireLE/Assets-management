@@ -24,7 +24,7 @@
     --content-dark-mode-color-text: white;
     --content-dark-mode-content-table-tr: 1px solid #ffffff38;
     --content-dark-mode-hover-background-color: rgba(255, 255, 255, 0.142);
-    /* --content-dark-mode-background-color: rgba(255, 255, 255, 0.142); */
+    --content-dark-mode-background-color-input: white;
 
     --notifications-success-background-color: rgba(0, 255, 0, 0.377); 
 }

@@ -11,30 +11,34 @@ import Licences from './components/Licences/Licences';
 import Accessories from './components/Accessories/Accessories';
 import Users from './components/Users/Users';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import storage from 'redux-persist/lib/storage';
 
-import {store} from "./app/store";
+import { store, persistor } from "./app/store"
 
 function App() {
+
+
   const client = new QueryClient();
-
   return (
-    <Provider store={store}>
-      <QueryClientProvider client={client}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Auth/>}/>
-            <Route path="/dashboard" element={<Dashboard/>}/>
-            <Route path="/assets" element={<Assets/>}/>
-            <Route path="/licences" element={<Licences/>}/>
-            <Route path="/accessories" element={<Accessories/>}/>
-            <Route path="/users" element={<Users/>}/>
-            <Route path="/settings" element={<Settings/>}/>
-            <Route path="*" element={<NotFound/>}/>
-          </Routes>
-        </BrowserRouter>
-      </QueryClientProvider>
-
-    </Provider>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <QueryClientProvider client={client}>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Auth/>}/>
+                <Route path="/dashboard" element={<Dashboard/>}/>
+                <Route path="/assets" element={<Assets/>}/>
+                <Route path="/licences" element={<Licences/>}/>
+                <Route path="/accessories" element={<Accessories/>}/>
+                <Route path="/users" element={<Users/>}/>
+                <Route path="/settings" element={<Settings/>}/>
+                <Route path="*" element={<NotFound/>}/>
+              </Routes>
+            </BrowserRouter>
+          </QueryClientProvider>
+          </PersistGate>
+      </Provider>
   )
 }
 

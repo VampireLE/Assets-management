@@ -1,7 +1,7 @@
 import search from "./../../../assets/search.png";
 import processor from "./../../../assets/processor.png"
 import { useEffect, useRef, useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Mutation, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import './Content.css';
 import SideBar from "../../Sidebar/SideBar";
 import { useNavigate } from "react-router-dom";
@@ -15,13 +15,14 @@ export default function Content({ mode, setMode }) {
     const [showPopup, setShowPopup] = useState(false);
     const [nav, setNav] = useState(null);
     const [id, setId] = useState(null);
+    const [perpage, setPerpage] = useState(5);
     
     const queryClient = useQueryClient();
 
     const { data, isLoading } = useQuery({
-        queryKey: ["assets", page, showAll],
+        queryKey: ["assets", page, showAll, perpage],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:3000/assets?page=${page}`)
+            const res = await fetch(`http://localhost:3000/assets?page=${page}&&count=${perpage}`)
             const json = await res.json();
 
             if (Array.isArray(json)) {
@@ -70,27 +71,51 @@ export default function Content({ mode, setMode }) {
     }
 
     useEffect(() => {
-        const assetsNavigation = document.querySelectorAll('.asset-navigation');
-        assetsNavigation.forEach((assetNavigation) => {
-            assetNavigation.addEventListener('mouseover', (event) => {
-                const td = event.currentTarget.parentNode;
-                const navActive = td.querySelector('.nav-active');
-                
-                if (event.currentTarget === nav || event.currentTarget === navActive) {
-                    navActive.style.display = 'flex'
-                }
+        const handleClick = (e) => {
+            const td = e.target.parentNode;
+            const navActive = td.querySelector('.nav-active');
+            
+            if (e.target === nav) {
+                navActive.style.display = 'flex'
+            } else {
+                navActive.style.display = 'none'
+            }
+        };
+
+        document.addEventListener('click', handleClick);
+
+        return () => {
+            document.removeEventListener('click', handleClick);
+        };
+    }, [nav]);
+
+    const updateMutation = useMutation({
+        mutationKey: ["assets"],
+        mutationFn: async ({id, data}) => {
+            await fetch(`http://localhost:3000/assets/${id}`, {
+                method: 'PATCH',
+                'headers': {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+
             })
-            assetNavigation.addEventListener('mouseout', (event) => {
-                
-                const td = event.target.parentNode;
-                const navActive = td.querySelector('.nav-active');
-                setTimeout(() => {
-                    if (navActive) navActive.style.display = 'none';
-                        setNav(null);
-                    }, 1000)
-                })
-        })
-    }, [nav])
+        }, onSuccess() {
+            queryClient.invalidateQueries(['assets'])
+        }, onError(error) {
+            console.log(error)
+        }
+    })
+
+    const updateAsset = (_id: number, child) => {
+        const parent = ((child.parentNode).parentNode).parentNode;
+        const name = parent.querySelector('.asset-name').textContent;
+        const company = parent.querySelector('.asset-company').textContent;
+        const contact = parent.querySelector('.asset-contact').textContent;
+        const status = parent.querySelector('.status').textContent;
+        updateMutation.mutate({id: _id, data: {name: 'Monitor', company, contact, status}});
+    }
+
 
     const showAllBtn = () => {
         setPaginationIsVisible(false);
@@ -123,10 +148,11 @@ export default function Content({ mode, setMode }) {
                         <table>
                             <thead>
                                 <tr>
-                                    <th>ASSET NAME</th>
+                                    <th><input className="asset-name" type="checkbox" />ASSET NAME</th>
                                     <th>COMPANY</th>
                                     <th>CONTACT</th>
                                     <th>STATUS</th>
+                                    <th>NAVIGATE</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -137,8 +163,9 @@ export default function Content({ mode, setMode }) {
                                             <tr key={_id}>
                                                 <td>
                                                     <div className="table-body-asset-name">
-                                                        <div className="asset-name-img"><img src={processor}
-                                                            alt="#" /></div>
+                                                        <div className="asset-name-img">
+                                                            <input type="checkbox" />
+                                                            <img src={processor} alt="#" /></div>
                                                         <div className="asset-name-wrapper">
                                                             <div className="asset-name">{name}</div>
                                                             <div className="asset-name-model">Intel i5 9400</div>
@@ -161,14 +188,14 @@ export default function Content({ mode, setMode }) {
                                                 </td>
                                                 <td>
                                                     {/* onMouseOut={() => console.log(123)} */}
-                                                    <div className="asset-navigation" onMouseOverCapture={(e) => setNav(e.target)}>
+                                                    <div className="asset-navigation" onClick={(e) => setNav(e.target)}>
                                                         <div></div>
                                                         <div></div>
                                                         <div></div>
                                                     </div>
                                                     <div className="nav-active">
                                                         <button>View more</button>
-                                                        <button>Edit</button>
+                                                        <button data-id={_id} onClick={(event) => updateAsset(event.target.getAttribute('data-id'), event.target)}>Edit</button>
                                                         <button data-id={_id} onClick={(event) => deleteMutation.mutate(event.target.getAttribute('data-id'))}>Delete</button>
                                                     </div>
                                                 </td>
@@ -180,6 +207,15 @@ export default function Content({ mode, setMode }) {
                         </table>
                     </div>
                     <div className="footer-table-pagination" style={paginationIsVisible ? { visibility: 'visible' } : { visibility: 'hidden' }}>
+                        <div className="perpage">
+                            <label htmlFor="perpage">Per page</label>
+                            <select name="perpage" defaultValue={perpage} onChange={(value) => setPerpage(value.target.value)}>
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
                         <div className="pagination">
                             <div className='pagination__wrapper'>
                                 <div className="decrease" style={page === 1 ? { backgroundColor: "#c8ced5" } : {}} onClick={() => setPage(page === 1 ? page : page - 1)}></div>

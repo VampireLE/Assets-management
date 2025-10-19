@@ -228,6 +228,8 @@ html, body #root {
     width: 240px;
 }
 
+
+
 .sidebar-name-wrapper:hover {
     background-color: rgba(63, 63, 63, 0.131);
 }
@@ -237,6 +239,7 @@ html, body #root {
     width: 30px;
     height: 30px;
     border-radius: 50%;
+    color: black;
     background-color: #FFE6CC;
     display: flex;
     justify-content: center;
