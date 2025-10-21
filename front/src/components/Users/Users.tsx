@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import SideBar from "../Sidebar/SideBar";
 import { defaultScheduler, useQuery } from "@tanstack/react-query";
 import search_img from "./../../assets/search.png";
-import "./Users.css";
 import { selectMode } from "../../features/counter/themeSlice";
 import { useAppSelector } from "../../app/hooks";
+import Table from "./Table";
 
 export default function Users() {
     const mode = useAppSelector(selectMode);
@@ -16,15 +16,17 @@ export default function Users() {
     
     useEffect(() => {
         const timeOut = setTimeout(() => {
-            setDebouncedSearch(timeOut)
+            setDebouncedSearch(search)
         }, 400)
         return () => clearTimeout(timeOut)
-    }, [])
+    }, [search])
     
-    const { data, isLoading, isError } = useQuery({
-        queryKey: ["assets", page, showAll, search],
+    const { data, isLoading } = useQuery({
+        queryKey: ["assets", page, showAll, debouncedSearch],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:3000/users?page=${page}${search ? '&q=' + search : ''}`)
+            const res = await fetch(`http://localhost:3000/users?page=${page}${debouncedSearch 
+                ? '&q=' + debouncedSearch 
+                : ''}`)
             const json = await res.json();
             
             if (Array.isArray(json)) {
@@ -33,20 +35,6 @@ export default function Users() {
             return json;
         }
     })
-
-    
-
-    
-    const styleStatus = (status: string) => {
-        switch (status) {
-            case "active":
-                return ({ backgroundColor: "#c5c6fc" });
-                case "block":
-                    return ({ backgroundColor: "#fcc3c3" });
-                    default:
-                        return {}
-                    }
-                }
                 
                 // useEffect(() => {
                     //             const pages = document.querySelectorAll('.page');
@@ -60,9 +48,8 @@ export default function Users() {
                             //             })
                             //         }, [data, page])
                             
-    if (isLoading) return <div>Loading...</div>
+    
                             
-    console.log(data)
     return (
         <div className={`layout ${mode ? "dark-mode" : ""}`}>
             <SideBar />
@@ -77,8 +64,13 @@ export default function Users() {
                             </div>
                         </div>
                         <div className="navigation-search">
-                            <input value={search} placeholder="Search" onChange={(e) => setSearch(e.target.value)} />
-                            <img src={search_img} alt="search" />
+                            <input 
+                                value={search} 
+                                placeholder="Search" 
+                                onChange={(e) => setSearch(e.target.value)} />
+                            <img 
+                                src={search_img} 
+                                alt="search" />
                         </div>
                     </div>
 
@@ -92,62 +84,29 @@ export default function Users() {
                                     <th>STATUS</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                {
-                                    // data.data.map((value, _) => {
-                                    //     const { _id, name, email, role, status, password } = value;
-                                    //     return (
-                                    //         <tr key={_id}>
-                                    //             <td>
-                                    //                 <div className="table-body-user-name">
-                                    //                     {/* <div className="user-name-img">D</div> */}
-                                    //                     <div className="user-name-wrapper">
-                                    //                         <div className="user-name">{name}</div>
-                                    //                     </div>
-                                    //                 </div>
-                                    //             </td>
-                                    //             <td>
-                                    //                 <div className="asset-email">
-                                    //                     <div>{email}</div>
-                                    //                 </div>
-                                    //             </td>
-                                    //             <td>
-                                    //                 <div className="asset-role">
-                                    //                     <div>{role}</div>
-                                    //                 </div>
-                                    //             </td>
-                                    //             <td>
-                                    //                 <div className="status" style={styleStatus(status)}>{status}</div>
-                                    //             </td>
-                                    //             <td>
-                                    //                 <div className="asset-navigation">
-                                    //                     <div></div>
-                                    //                     <div></div>
-                                    //                     <div></div>
-                                    //                 </div>
-                                    //                 <div className="nav-active">
-                                    //                     <button>View more</button>
-                                    //                     <button>Edit</button>
-                                    //                     <button>Delete</button>
-                                    //                 </div>
-                                    //             </td>
-                                    //         </tr>
-                                    //     )
-                                    // })
-                                }
-                            </tbody>
+                            <Table data={data} isLoading={isLoading}/>
                         </table>
                     </div>
-                    <div className="footer-table-pagination" style={paginationIsVisible ? { visibility: 'visible' } : { visibility: 'hidden' }}>
+                    <div className="footer-table-pagination" style={paginationIsVisible 
+                        ? { visibility: 'visible' } 
+                        : { visibility: 'hidden' }}>
                         <div className="pagination">
                             <div className='pagination__wrapper'>
-                                <div className="decrease" style={page === 1 ? { backgroundColor: "#c8ced5" } : {}} onClick={() => setPage(page === 1 ? page : page - 1)}></div>
+                                <div className="decrease" style=
+                                {page === 1 
+                                    ? { backgroundColor: "#c8ced5" } 
+                                    : {}} onClick={() => setPage(page === 1 ? page : page - 1)}></div>
 
-                                {[...Array(data.page)].map((_, index) => {
-                                    return ((<div className="page" key={index} onClick={() => setPage(index + 1)}>{index + 1}</div>))
+                                {[...Array(data?.page)].map((_, index) => {
+                                    return ((<div className="page" 
+                                        key={index} 
+                                        onClick={() => setPage(index + 1)}>{index + 1}</div>))
                                 })}
 
-                                <div className="increase" style={page === data.page ? { backgroundColor: "#c8ced5" } : {}} onClick={() => data.page !== page ? setPage(page + 1) : page}></div>
+                                <div className="increase" 
+                                    style={page === data?.page 
+                                    ? { backgroundColor: "#c8ced5" } 
+                                    : {}} onClick={() => data?.page !== page ? setPage(page + 1) : page}></div>
                             </div>
                         </div>
                     </div>
