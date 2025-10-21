@@ -1,3 +1,4 @@
+const JWT_SECRET = require('dotenv').config();
 var express = require('express');
 var indexRouter = require('./routes/index');
 var assetsRouter = require('./routes/assets');
@@ -22,7 +23,7 @@ app.use(cors({
 app.use(express.json());
 
 // Подключаем только существующие роутеры
-
+app.use('/', authRouter);
 app.use('/assets', assetsRouter);
 app.use('/licences', licencesRouter);
 app.use('/accessories', accessoriesRouter);

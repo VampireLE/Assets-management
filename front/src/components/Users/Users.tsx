@@ -26,7 +26,12 @@ export default function Users() {
         queryFn: async () => {
             const res = await fetch(`http://localhost:3000/users?page=${page}${debouncedSearch 
                 ? '&q=' + debouncedSearch 
-                : ''}`)
+                : ''}`, {
+                    headers: {
+                        'Authorisation': 'Bearer ' + 123,
+                        'Content-Type': 'application/json'
+                    }
+                })
             const json = await res.json();
             
             if (Array.isArray(json)) {

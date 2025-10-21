@@ -1,8 +1,9 @@
 var express = require('express');
 const Assets = require('./../Models/ModelUsers');
+const authentificateJWT = require('../middleware/auth');
 var router = express.Router();
 
-router.get('/', async (req, res, next) => {
+router.get('/', authentificateJWT, async (req, res, next) => {
     try {
         let { q, page=1 } = req.query;
         let filter = {};
@@ -14,7 +15,6 @@ router.get('/', async (req, res, next) => {
         
         let count = await Assets.countDocuments();
         let accessories = await Assets.find(filter).skip(skip).limit(limit);
-        console.log(accessories)
 
         res.json({data: accessories, page: Math.ceil(count / 5)});
     } catch (err) {
