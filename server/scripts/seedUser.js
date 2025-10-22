@@ -18,8 +18,10 @@ async function createAdmin() {
             password: hashPassword
         })
         console.log('user was create successfully')
+        process.exit(1)
     } catch (error) {
         console.log('Error: ' + error.message)
+        process.exit(1)
     }
 
     // const exists = await Users.findOne({email:'test@test.ru'});

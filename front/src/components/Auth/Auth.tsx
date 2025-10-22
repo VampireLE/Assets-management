@@ -21,9 +21,10 @@ export default function Auth() {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
-            'user': credation.email,
-            'Authorization': 'Bearer ' + credation.password
-          }
+            'Authorization': 'Bearer '
+          },
+          body: JSON.stringify({email: credation.email, password: credation.password})
+
         })
         // return await user.json()
       }

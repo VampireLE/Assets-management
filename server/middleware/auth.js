@@ -3,16 +3,13 @@ const config = require("dotenv").config();
 const JWT_SECRET = config.parsed.JWT_SECRET;
 
 function authentificateJWT(req, send, next) {
-    if (!req.headers.authorization) return res.status(401).json({error: "Not found token"})
-    const [schema, token] = (req.headers.authorization).split(' ');
     
-    jwt.verify(token, JWT_SECRET, (err, payload) => {
-        req.user = {id: payload.userId}
-    })
+    const authHeaders = req.header.authorisation;
+    if (!authHeaders) return send.status(401).json({error: 'Not a have token'});
 
-    // console.log(req.headers.authorization)
-    // next();
-    return 
+    const token = authHeaders.split(' ')[1];
+
+    jwt.verify
 }
 
 module.exports = authentificateJWT
