@@ -1,5 +1,6 @@
 const JWT_SECRET = require('dotenv').config();
 var express = require('express');
+var authRouter = require('./routes/auth');
 var indexRouter = require('./routes/index');
 var assetsRouter = require('./routes/assets');
 var licencesRouter = require('./routes/licences');

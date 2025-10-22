@@ -2,11 +2,33 @@ import { useNavigate } from "react-router-dom";
 import LoginPage from "./../../assets/LoginPage.png"
 import "./Auth.css"
 import { useForm } from "react-hook-form";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 
 export default function Auth() {
+    const [credation, setCredation] = useState({});
     const navigate = useNavigate();
     const {register, handleSubmit, formState: {errors}} = useForm();
-    const onSubmit = () => navigate('/assets')
+    const onSubmit = (e) => {
+      setCredation(e)
+      mutate()
+    }
+    // navigate('/assets')
+    const { mutate, data } = useMutation({
+      mutationKey: ["user"],
+      mutationFn:   async () => {
+        await fetch('http://localhost:3000/', {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+            'user': credation.email,
+            'Authorization': 'Bearer ' + credation.password
+          }
+        })
+        // return await user.json()
+      }
+    })
+    console.log(data)
 
     return (
     <>

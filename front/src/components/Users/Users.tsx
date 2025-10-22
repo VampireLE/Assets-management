@@ -28,7 +28,7 @@ export default function Users() {
                 ? '&q=' + debouncedSearch 
                 : ''}`, {
                     headers: {
-                        'Authorisation': 'Bearer ' + 123,
+                        'Authorization': 'Bearer ' + 123,
                         'Content-Type': 'application/json'
                     }
                 })

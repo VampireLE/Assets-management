@@ -1,7 +1,12 @@
 const Users = require('../Models/ModelUsers');
 const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
 
 async function createAdmin() {
+    await mongoose.connect('mongodb://root:password@127.0.0.1:27017/Assets_management?authSource=admin')
+    .then(() => console.log("Connected"))
+    .catch(() => console.log("Could not connect"))
+
     const hashPassword = await bcrypt.hash('Admin123', 10)
     
     try {
