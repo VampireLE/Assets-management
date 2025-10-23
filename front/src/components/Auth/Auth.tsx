@@ -4,6 +4,7 @@ import "./Auth.css"
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { persistor } from "../../app/store";
 
 export default function Auth() {
     const [credation, setCredation] = useState({});
@@ -14,22 +15,25 @@ export default function Auth() {
       mutate()
     }
     // navigate('/assets')
-    const { mutate, data } = useMutation({
+    const { mutate, data, isSuccess } = useMutation({
       mutationKey: ["user"],
       mutationFn:   async () => {
-        await fetch('http://localhost:3000/', {
+        const res = await fetch('http://localhost:3000/', {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer '
           },
           body: JSON.stringify({email: credation.email, password: credation.password})
-
         })
-        // return await user.json()
+        return res.json()
       }
     })
-    console.log(data)
+    
+    if (isSuccess) {
+      localStorage.setItem("token", data.body)
+      navigate('/assets')
+    } 
 
     return (
     <>

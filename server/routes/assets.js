@@ -2,6 +2,7 @@ var express = require('express');
 const Assets = require('./../Models/ModelAssets');
 var router = express.Router();
 
+
 router.get('/', async (req, res, next) => {
     try {
         const count = await Assets.countDocuments()

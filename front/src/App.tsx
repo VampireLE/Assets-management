@@ -18,7 +18,6 @@ import { store, persistor } from "./app/store"
 
 function App() {
 
-
   const client = new QueryClient();
   return (
       <Provider store={store}>

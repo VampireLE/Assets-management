@@ -4,12 +4,12 @@ import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 
 const persistConfig = {
-      key: 'root',
-      storage,
+    key: 'root',
+    storage,
 }
 
 const rootReducer = combineReducers({
-        theme: themeReducer 
+    theme: themeReducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

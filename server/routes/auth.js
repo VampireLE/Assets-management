@@ -22,15 +22,16 @@ router.post('/', async (req, res, next) => {
     // const [userName, _] = (req.headers.user).split('@');
     // const email = req.headers.user;
 
-    // const jwtToken = jwt.sign({
-    //     username: userName,
-    //     email: email
-    // },
-    // JWT_SECRET,
-    // {
-    //     expiresIn: '1h'
-    // })
-    // res.json({body: jwt})
+    const jwtToken = jwt.sign({
+        username: email.split('@')[1],
+        email: email
+    },
+    JWT_SECRET,
+    {
+        expiresIn: '1h'
+    })
+    
+    res.status(201).json({body: jwtToken})
 })
 
 module.exports = router
