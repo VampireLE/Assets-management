@@ -1,6 +1,6 @@
-body {
+/* body {
     background-color: var(--content-dark-mode-background-color);
-}
+} */
 
 #root {
     display: flex;

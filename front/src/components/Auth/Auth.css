@@ -2,7 +2,7 @@
 
         .container-login {
             border-radius: 8px;
-            box-shadow: 0px 0px 1px 0px rgba(34, 60, 80, 0.3);
+            box-shadow: 0px 0px 1px 0px rgba(255, 255, 255, 0.3);
         }
 
         .section {
@@ -19,6 +19,25 @@
             align-items:center;
             justify-content: space-between;
             margin: auto 100px;
+        }
+
+        .alert__error {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            right: -350px;
+            bottom: 30px;
+            font-size: 18px;
+            width: 300px;
+            height: 50px;
+            background-color: rgba(255, 0, 0, 0.279);
+            border-radius: 10px;
+            transition: right 0.5s ease;
+        }
+
+        .alert__error.active {
+            right: 30px;
         }
 
         .img-login-page > img {

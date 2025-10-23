@@ -3,19 +3,20 @@ import LoginPage from "./../../assets/LoginPage.png"
 import "./Auth.css"
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { persistor } from "../../app/store";
 
 export default function Auth() {
     const [credation, setCredation] = useState({});
     const navigate = useNavigate();
+    const [alertError, setAlertError] = useState(null);
     const {register, handleSubmit, formState: {errors}} = useForm();
     const onSubmit = (e) => {
       setCredation(e)
       mutate()
     }
-    // navigate('/assets')
-    const { mutate, data, isSuccess } = useMutation({
+
+    const { mutate, data, isSuccess, isError} = useMutation({
       mutationKey: ["user"],
       mutationFn:   async () => {
         const res = await fetch('http://localhost:3000/', {
@@ -29,41 +30,61 @@ export default function Auth() {
         return res.json()
       }
     })
+
+    useEffect(() => {
+      console.log(alertError)
+      if (data?.error) {
+        setAlertError(data.error)
+
+        const timeout = setTimeout(() => {
+          setAlertError(null)
+        }, 10000)
+
+
+        return () => clearTimeout(timeout);
+      }      
+    }, [data?.error])
     
     if (isSuccess) {
       localStorage.setItem("token", data.body)
-      navigate('/assets')
+      // navigate('/assets')
     } 
 
     return (
     <>
       <div className="section">
         <div className="section__wrapper">
-          <div className="img-login-page">
+
+          <div className="section__img">
             <img src={LoginPage} alt="Login Page" />
           </div>
-          <div className="container-login">
-            <div>
-              <p className="welcome-text">
+
+          <div className="login">
+
+            <div className="login__welcome">
+              <p className="login__welcome-text">
                 Welcome to <br />
-                <span className="welcome-span">Assets Management</span>
+                <span className="login__welcome-span">Assets Management</span>
               </p>
             </div>
-            <div className="btns-integration">
-              <button className="integration-google">
+
+            <div className="login__integrations">
+              <button className="button login__integration login__integration-google">
                 <img src="/assets/images/google.png" alt="Google" />
                 Login with Google
               </button>
-              <button className="integration-keycloak">
+              <button className="button login__integration login__integration-keycloak">
                 <img src="/assets/images/keycloak.png" alt="Keycloak" />
                 Login with Keycloak
               </button>
             </div>
-            <div className="line-with-text">OR</div>
-            <div className="login-container">
-              <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
+
+            <div className="login__separator">OR</div>
+
+            <div className="login__form-container">
+              <form className="form" onSubmit={handleSubmit(onSubmit)}>
                 <input
-                  className="form-email"
+                  className="form__email"
                   type="email"
                   placeholder="Email"
                   {...register('email', {
@@ -74,7 +95,7 @@ export default function Auth() {
                 />
                 {errors.email && <p>{errors.email.message}</p>}
                 <input
-                  className="form-password"
+                  className="form__password"
                   type="password"
                   placeholder="Password"
                   {...register('password', {
@@ -84,14 +105,18 @@ export default function Auth() {
                   })}
                 />
                 {errors.password && <p>{errors.password.message}</p>}
-                <div className="remember-me">
+                <div className="form__remember-me">
                   <input type="checkbox" id="remember-me" name="remember-me" />
                   <label htmlFor="remember-me">Remember me</label>
                 </div>
-                <input className="form-btn" type="submit" value="Login"  />
+                <input className="form__btn-submit" type="submit" value="Login"  />
               </form>
             </div>
+
+
           </div>
+
+          {alertError && <div className={`${alertError ? 'alert__error active': 'alert__error'}`}>{alertError}</div>}
         </div>
         </div>
     </>
