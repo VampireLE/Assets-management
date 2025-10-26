@@ -116,7 +116,7 @@ export default function Accessories() {
                                                         <div></div>
                                                         <div></div>
                                                     </div>
-                                                    <div className="table__nav-active-btns">
+                                                    <div className="table__actions">
                                                         <button>View more</button>
                                                         <button>Edit</button>
                                                         <button>Delete</button>

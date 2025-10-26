@@ -43,30 +43,29 @@ export default function Popup({popupIsShow, onClosePopup}) {
     return (
         <>
             {popupIsShow && (
-                <div ref={clickOnBgPopup} className="popup-bgd" onClick={(event) => {
+                <div ref={clickOnBgPopup} className="overlay" onClick={(event) => {
                     if (event.target === clickOnBgPopup.current) {
                         onClosePopup(false)
                     }
                 }}>
             <div className="popup">
-                <div className="cls-popup" onClick={() => onClosePopup(false)}></div>
+                <div className="popup__close" onClick={() => onClosePopup(false)}></div>
                 <div className="popup__wrapper">
-                    <form onSubmit={handleSubmit(onSubmit)} className="popup__form">
-
-                        <div className="form__name">
+                    <form onSubmit={handleSubmit(onSubmit)} className="form">
+                        <div className="form__field">
                             <label>Name</label>
                             <input {...register('name')} type="text" />
                         </div>
-                        <div className="form__contact">
+                        <div className="form__field">
                             <label>Contact</label>
                             <input {...register('contact')} type="text" />
                         </div>
-                        <div className="form__company">
+                        <div className="form__field">
                             <label>Company</label>
                             <input {...register('company')} type="text" />
                         </div>
-                        <div className="form__status">
-                            <select {...register('status')} name="status" id="status">
+                        <div className="form__field">
+                            <select {...register('status')} name="status">
                                 <option value="Issued">Issued</option>
                                 <option value="In stock">In stock</option>
                                 <option value="Broken">Broken</option>
