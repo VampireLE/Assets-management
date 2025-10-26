@@ -69,11 +69,19 @@ export default function Auth() {
             </div>
 
             <div className="login__integrations">
+<<<<<<< HEAD
               <button className="button login__integration login__integration-google">
                 <img src="/assets/images/google.png" alt="Google" />
                 Login with Google
               </button>
               <button className="button login__integration login__integration-keycloak">
+=======
+              <button className="button login__integration-google">
+                <img src="/assets/images/google.png" alt="Google" />
+                Login with Google
+              </button>
+              <button className="button login__integration-keycloak">
+>>>>>>> 20b6ebc (refactor: rename classes to follow BEM convention)
                 <img src="/assets/images/keycloak.png" alt="Keycloak" />
                 Login with Keycloak
               </button>
@@ -82,7 +90,11 @@ export default function Auth() {
             <div className="login__separator">OR</div>
 
             <div className="login__form-container">
+<<<<<<< HEAD
               <form className="form" onSubmit={handleSubmit(onSubmit)}>
+=======
+              <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
+>>>>>>> 20b6ebc (refactor: rename classes to follow BEM convention)
                 <input
                   className="form__email"
                   type="email"
@@ -109,7 +121,11 @@ export default function Auth() {
                   <input type="checkbox" id="remember-me" name="remember-me" />
                   <label htmlFor="remember-me">Remember me</label>
                 </div>
+<<<<<<< HEAD
                 <input className="form__btn-submit" type="submit" value="Login"  />
+=======
+                <input className="form__btn" type="submit" value="Login"  />
+>>>>>>> 20b6ebc (refactor: rename classes to follow BEM convention)
               </form>
             </div>
 

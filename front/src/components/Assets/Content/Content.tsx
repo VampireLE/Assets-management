@@ -129,8 +129,8 @@ export default function Content({ mode, setMode }) {
             <Popup popupIsShow={showPopup} onClosePopup={() => setShowPopup(false)}/>
             <SideBar mode={{ mode, setMode }} />
             <div className="content">
-                <div className="content-wrapper">
-                    <div className="content-navigation">
+                <div className="content__wrapper">
+                    <div className="navigation">
                         <div className="navigation-wrapper">
                             <div className="navigation-add" onClick={() => setShowPopup(true)}>
                                 <button>+ Add</button>
@@ -144,11 +144,11 @@ export default function Content({ mode, setMode }) {
                         </div>
                     </div>
 
-                    <div className="content-table" style={overflow}>
+                    <div className="table" style={overflow}>
                         <table>
                             <thead>
                                 <tr>
-                                    <th><input className="asset-name" type="checkbox" />ASSET NAME</th>
+                                    <th>ASSET NAME</th>
                                     <th>COMPANY</th>
                                     <th>CONTACT</th>
                                     <th>STATUS</th>
@@ -162,11 +162,11 @@ export default function Content({ mode, setMode }) {
                                         return (
                                             <tr key={_id}>
                                                 <td>
-                                                    <div className="table-body-asset-name">
-                                                        <div className="asset-name-img">
+                                                    <div className="table__body-asset-name">
+                                                        <div className="table__body-asset-name-img">
                                                             <input type="checkbox" />
                                                             <img src={processor} alt="#" /></div>
-                                                        <div className="asset-name-wrapper">
+                                                        <div className="table__body-asset-name-wrapper">
                                                             <div className="asset-name">{name}</div>
                                                             <div className="asset-name-model">Intel i5 9400</div>
                                                         </div>
@@ -206,6 +206,7 @@ export default function Content({ mode, setMode }) {
                             </tbody>
                         </table>
                     </div>
+
                     <div className="footer-table-pagination" style={paginationIsVisible ? { visibility: 'visible' } : { visibility: 'hidden' }}>
                         <div className="perpage">
                             <label htmlFor="perpage">Per page</label>
@@ -228,6 +229,7 @@ export default function Content({ mode, setMode }) {
                             </div>
                         </div>
                     </div>
+
                     <div className="notifications">
                         Asset has been added
                     </div>

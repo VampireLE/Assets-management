@@ -54,25 +54,25 @@ export default function Accessories() {
     if (isLoading) return <div>Loading...</div>
 
     return (
-        <div className={`layout ${mode ? "dark-mode" : ""}`}>
+        <div className={`layout ${mode ? "layout--dark" : ""}`}>
             <SideBar />
             <div className="content">
-                <div className="content-wrapper">
-                    <div className="content-navigation">
-                        <div className="navigation-wrapper">
-                            <div className="navigation-add" >
+                <div className="content__wrapper">
+                    <div className="navigations">
+                        <div className="navigations__wrapper">
+                            <div className="navigations__add" >
                                 <button>+ Add</button>
                             </div>
-                            <div className="navigation-filtr">
+                            <div className="navigations__filtr">
                             </div>
                         </div>
-                        <div className="navigation-search">
+                        <div className="navigations__search">
                             <input placeholder="Search" />
                             <img src={search} alt="search" />
                         </div>
                     </div>
 
-                    <div className="content-table">
+                    <div className="table">
                         <table>
                             <thead>
                                 <tr>
@@ -89,34 +89,34 @@ export default function Accessories() {
                                         return (
                                             <tr key={_id}>
                                                 <td>
-                                                    <div className="table-body-asset-name">
-                                                        <div className="asset-name-img"><img/></div>
-                                                        <div className="asset-name-wrapper">
-                                                            <div className="asset-name">{name}</div>
+                                                    <div className="table__asset-name">
+                                                        <div className="table__asset__name-img"><img/></div>
+                                                        <div className="table__asset-name-wrapper">
+                                                            <div className="table__asset-name">{name}</div>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div className="asset-company">
+                                                    <div className="table__asset-company">
                                                         <div>{category}</div>
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div className="asset-contact">
+                                                    <div className="table__asset-contact">
                                                         <div>{company}</div>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div></div>
-                                                    <div className="status" style={styleStatus(status)}>{status}</div>
+                                                    <div className="table__status" style={styleStatus(status)}>{status}</div>
                                                 </td>
                                                 <td>
-                                                    <div className="asset-navigation">
+                                                    <div className="table__asset-navigation">
                                                         <div></div>
                                                         <div></div>
                                                         <div></div>
                                                     </div>
-                                                    <div className="nav-active">
+                                                    <div className="table__nav-active-btns">
                                                         <button>View more</button>
                                                         <button>Edit</button>
                                                         <button>Delete</button>
@@ -129,19 +129,21 @@ export default function Accessories() {
                             </tbody>
                         </table>
                     </div>
-                    <div className="footer-table-pagination" style={paginationIsVisible ? { visibility: 'visible' } : { visibility: 'hidden' }}>
+
+                    <div className="table__footer" style={paginationIsVisible ? { visibility: 'visible' } : { visibility: 'hidden' }}>
                         <div className="pagination">
                             <div className='pagination__wrapper'>
-                                <div className="decrease" style={page === 1 ? { backgroundColor: "#c8ced5" } : {}} onClick={() => setPage(page === 1 ? page : page - 1)}></div>
+                                <div className="pagination__decrease" style={page === 1 ? { backgroundColor: "#c8ced5" } : {}} onClick={() => setPage(page === 1 ? page : page - 1)}></div>
 
                                 {[...Array(data.page)].map((_, index) => {
-                                    return ((<div className="page" key={index} onClick={() => setPage(index + 1)}>{index + 1}</div>))
+                                    return ((<div className="pagination__page" key={index} onClick={() => setPage(index + 1)}>{index + 1}</div>))
                                 })}
 
-                                <div className="increase" style={page === data.page ? { backgroundColor: "#c8ced5" } : {}} onClick={() => data.page !== page ? setPage(page + 1) : page}></div>
+                                <div className="pagination__increase" style={page === data.page ? { backgroundColor: "#c8ced5" } : {}} onClick={() => data.page !== page ? setPage(page + 1) : page}></div>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>

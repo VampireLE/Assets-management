@@ -16,7 +16,7 @@ export default function Assets() {
     if (token === null) navigate('/')
 
     return (
-        <div className={`layout ${mode ? "dark-mode" : ""}`}>
+        <div className={`layout ${mode ? "layout--dark" : ""}`}>
             <Content mode={mode} setMode={() => dispatch(toggleMode())}/>
         </div>
     )
