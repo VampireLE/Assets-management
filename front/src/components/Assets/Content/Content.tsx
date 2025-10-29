@@ -131,14 +131,14 @@ export default function Content({ mode, setMode }) {
             <div className="content">
                 <div className="content__wrapper">
                     <div className="navigation">
-                        <div className="navigation-wrapper">
-                            <div className="navigation-add" onClick={() => setShowPopup(true)}>
+                        <div className="navigation__wrapper">
+                            <div className="navigation__add" onClick={() => setShowPopup(true)}>
                                 <button>+ Add</button>
                             </div>
-                            <div className="navigation-filtr">
+                            <div className="navigation__filter">
                             </div>
                         </div>
-                        <div className="navigation-search">
+                        <div className="navigation__search">
                             <input placeholder="Search" />
                             <img src={search} alt="search" />
                         </div>
@@ -160,40 +160,31 @@ export default function Content({ mode, setMode }) {
                                     data.data.map((value, _) => {
                                         const { _id, name, company, contact, status } = value;
                                         return (
-                                            <tr key={_id}>
-                                                <td>
-                                                    <div className="table__body-asset-name">
-                                                        <div className="table__body-asset-name-img">
-                                                            <input type="checkbox" />
-                                                            <img src={processor} alt="#" /></div>
-                                                        <div className="table__body-asset-name-wrapper">
-                                                            <div className="asset-name">{name}</div>
-                                                            <div className="asset-name-model">Intel i5 9400</div>
-                                                        </div>
+                                            <tr key={_id} className="table-row">
+                                                <td className="table__row-item">
+                                                    <div className="table-row__icon">
+                                                        <input type="checkbox" />
+                                                        <img src={processor} alt="#" />
                                                     </div>
+                                                    <div className="table-row__element">{name}</div>
+                                                    <div className="table-row__element">Intel i5 9400</div>
                                                 </td>
-                                                <td>
-                                                    <div className="asset-company">
+                                                <td className="table__row-item">
                                                         <div>{company}</div>
-                                                    </div>
                                                 </td>
-                                                <td>
-                                                    <div className="asset-contact">
-                                                        <div>{contact}</div>
-                                                    </div>
+                                                <td className="table__row-item">
+                                                    <div>{contact}</div>
                                                 </td>
-                                                <td>
-                                                    <div></div>
-                                                    <div className="status" style={styleStatus(status)}>{status}</div>
+                                                <td className="table__row-item">
+                                                    <div className="table-row__element" style={styleStatus(status)}>{status}</div>
                                                 </td>
-                                                <td>
-                                                    {/* onMouseOut={() => console.log(123)} */}
-                                                    <div className="asset-navigation" onClick={(e) => setNav(e.target)}>
+                                                <td className="table__row-item">
+                                                    <div className="table-row__menu-toggle" onClick={(e) => setNav(e.target)}>
                                                         <div></div>
                                                         <div></div>
                                                         <div></div>
                                                     </div>
-                                                    <div className="nav-active">
+                                                    <div className="table-row__menu table__row__menu--active">
                                                         <button>View more</button>
                                                         <button data-id={_id} onClick={(event) => updateAsset(event.target.getAttribute('data-id'), event.target)}>Edit</button>
                                                         <button data-id={_id} onClick={(event) => deleteMutation.mutate(event.target.getAttribute('data-id'))}>Delete</button>
@@ -207,7 +198,7 @@ export default function Content({ mode, setMode }) {
                         </table>
                     </div>
 
-                    <div className="footer-table-pagination" style={paginationIsVisible ? { visibility: 'visible' } : { visibility: 'hidden' }}>
+                    <div className="table__footer" style={paginationIsVisible ? { visibility: 'visible' } : { visibility: 'hidden' }}>
                         <div className="perpage">
                             <label htmlFor="perpage">Per page</label>
                             <select name="perpage" defaultValue={perpage} onChange={(value) => setPerpage(value.target.value)}>
@@ -219,13 +210,13 @@ export default function Content({ mode, setMode }) {
                         </div>
                         <div className="pagination">
                             <div className='pagination__wrapper'>
-                                <div className="decrease" style={page === 1 ? { backgroundColor: "#c8ced5" } : {}} onClick={() => setPage(page === 1 ? page : page - 1)}></div>
+                                <div className="pagination__control pagination__control--prev" style={page === 1 ? { backgroundColor: "#c8ced5" } : {}} onClick={() => setPage(page === 1 ? page : page - 1)}></div>
 
                                 {[...Array(data.page)].map((_, index) => {
-                                    return ((<div className="page" key={index} onClick={() => setPage(index + 1)}>{index + 1}</div>))
+                                    return ((<div className="pagination__page pagination__page--active" key={index} onClick={() => setPage(index + 1)}>{index + 1}</div>))
                                 })}
 
-                                <div className="increase" style={page === data.page ? { backgroundColor: "#c8ced5" } : {}} onClick={() => data.page !== page ? setPage(page + 1) : page}></div>
+                                <div className="pagination__control pagination__control--next" style={page === data.page ? { backgroundColor: "#c8ced5" } : {}} onClick={() => data.page !== page ? setPage(page + 1) : page}></div>
                             </div>
                         </div>
                     </div>

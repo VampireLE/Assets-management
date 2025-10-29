@@ -21,37 +21,38 @@ export default function Table({ data, isLoading }) {
                             return (
                                 <tr key={_id}>
                                     <td>
-                                        <div className="table-body-user-name">
-                                            {/* <div className="user-name-img">D</div> */}
-                                            <div className="user-name-wrapper">
-                                                <div className="user-name">{name}</div>
+                                        <div className="table-row">
+                                            <div className="table-row__wrapper">
+                                                <div className="table-row__element-name">{name}</div>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
-                                        <div className="asset-email">
+                                        <div className="table-row">
                                             <div>{email}</div>
                                         </div>
                                     </td>
                                     <td>
-                                        <div className="asset-role">
+                                        <div className="table-row">
                                             <div>{role}</div>
                                         </div>
                                     </td>
                                     <td>
-                                        <div className="status"
+                                        <div className="table-row"
                                             style={styleStatus(status)}>{status}</div>
                                     </td>
                                     <td>
-                                        <div className="asset-navigation">
-                                            <div></div>
-                                            <div></div>
-                                            <div></div>
-                                        </div>
-                                        <div className="nav-active">
-                                            <button>View more</button>
-                                            <button>Edit</button>
-                                            <button>Delete</button>
+                                        <div className="table-row">
+                                            <div className="table-row__menu-toggle">
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                            </div>
+                                            <div className="table-row__menu table__row__menu--active">
+                                                <button className="button table-row__menu-item">View more</button>
+                                                <button className="button table-row__menu-item">Edit</button>
+                                                <button className="button table-row__menu-item">Delete</button>
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>

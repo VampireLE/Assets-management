@@ -58,15 +58,15 @@ export default function Accessories() {
             <SideBar />
             <div className="content">
                 <div className="content__wrapper">
-                    <div className="navigations">
-                        <div className="navigations__wrapper">
-                            <div className="navigations__add" >
+                    <div className="navigation">
+                        <div className="navigation__wrapper">
+                            <div className="navigation__add" >
                                 <button>+ Add</button>
                             </div>
-                            <div className="navigations__filtr">
+                            <div className="navigation__filter">
                             </div>
                         </div>
-                        <div className="navigations__search">
+                        <div className="navigation__search">
                             <input placeholder="Search" />
                             <img src={search} alt="search" />
                         </div>
@@ -87,39 +87,36 @@ export default function Accessories() {
                                     data.data.map((value, _) => {
                                         const { _id, name, category, company, status } = value;
                                         return (
-                                            <tr key={_id}>
-                                                <td>
-                                                    <div className="table__asset-name">
-                                                        <div className="table__asset__name-img"><img/></div>
-                                                        <div className="table__asset-name-wrapper">
-                                                            <div className="table__asset-name">{name}</div>
-                                                        </div>
-                                                    </div>
+                                            <tr key={_id} className="table-row">
+                                                <td className="table__row-item">
+                                                    <div className="table-row__icon"><img/></div>
+                                                    <div className="table-row__element">{name}</div>
                                                 </td>
-                                                <td>
-                                                    <div className="table__asset-company">
+                                                <td className="table__row-item">
+                                                    <div className="table-row">
                                                         <div>{category}</div>
                                                     </div>
                                                 </td>
-                                                <td>
-                                                    <div className="table__asset-contact">
+                                                <td className="table__row-item">
+                                                    <div className="table-row">
                                                         <div>{company}</div>
                                                     </div>
                                                 </td>
-                                                <td>
-                                                    <div></div>
-                                                    <div className="table__status" style={styleStatus(status)}>{status}</div>
+                                                <td className="table__row-item">
+                                                    <div className="table-row">
+                                                        <div className="table-row__element" style={styleStatus(status)}>{status}</div>
+                                                    </div>
                                                 </td>
-                                                <td>
-                                                    <div className="table__asset-navigation">
+                                                <td className="table__row-item">
+                                                    <div className="table-row__menu-toggle">
                                                         <div></div>
                                                         <div></div>
                                                         <div></div>
                                                     </div>
-                                                    <div className="table__actions">
-                                                        <button>View more</button>
-                                                        <button>Edit</button>
-                                                        <button>Delete</button>
+                                                    <div className="table-row__menu table__row__menu--active">
+                                                        <button className="button table-row__item">View more</button>
+                                                        <button className="button table-row__item">Edit</button>
+                                                        <button className="button table-row__item">Delete</button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -131,15 +128,24 @@ export default function Accessories() {
                     </div>
 
                     <div className="table__footer" style={paginationIsVisible ? { visibility: 'visible' } : { visibility: 'hidden' }}>
+                        <div className="perpage">
+                            <label htmlFor="perpage">Per page</label>
+                            <select name="perpage" defaultValue={perpage} onChange={(value) => setPerpage(value.target.value)}>
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
                         <div className="pagination">
                             <div className='pagination__wrapper'>
-                                <div className="pagination__decrease" style={page === 1 ? { backgroundColor: "#c8ced5" } : {}} onClick={() => setPage(page === 1 ? page : page - 1)}></div>
+                                <div className="pagination__control pagination__control--prev" style={page === 1 ? { backgroundColor: "#c8ced5" } : {}} onClick={() => setPage(page === 1 ? page : page - 1)}></div>
 
                                 {[...Array(data.page)].map((_, index) => {
-                                    return ((<div className="pagination__page" key={index} onClick={() => setPage(index + 1)}>{index + 1}</div>))
+                                    return ((<div className="pagination__page pagination__page--active" key={index} onClick={() => setPage(index + 1)}>{index + 1}</div>))
                                 })}
 
-                                <div className="pagination__increase" style={page === data.page ? { backgroundColor: "#c8ced5" } : {}} onClick={() => data.page !== page ? setPage(page + 1) : page}></div>
+                                <div className="pagination__control pagination__control--next" style={page === data.page ? { backgroundColor: "#c8ced5" } : {}} onClick={() => data.page !== page ? setPage(page + 1) : page}></div>
                             </div>
                         </div>
                     </div>

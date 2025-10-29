@@ -56,30 +56,31 @@ export default function Users() {
     
                             
     return (
-        <div className={`layout ${mode ? "dark-mode" : ""}`}>
+        <div className={`layout ${mode ? "layout--dark" : ""}`}>
             <SideBar />
             <div className="content">
-                <div className="content-wrapper">
-                    <div className="content-navigation">
-                        <div className="navigation-wrapper">
-                            <div className="navigation-add" >
-                                <button>+ Add</button>
+                <div className="content__wrapper">
+                    <div className="navigation">
+                        <div className="navigation__wrapper">
+                            <div className="navigation__add" >
+                                <button className="navigation__button">+ Add</button>
                             </div>
-                            <div className="navigation-filtr">
+                            <div className="navigation__filter">
                             </div>
                         </div>
-                        <div className="navigation-search">
-                            <input 
+                        <div className="navigation__search">
+                            <input
+                                className="navigation__search-input"
                                 value={search} 
-                                placeholder="Search" 
+                                placeholder="Search"
                                 onChange={(e) => setSearch(e.target.value)} />
                             <img 
+                                className="navigation__search-icon"
                                 src={search_img} 
                                 alt="search" />
                         </div>
                     </div>
-
-                    <div className="content-table">
+                    <div className="table">
                         <table>
                             <thead>
                                 <tr>
@@ -92,23 +93,32 @@ export default function Users() {
                             <Table data={data} isLoading={isLoading}/>
                         </table>
                     </div>
-                    <div className="footer-table-pagination" style={paginationIsVisible 
+                    <div className="table__footer" style={paginationIsVisible 
                         ? { visibility: 'visible' } 
                         : { visibility: 'hidden' }}>
                         <div className="pagination">
+                            <div className="perpage">
+                                <label htmlFor="perpage">Per page</label>
+                                <select name="perpage" defaultValue={perpage} onChange={(value) => setPerpage(value.target.value)}>
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
                             <div className='pagination__wrapper'>
-                                <div className="decrease" style=
-                                {page === 1 
+                                <div className="pagination__control pagination__control--prev" style=
+                                {page === 1
                                     ? { backgroundColor: "#c8ced5" } 
                                     : {}} onClick={() => setPage(page === 1 ? page : page - 1)}></div>
 
                                 {[...Array(data?.page)].map((_, index) => {
-                                    return ((<div className="page" 
+                                    return ((<div className="pagination__page pagination__page--active" 
                                         key={index} 
                                         onClick={() => setPage(index + 1)}>{index + 1}</div>))
                                 })}
 
-                                <div className="increase" 
+                                <div className="pagination__control pagination__control--next" 
                                     style={page === data?.page 
                                     ? { backgroundColor: "#c8ced5" } 
                                     : {}} onClick={() => data?.page !== page ? setPage(page + 1) : page}></div>
