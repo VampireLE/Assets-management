@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import LoginPage from "./../../assets/LoginPage.png"
-import "./Auth.css"
+import "./Auth.scss"
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";

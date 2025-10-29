@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import SideBar from "../Sidebar/SideBar";
 import search from "./../../assets/search.png";
 import { useQuery } from "@tanstack/react-query";
-import './Licences.css'
+import './Licences.scss'
 import { selectMode } from "../../features/counter/themeSlice";
 import { useAppSelector } from "../../app/hooks";
 

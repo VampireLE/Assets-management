@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import './Popup.css'
+import './Popup.scss'
 import { useForm } from 'react-hook-form';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 

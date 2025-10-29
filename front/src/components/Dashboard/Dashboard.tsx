@@ -1,6 +1,6 @@
 import { useState } from "react";
 import SideBar from "../Sidebar/SideBar";
-import './Dashboard.css'
+import './Dashboard.scss'
 
 export default function Dashboard() {
     const [tab, setTab] = useState(1);

@@ -1,0 +1,116 @@
+@import './../../root.scss';
+
+.layout {
+  margin-left: 240px;
+  padding: $padding-base * 2;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  margin-bottom: $margin-base * 2;
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  &__text h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+  }
+}
+
+.category {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  &__title h2 {
+    font-size: 20px;
+    margin: 0 0 8px;
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(120px, 1fr));
+    gap: 16px;
+  }
+}
+
+.category-item {
+  background: $color-white;
+  border-radius: $radius-base;
+  padding: $padding-base;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid lighten($color-bg, 5%);
+  transition: $transition-base;
+  box-shadow: $shadow-base;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-hover;
+  }
+
+  &__title {
+    font-weight: 600;
+    margin: 0 0 8px;
+  }
+
+  &__line {
+    border: none;
+    border-top: 1px solid lighten($color-bg, 20%);
+    margin: 8px 0;
+  }
+
+  &__total {
+    color: $color-text-secondary;
+    font-size: 14px;
+  }
+
+  &--assets { border-top: 4px solid $color-assets; }
+  &--licence { border-top: 4px solid $color-licence; }
+  &--accessories { border-top: 4px solid $color-accessories; }
+  &--components { border-top: 4px solid $color-components; }
+  &--users { border-top: 4px solid $color-users; }
+}
+
+.dashboard {
+    &__wrapper {
+      height: 500%;
+    background: $color-white;
+    border-radius: $radius-base;
+    padding: $padding-base * 1.5;
+    border: 1px solid lighten($color-bg, 5%);
+    box-shadow: $shadow-base;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+
+    > div {
+      padding: 8px 16px;
+      border-radius: $radius-base;
+      background: $color-bg;
+      cursor: pointer;
+      transition: $transition-base;
+      font-weight: 500;
+
+      &:hover {
+        background: $color-primary;
+        color: $color-white;
+      }
+    }
+  }
+
+  .content {
+    margin-top: 24px;
+    font-size: 18px;
+  }
+}

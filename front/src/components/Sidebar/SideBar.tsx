@@ -15,7 +15,7 @@ import logoutDark from "./../../assets/logout-dark.svg"
 import components from "./../../assets/components.svg"
 import componentsDark from "./../../assets/components-dark.svg"
 
-import './Sidebar.css';
+import './Sidebar.scss';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAppSelector } from '../../app/hooks';

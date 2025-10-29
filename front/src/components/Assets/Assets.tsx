@@ -1,4 +1,4 @@
-import './Assets.css'
+import './Assets.scss'
 import SideBar from '../Sidebar/SideBar';
 import Content from './Content/Content';
 import { useState } from 'react';

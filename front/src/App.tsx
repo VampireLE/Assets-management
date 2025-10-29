@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import './App.css'
+import './App.scss'
 import Assets from './components/Assets/Assets'
 import { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
