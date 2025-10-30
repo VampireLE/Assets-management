@@ -1,9 +1,11 @@
 import { useState } from "react";
 import SideBar from "../Sidebar/SideBar";
 import './Dashboard.scss'
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
     const [tab, setTab] = useState(1);
+    const navigate = useNavigate();
 
     return (
         <>
@@ -19,27 +21,27 @@ export default function Dashboard() {
                                 <h2>Category</h2>
                             </div>
                             <div className="category__list">
-                                <div className="category-item category-item--assets">
+                                <div className="category-item category-item--assets" onClick={() => navigate('/assets')}>
                                     <p className="category-item__title">Assets</p>
                                     <hr className="category-item__line" />
                                     <p className="category-item__total">Total</p>
                                 </div>
-                                <div className="category-item category-item--licence">
+                                <div className="category-item category-item--licence" onClick={() => navigate('/licences')}>
                                     <p className="category-item__title">Licences</p>
                                     <hr className="category-item__line"/>
                                     <p className="category-item__total">Total</p>
                                 </div>
-                                <div className="category-item category-item--accessories">
+                                <div className="category-item category-item--accessories"  onClick={() => navigate('/accessories')}>
                                     <p className="category-item__title">Accessories</p>
                                     <hr className="category-item__line"/>
                                     <p className="category-item__total">Total</p>
                                 </div>
-                                <div className="category-item category-item--components">
+                                <div className="category-item category-item--components" onClick={() => navigate('/components')}>
                                     <p className="category-item__title">Components</p>
                                     <hr className="category-item__line"/>
                                     <p className="category-item__total">Total</p>
                                 </div>
-                                <div className="category-item category__item--users">
+                                <div className="category-item category__item--users" onClick={() => navigate('/users')}>
                                     <p className="category-item__title">Users</p>
                                     <hr className="category-item__line"/>
                                     <p className="category-item__total">Total</p>
@@ -51,8 +53,8 @@ export default function Dashboard() {
                 <section className="dashboard">
                     <div className="dashboard__wrapper">
                         <div className="tabs">
-                            <div className="tabs__activity" onClick={() => setTab(1)}>Activity</div>
-                            <div className="tabs__second" onClick={() => setTab(2)}>Second</div>
+                            <div className="tabs__activity" onClick={() => setTab(1)}>Recent Activity</div>
+                            <div className="tabs__second" onClick={() => setTab(2)}>Activity by status</div>
                             <div className="tabs__three" onClick={() => setTab(3)}>Three</div>
                             <div className="tabs__four" onClick={() => setTab(4)}>Four</div>
                         </div>

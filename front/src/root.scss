@@ -8,11 +8,23 @@ $color-licence: #10b981;
 $color-accessories: #f97316;
 $color-components: #8b5cf6;
 $color-users: #ef4444;
+$sidebar-light-background-color: #fafafa;
+$sidebar-dark-background-color: #000000;
 
 // Отступы и размеры
 $padding-base: 16px;
 $margin-base: 16px;
 $radius-base: 14px;
+
+$html-body-root-height: 100vh;
+
+$sidebar-width: 350px;
+$sidebar-height: 100%;
+$sidebar-margin: 20px;
+$sidebar-border-radius: 10px;
+$sidebar-item-height: 40px;
+$sidebar-font-size: 18px;
+$sidebar-avatar-font-size: 24px;
 
 // Тени и переходы
 $shadow-base: 0 4px 10px rgba(0,0,0,0.04);
