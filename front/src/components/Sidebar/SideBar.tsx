@@ -28,20 +28,26 @@ export default function SideBar() {
     const btnDropDownMenu = useRef(null);
     const [dropDownMenu, setDropDownMenu] = useState('')
     const [menu, setMenu] = useState(false)
-
-
+    
     useEffect(() => {
         const handleDropDownmenu = (event) => {
-            if (event.target !== btnDropDownMenu.current && event.target !== document.querySelector('.btn-drop-down-menu')) {
+            if (btnDropDownMenu.current &&
+            !btnDropDownMenu.current.contains(event.target) &&
+            !event.target.classList.contains('others__menu')) {
                 setMenu(false)
             }
         }
+
         if (menu) {
-            window.removeEventListener('click', (event) => handleDropDownmenu())
+            window.addEventListener('click', handleDropDownmenu)
         }
-        window.addEventListener('click', (event) => handleDropDownmenu(event))
+        
+        return () => {
+            window.removeEventListener('click', handleDropDownmenu)
+        }
+       
     }, [menu])
-    console.log(menu)
+    
     return (
         <div className={`sidebar ${currentMode ? "sidebar--dark" : ""}`}>
             <div className="sidebar__wrapper">
