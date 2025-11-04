@@ -28,7 +28,7 @@ router.post('/', async (req, res, next) => {
     },
     JWT_SECRET,
     {
-        expiresIn: '1h'
+        expiresIn: '7d'
     })
     
     res.status(201).json({body: jwtToken})

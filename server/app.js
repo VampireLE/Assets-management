@@ -5,6 +5,7 @@ var indexRouter = require('./routes/index');
 var assetsRouter = require('./routes/assets');
 var licencesRouter = require('./routes/licences');
 var accessoriesRouter = require('./routes/accessories');
+var componentsRouter = require('./routes/components');
 var usersRouter = require('./routes/users');
 const mongoose = require('mongoose');
 var cors = require('cors');
@@ -28,6 +29,7 @@ app.use('/', authRouter);
 app.use('/assets', assetsRouter);
 app.use('/licences', licencesRouter);
 app.use('/accessories', accessoriesRouter);
+app.use('/components', componentsRouter)
 app.use('/users', usersRouter);
 
 // view engine setup

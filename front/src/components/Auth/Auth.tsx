@@ -17,7 +17,7 @@ export default function Auth() {
     }
 
     const { mutate, data, isSuccess, isError} = useMutation({
-      mutationKey: ["user"],
+      mutationKey: ["users"],
       mutationFn:   async () => {
         const res = await fetch('http://localhost:3000/', {
           method: "POST",
@@ -47,7 +47,7 @@ export default function Auth() {
     
     if (isSuccess) {
       localStorage.setItem("token", data.body)
-      // navigate('/assets')
+      navigate('/dashboard')
     } 
 
     return (
@@ -110,7 +110,7 @@ export default function Auth() {
                   <input type="checkbox" id="remember-me" name="remember-me" />
                   <label htmlFor="remember-me">Remember me</label>
                 </div>
-                <input className="form__btn-submit" type="submit" value="Login"  />
+                {/* <input className="form__btn-submit" type="submit" value="Login"  /> */}
                 <input className="form__btn" type="submit" value="Login"  />
               </form>
             </div>

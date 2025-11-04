@@ -20,27 +20,32 @@ export default function Users() {
         }, 400)
         return () => clearTimeout(timeOut)
     }, [search])
-    
+
     const { data, isLoading } = useQuery({
-        queryKey: ["assets", page, showAll, debouncedSearch],
+        queryKey: ["users", page, showAll, debouncedSearch],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:3000/users?page=${page}${debouncedSearch 
-                ? '&q=' + debouncedSearch 
-                : ''}`, {
-                    headers: {
-                        'Authorization': 'Bearer ' + 123,
-                        'Content-Type': 'application/json'
-                    }
-                })
+            const res = await fetch(`http://localhost:3000/users`, {
+                headers: {
+                    'Authorisation': 'Bearer ' + localStorage.getItem('token') 
+                }
+            });
             const json = await res.json();
+            console.log(json)
+            // const res = await fetch(`http://localhost:3000/users`, {
+            //         headers: {
+            //             'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            //             'Content-Type': 'application/json'
+            //         }
+            //     })
+            // const json = await res.json();
             
-            if (Array.isArray(json)) {
-                return { data: json }
-            }
-            return json;
+            // if (Array.isArray(json)) {
+            //     return { data: json }
+            // }
+            // return json;
         }
     })
-                
+    // console.log(data)            
                 // useEffect(() => {
                     //             const pages = document.querySelectorAll('.page');
                     //             pages.forEach((value, index) => {
@@ -99,12 +104,12 @@ export default function Users() {
                         <div className="pagination">
                             <div className="perpage">
                                 <label htmlFor="perpage">Per page</label>
-                                <select name="perpage" defaultValue={perpage} onChange={(value) => setPerpage(value.target.value)}>
+                                {/* <select name="perpage" defaultValue={perpage} onChange={(value) => setPerpage(value.target.value)}>
                                     <option value="5">5</option>
                                     <option value="10">10</option>
                                     <option value="50">50</option>
                                     <option value="100">100</option>
-                                </select>
+                                </select> */}
                             </div>
                             <div className='pagination__wrapper'>
                                 <div className="pagination__control pagination__control--prev" style=

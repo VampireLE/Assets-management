@@ -7,5 +7,5 @@ const accessoriesSchema = new mongoose.Schema({
   status: String
 })
 
-const Assets = mongoose.model('accessories', accessoriesSchema, 'accessories');
-module.exports = Assets
+const Accessories = mongoose.model('accessories', accessoriesSchema, 'accessories');
+module.exports = Accessories

@@ -12,7 +12,7 @@ export default function Content({ mode, setMode }) {
     const [page, setPage] = useState(1);
     const [showAll, setShowAll] = useState(false);
     const [paginationIsVisible, setPaginationIsVisible] = useState(true);
-    const [showPopup, setShowPopup] = useState(false);
+    
     const [nav, setNav] = useState(null);
     const [id, setId] = useState(null);
     const [perpage, setPerpage] = useState(5);
@@ -126,8 +126,6 @@ export default function Content({ mode, setMode }) {
 
     return (
         <>
-            <Popup popupIsShow={showPopup} onClosePopup={() => setShowPopup(false)}/>
-            <SideBar mode={{ mode, setMode }} />
             <div className="content">
                 <div className="content__wrapper">
                     <div className="navigation">

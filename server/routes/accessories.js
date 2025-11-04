@@ -1,5 +1,7 @@
 var express = require('express');
 const Assets = require('./../Models/ModelAccessories');
+const Accessories = require('./../Models/ModelAccessories');
+const authentificateJWT = require('../middleware/auth');
 var router = express.Router();
 
 router.get('/', async (req, res, next) => {
@@ -11,5 +13,14 @@ router.get('/', async (req, res, next) => {
         res.status(500).json({error: err.message})
     }
 });
+
+router.get('/count', authentificateJWT, async (req, res, next) => {
+    try {
+        const count = await Accessories.countDocuments();
+        res.status(200).json({data: count}) 
+    } catch (err) {
+        res.status(500).json({error: err.message})
+    }
+})
 
 module.exports = router;

@@ -1,5 +1,6 @@
 var express = require('express');
 const Assets = require('./../Models/ModelAssets');
+const authentificateJWT = require('../middleware/auth');
 var router = express.Router();
 
 
@@ -12,6 +13,15 @@ router.get('/', async (req, res, next) => {
         res.status(500).json({error: err.message})
     }
 });
+
+router.get('/count', authentificateJWT,  async (req, res, next) => {
+    try {
+        const count = await Assets.countDocuments();
+        res.status(200).json({data: count});
+    } catch (err) {
+        res.status(404).json({error: "Not found record count"})
+    }
+})
 
 router.post('/', async (req, res, next) => {
     try {
