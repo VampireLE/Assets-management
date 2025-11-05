@@ -15,7 +15,7 @@ import logoutDark from "./../../assets/logout-dark.svg"
 import components from "./../../assets/components.svg"
 import componentsDark from "./../../assets/components-dark.svg"
 
-import './Sidebar.scss';
+import style from './Sidebar.module.scss';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAppSelector } from '../../app/hooks';
@@ -49,43 +49,43 @@ export default function SideBar() {
     }, [menu])
     
     return (
-        <div className={`sidebar ${currentMode ? "sidebar--dark" : ""}`}>
-            <div className="sidebar__wrapper">
-                <div className="menu">
-                    <div className="menu__title">
+        <div className={`${style.sidebar} ${currentMode ? style['sidebar--dark'] : ""}`}>
+            <div className={style.sidebar__wrapper}>
+                <div className={style.menu}>
+                    <div className={style.menu__title}>
                         <p>MENU</p>
                     </div>
-                    <div className="menu__wrapper">
-                        <div className={`menu__item ${location.pathname === '/dashboard' && 'menu__item--active'}`} onClick={() => navigate('/dashboard')}><img src={currentMode ? dashboardDark : dashboard} alt="" style={{ width: "20px" }} /><a
+                    <div className={style.menu__wrapper}>
+                        <div className={`${style.menu__item} ${location.pathname === '/dashboard' && style['menu__item--active']}`} onClick={() => navigate('/dashboard')}><img src={currentMode ? dashboardDark : dashboard} alt="" style={{ width: "20px" }} /><a
                         >Dashboard</a></div>
-                        <div className={`menu__item ${location.pathname === '/assets' && 'menu__item--active'}`} onClick={() => navigate('/assets')}><img src={currentMode ? assetsDark : assets} alt="assets" style={{ width: "20px" }} /><a
+                        <div className={`${style.menu__item} ${location.pathname === '/assets' && style['menu__item--active']}`} onClick={() => navigate('/assets')}><img src={currentMode ? assetsDark : assets} alt="assets" style={{ width: "20px" }} /><a
                         >Assets</a></div>
-                        <div className={`menu__item ${location.pathname === '/licences' && 'menu__item--active'}`} onClick={() => navigate('/licences')}><img src={currentMode ? licencesDark : licences} alt="" style={{ width: "20px" }} /><a
+                        <div className={`${style.menu__item} ${location.pathname === '/licences' && style['menu__item--active']}`} onClick={() => navigate('/licences')}><img src={currentMode ? licencesDark : licences} alt="" style={{ width: "20px" }} /><a
                         >Licences</a></div>
-                        <div className={`menu__item ${location.pathname === '/accessories' && 'menu__item--active'}`} onClick={() => navigate('/accessories')}><img src={currentMode ? accessoriesDark : accessories} alt="" style={{ width: "20px" }} /><a
+                        <div className={`${style.menu__item} ${location.pathname === '/accessories' && style['menu__item--active']}`} onClick={() => navigate('/accessories')}><img src={currentMode ? accessoriesDark : accessories} alt="" style={{ width: "20px" }} /><a
                         >Accessories</a></div>
-                        <div className={`menu__item ${location.pathname === '/components' && 'menu__item--active'}`} onClick={() => navigate('/components')}><img src={currentMode ? components : componentsDark} alt="" style={{ width: "20px" }} /><a
+                        <div className={`${style.menu__item} ${location.pathname === '/components' && style['menu__item--active']}`} onClick={() => navigate('/components')}><img src={currentMode ? components : componentsDark} alt="" style={{ width: "20px" }} /><a
                         >Components</a></div>
-                        <div className={`menu__item ${location.pathname === '/users' && 'menu__item--active'}`} onClick={() => navigate('/users')}><img className='menu-img-users' src={currentMode ? usersDark : users} style={{ width: "20px" }} /><a>Users</a></div>
+                        <div className={`${style.menu__item} ${location.pathname === '/users' && style['menu__item--active']}`} onClick={() => navigate('/users')}><img className={style['menu-img-users']} src={currentMode ? usersDark : users} style={{ width: "20px" }} /><a>Users</a></div>
                     </div>
                 </div>
-                <div className="others">
-                    <div className="others__menu" onClick={(event) => {
+                <div className={style.others}>
+                    <div className={style.others__menu} onClick={(event) => {
                         if (event.currentTarget) {
                             setMenu(true)
                         }
                     }}>
-                        <div className="others__avatar">D</div>
-                        <p className="others__menu--title">Delicious Burger</p>
+                        <div className={style.others__avatar}>D</div>
+                        <p className={style['others__menu--title']}>Delicious Burger</p>
                     </div>
 
-                    <div ref={btnDropDownMenu} className="others__dropdown" style={menu ? { display: 'flex' } : { display: 'none' }}>
-                            <div className={`others__item ${location.pathname === '/settings' && 'others__item--active'}`} onClick={() => navigate('/settings')}>
+                    <div ref={btnDropDownMenu} className={style.others__dropdown} style={menu ? { display: 'flex' } : { display: 'none' }}>
+                            <div className={`${style.others__item} ${location.pathname === '/settings' && style['others__item--active']}`} onClick={() => navigate('/settings')}>
                                 <img src={currentMode ? settingsDark : settings} alt="" />
                                 <a href="">Settings</a>
                             </div>
-                            <div className="others__item" onClick={() => navigate('/')}>
-                                <img className="others__item-img" src={currentMode ? logoutDark : logout} />
+                            <div className={style.others__item} onClick={() => navigate('/')}>
+                                <img className={style['others__item-img']} src={currentMode ? logoutDark : logout} />
                                 <a>Logout</a>
                             </div>
                         </div>

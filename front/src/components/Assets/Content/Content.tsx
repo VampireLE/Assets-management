@@ -2,7 +2,7 @@ import search from "./../../../assets/search.png";
 import processor from "./../../../assets/processor.png"
 import { useEffect, useRef, useState } from "react";
 import { Mutation, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import './Content.scss';
+import style from './Content.module.scss';
 import SideBar from "../../Sidebar/SideBar";
 import { useNavigate } from "react-router-dom";
 import Popup from "../../Popup/Popup";

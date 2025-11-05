@@ -12,8 +12,7 @@ html, body #root {
     &__wrapper {
         margin-right: $sidebar-margin;
         margin-left: $sidebar-margin;
-        margin-top: $sidebar-margin + 35px;
-        height: $sidebar-height - 10%;
+        height: $sidebar-height;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -50,6 +49,7 @@ html, body #root {
 
         }
         .others {
+                padding-bottom: $sidebar-margin-bottom;
             .others__avatar {
                 font-size: $sidebar-avatar-font-size;
                 font-weight: bold;

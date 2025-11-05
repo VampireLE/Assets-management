@@ -1,6 +1,6 @@
 import { useState } from "react";
 import SideBar from "../Sidebar/SideBar";
-import './Dashboard.scss'
+import './Dashboard.module.scss'
 import { useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
