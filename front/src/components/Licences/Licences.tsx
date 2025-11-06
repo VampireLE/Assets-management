@@ -39,16 +39,16 @@ export default function Licences() {
     })
 
     useEffect(() => {
-                const pages = document.querySelectorAll('.page');
-                pages.forEach((value, index) => {
-                    value.style.border = 'none'
-                    value.style.color = 'black'
-                    if (value.innerText == String(page)) {
-                        value.style.border = '1px solid  #7140ff'
-                        value.style.color = '#4200ff'
-                    }
-                })
-            }, [data, page])
+        const pages = document.querySelectorAll('.page');
+        pages.forEach((value, index) => {
+            value.style.border = 'none'
+            value.style.color = 'black'
+            if (value.innerText == String(page)) {
+                value.style.border = '1px solid  #7140ff'
+                value.style.color = '#4200ff'
+                }
+            })
+        }, [data, page])
 
     if (isLoading) return <div>Loading...</div>
 
