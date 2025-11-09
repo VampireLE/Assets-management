@@ -19,10 +19,13 @@ export default function Assets() {
     if (token === null) navigate('/')
 
     return (
-        <div className={`${style.layout} ${mode ? "layout--dark" : ""}`}>
-            {/* <Popup popupIsShow={showPopup} onClosePopup={() => setShowPopup(false)}/> */}
+        <div className={`${style.layout} ${mode ? style["layout--dark"] : ""}`}>
+            <Popup popupIsShow={showPopup} onClosePopup={() => setShowPopup(false)}/>
             <SideBar mode={mode} toggleMode={() => dispatch(toggleMode())} />
-            <Content mode={mode} setMode={() => dispatch(toggleMode())}/>
+            <Content 
+                mode={mode} 
+                setMode={() => dispatch(toggleMode())}
+                onOpenPopup={() => setShowPopup(true)}/>
         </div>
     )
 }

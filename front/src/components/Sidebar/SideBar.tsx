@@ -26,26 +26,24 @@ export default function SideBar() {
     const navigate = useNavigate();
     const location = useLocation();
     const btnDropDownMenu = useRef(null);
+    const others = useRef(null);
     const [dropDownMenu, setDropDownMenu] = useState('')
     const [menu, setMenu] = useState(false)
     
     useEffect(() => {
-        const handleDropDownmenu = (event) => {
-            if (btnDropDownMenu.current &&
-            !btnDropDownMenu.current.contains(event.target) &&
-            !event.target.classList.contains('others__menu')) {
-                setMenu(false)
-            }
-        }
+        if (!menu) return
 
-        if (menu) {
-            window.addEventListener('click', handleDropDownmenu)
+        const closePopup = (event) => {
+            if (!(others.current).contains(event?.target) && 
+                !(btnDropDownMenu.current).contains(event?.target)) {
+                    console.log(123)
+                    setMenu(false)
+                }
         }
+        addEventListener('click', () => closePopup)
         
-        return () => {
-            window.removeEventListener('click', handleDropDownmenu)
-        }
-       
+    
+        return () => document.removeEventListener('click', () => closePopup)
     }, [menu])
     
     return (
@@ -69,7 +67,7 @@ export default function SideBar() {
                         <div className={`${style.menu__item} ${location.pathname === '/users' && style['menu__item--active']}`} onClick={() => navigate('/users')}><img className={style['menu-img-users']} src={currentMode ? usersDark : users} style={{ width: "20px" }} /><a>Users</a></div>
                     </div>
                 </div>
-                <div className={style.others}>
+                <div ref={others} className={style.others}>
                     <div className={style.others__menu} onClick={(event) => {
                         if (event.currentTarget) {
                             setMenu(true)

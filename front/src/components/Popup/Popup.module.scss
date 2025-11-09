@@ -1,4 +1,4 @@
-.popup-bgd {
+.overlay {
     position: absolute;
     background-color: rgba(0, 0, 0, 0.7);
     height: 100vh;
@@ -9,7 +9,7 @@
     align-items: center;
 }
 
-.cls-popup {
+.popup__close {
     width: 20px;
     height: 20px;
     position: absolute;
@@ -18,7 +18,7 @@
     cursor: pointer;
 }
 
-.cls-popup::before {
+.popup__close::before {
     content: "";
     width: 18px;
     height: 2px;
@@ -31,7 +31,7 @@
 }
 
 
-.cls-popup::after {
+.popup__close::after {
     content: "";
     width: 18px;
     height: 2px;
@@ -42,7 +42,6 @@
     right: 0px;
     transform: rotate(45deg);
 }
-
 
 .popup {
     position: relative;
@@ -55,6 +54,10 @@
     justify-content: center;
     flex-direction: column;
     gap: 20px;
+}
+
+
+.popup__wrapper {
 }
 
 .dark-mode .cls-popup::before {
@@ -100,11 +103,11 @@
 
 
 .popup__wrapper {
-    height: 100%;
-    margin: 100px 20px;
+    // height: 100%;
+    // margin: 100px 20px;
 }
 
-.popup__form {
+.form {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -115,7 +118,7 @@
 
 /* form__name form__status form__contact form__company form__submit */
 
-.form__name > input, .form__contact > input, .form__company > input {
+.form__field    input {
     width: 200px;
     height: 30px;
     font-size: 16px;
@@ -125,7 +128,7 @@
     margin-left: 20px;
 }
 
-.form__status > select {
+.form__field > select {
     width: 200px;
     height: 30px;
     font-size: 16px;

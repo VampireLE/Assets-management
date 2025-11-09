@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import './Popup.module.scss'
+import style from './Popup.module.scss'
 import { useForm } from 'react-hook-form';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -43,28 +43,28 @@ export default function Popup({popupIsShow, onClosePopup}) {
     return (
         <>
             {popupIsShow && (
-                <div ref={clickOnBgPopup} className="overlay" onClick={(event) => {
+                <div ref={clickOnBgPopup} className={style.overlay} onClick={(event) => {
                     if (event.target === clickOnBgPopup.current) {
                         onClosePopup(false)
                     }
                 }}>
-            <div className="popup">
-                <div className="popup__close" onClick={() => onClosePopup(false)}></div>
-                <div className="popup__wrapper">
-                    <form onSubmit={handleSubmit(onSubmit)} className="form">
-                        <div className="form__field">
+            <div className={style.popup}>
+                <div className={style.popup__close} onClick={() => onClosePopup(false)}></div>
+                <div className={style.popup__wrapper}>
+                    <form onSubmit={handleSubmit(onSubmit)} className={style.form}>
+                        <div className={style.form__field}>
                             <label>Name</label>
                             <input {...register('name')} type="text" />
                         </div>
-                        <div className="form__field">
+                        <div className={style.form__field}>
                             <label>Contact</label>
                             <input {...register('contact')} type="text" />
                         </div>
-                        <div className="form__field">
+                        <div className={style.form__field}>
                             <label>Company</label>
                             <input {...register('company')} type="text" />
                         </div>
-                        <div className="form__field">
+                        <div className={style.form__field}>
                             <select {...register('status')} name="status">
                                 <option value="Issued">Issued</option>
                                 <option value="In stock">In stock</option>
@@ -72,7 +72,7 @@ export default function Popup({popupIsShow, onClosePopup}) {
                                 <option value="Ready for pickup">Ready for pickup</option>
                             </select>
                         </div>
-                        <div className="form__submit">
+                        <div className={style.form__submit}>
                             <input type="submit"/>
                         </div>
                     </form>

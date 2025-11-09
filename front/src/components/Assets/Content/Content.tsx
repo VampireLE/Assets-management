@@ -7,16 +7,17 @@ import SideBar from "../../Sidebar/SideBar";
 import { useNavigate } from "react-router-dom";
 import Popup from "../../Popup/Popup";
 
-export default function Content({ mode, setMode }) {
+export default function Content({ mode, setMode, onOpenPopup }) {
     const [overflow, setOverflow] = useState({});
     const [page, setPage] = useState(1);
     const [showAll, setShowAll] = useState(false);
     const [paginationIsVisible, setPaginationIsVisible] = useState(true);
-    
+
     const [nav, setNav] = useState(null);
     const [id, setId] = useState(null);
-    const [perpage, setPerpage] = useState(5);
-    
+    const [perpage, setPerpage] = useState(10);
+    const rowMenu = useRef(null);
+
     const queryClient = useQueryClient();
 
     const { data, isLoading } = useQuery({
@@ -55,43 +56,72 @@ export default function Content({ mode, setMode }) {
         })
     }, [data, page])
 
+    useEffect(() => {
+
+        const menu = document.querySelector(`${style["table-row__menu"]}`)
+        const menuActive = document.querySelector(`${style["table-row__menu--active"]}`)
+        const buttons = document.querySelectorAll(`.${style['table-row__menu-toggle']}`);
+        const rowMenu = document.querySelectorAll(`.${style["table-row__menu"]}`);
+
+        const clickOutside = () => {
+            const menuActive = document.querySelectorAll(`.${style["table-row__menu--active"]}`)
+            menuActive.forEach((el) => {
+                el.style.display = 'none'
+            })
+        }
+
+        const openMenu = (event) => {
+            const td = (((event.target).parentNode).parentNode)
+            const btnActive = td.querySelector(`.${style["table-row__menu--active"]}`)
+            rowMenu.forEach((el) => {
+                el.style.display = 'none'
+            })
+
+            btnActive.style.display = 'flex'
+        }
+
+        const toggleMenu = (event) => {
+            const target = event.target as HTMLElement;
+            if (!target.classList.contains(style['table-row__menu-toggle']) &&
+                target !== menu &&
+                target !== menuActive
+            ) {
+                clickOutside()
+            }
+        }
+
+        buttons.forEach((button, _) => {
+            button.addEventListener('click', openMenu)
+        })
+
+        document.addEventListener('click', toggleMenu)
+
+        return () => {
+            buttons.forEach((el) => {
+                el.removeEventListener('click', openMenu)
+            })
+            document.removeEventListener('click', toggleMenu)
+        }
+    }, [data])
+
     const styleStatus = (status: string) => {
         switch (status) {
             case "Broken":
-                return ({ backgroundColor: "#fcc3c3" });
+                return ({ backgroundColor: "#fcc3c3", width: '70px', height: '20px', borderRadius: '10px', lineHeight: '20px', border: '1px solid #ff4f4fff' });
             case "In stock":
-                return ({ backgroundColor: "#e1e1e1" });
+                return ({ backgroundColor: "#e1e1e1", width: '70px', height: '20px', lineHeight: '20px', borderRadius: '10px', border: '1px solid #5a5a5aff' });
             case "Issued":
-                return ({ backgroundColor: "#c5c6fc" });
+                return ({ backgroundColor: "#c5c6fc", width: '70px', height: '20px', lineHeight: '20px', borderRadius: '10px', border: '1px solid #5b5effff' });
             case "Ready for pickup":
-                return ({ backgroundColor: "#fcedc5", width: "150px" });
+                return ({ backgroundColor: "#fcedc5", width: '150px', height: '20px', lineHeight: '20px', borderRadius: '10px', border: '1px solid #ffbb00ff' });
             default:
                 return {}
         }
     }
 
-    useEffect(() => {
-        const handleClick = (e) => {
-            const td = e.target.parentNode;
-            const navActive = td.querySelector('.nav-active');
-            
-            if (e.target === nav) {
-                navActive.style.display = 'flex'
-            } else {
-                navActive.style.display = 'none'
-            }
-        };
-
-        document.addEventListener('click', handleClick);
-
-        return () => {
-            document.removeEventListener('click', handleClick);
-        };
-    }, [nav]);
-
     const updateMutation = useMutation({
         mutationKey: ["assets"],
-        mutationFn: async ({id, data}) => {
+        mutationFn: async ({ id, data }) => {
             await fetch(`http://localhost:3000/assets/${id}`, {
                 method: 'PATCH',
                 'headers': {
@@ -113,7 +143,7 @@ export default function Content({ mode, setMode }) {
         const company = parent.querySelector('.asset-company').textContent;
         const contact = parent.querySelector('.asset-contact').textContent;
         const status = parent.querySelector('.status').textContent;
-        updateMutation.mutate({id: _id, data: {name: 'Monitor', company, contact, status}});
+        updateMutation.mutate({ id: _id, data: { name: 'Monitor', company, contact, status } });
     }
 
 
@@ -130,7 +160,7 @@ export default function Content({ mode, setMode }) {
                 <div className={style.content__wrapper}>
                     <div className={style.navigation}>
                         <div className={style.navigation__wrapper}>
-                            <div className={style.navigation__add} onClick={() => setShowPopup(true)}>
+                            <div className={style.navigation__add} onClick={() => onOpenPopup(true)}>
                                 <button>+ Add</button>
                             </div>
                             <div className={style.navigation__filter}>
@@ -141,6 +171,7 @@ export default function Content({ mode, setMode }) {
                             <input placeholder="Search" />
                         </div>
                     </div>
+                    <div className={style.table__wrapper}>
 
                         <table className={style.table} style={overflow}>
                             <thead>
@@ -162,28 +193,36 @@ export default function Content({ mode, setMode }) {
                                                     <div className={style["table-row__icon"]}>
                                                         <img src={processor} alt="#" />
                                                     </div>
-                                                    <div className={style["table-row__element"]}>{name}</div>
-                                                    <div className={style["table-row__element"]}>Intel i5 9400</div>
+                                                    <div>
+                                                        <div className={style["table-row__element"]}>{name}</div>
+                                                        <div className={style["table-row__element"]}>Intel i5 9400</div>
+                                                    </div>
                                                 </td>
                                                 <td className={style["table__row-item"]}>
-                                                        <div>{company}</div>
+                                                    <div>{company}</div>
                                                 </td>
                                                 <td className={style["table__row-item"]}>
                                                     <div>{contact}</div>
                                                 </td>
                                                 <td className={style["table__row-item"]}>
-                                                    <div className={style["table-row__element"]} style={styleStatus(status)}>{status}</div>
+                                                    <div className={style["table__row-wrapper"]}>
+                                                        <div className={style["table-row__element"]} style={styleStatus(status)}>
+                                                            {status}
+                                                        </div>
+                                                    </div>
                                                 </td>
                                                 <td className={style["table__row-item"]}>
-                                                    <div className={style["table-row__menu-toggle"]} onClick={(e) => setNav(e.target)}>
-                                                        <div></div>
-                                                        <div></div>
-                                                        <div></div>
+                                                    <div ref={rowMenu} className={style["table__row-wrapper"]}>
+                                                        <div className={style["table-row__menu-toggle"]}>
+                                                            <div></div>
+                                                            <div></div>
+                                                            <div></div>
+                                                        </div>
                                                     </div>
-                                                    <div className={style["table-row__menu table__row__menu--active"]}>
-                                                        <button>View more</button>
-                                                        <button data-id={_id} onClick={(event) => updateAsset(event.target.getAttribute('data-id'), event.target)}>Edit</button>
-                                                        <button data-id={_id} onClick={(event) => deleteMutation.mutate(event.target.getAttribute('data-id'))}>Delete</button>
+                                                    <div className={`${style["table-row__menu"]} ${style["table-row__menu--active"]}`}>
+                                                        <div className={style["table-row__menu-item"]}>View more</div>
+                                                        <div className={style["table-row__menu-item"]} data-id={_id} onClick={(event) => updateAsset(event.target.getAttribute('data-id'), event.target)}>Edit</div>
+                                                        <div className={style["table-row__menu-item"]} data-id={_id} onClick={(event) => deleteMutation.mutate(event.target.getAttribute('data-id'))}>Delete</div>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -192,26 +231,28 @@ export default function Content({ mode, setMode }) {
                                 }
                             </tbody>
                         </table>
+                    </div>
 
                     <div className={style.table__footer} style={paginationIsVisible ? { visibility: 'visible' } : { visibility: 'hidden' }}>
                         <div className={style.perpage}>
                             <label htmlFor={style.perpage}>Per page</label>
                             <select name="perpage" defaultValue={perpage} onChange={(value) => setPerpage(value.target.value)}>
-                                <option value="5">5</option>
                                 <option value="10">10</option>
                                 <option value="50">50</option>
                                 <option value="100">100</option>
+                                <option value="150">150</option>
+                                <option value="200">200</option>
                             </select>
                         </div>
                         <div className={style.pagination}>
                             <div className={style.pagination__wrapper}>
-                                <div className="pagination__control pagination__control--prev" style={page === 1 ? { backgroundColor: "#c8ced5" } : {}} onClick={() => setPage(page === 1 ? page : page - 1)}></div>
+                                <div className={`${style.pagination__control} ${style['pagination__control--prev']}`} style={page === 1 ? {} : {}} onClick={() => setPage(page === 1 ? page : page - 1)}></div>
 
                                 {[...Array(data.page)].map((_, index) => {
-                                    return ((<div className="pagination__page pagination__page--active" key={index} onClick={() => setPage(index + 1)}>{index + 1}</div>))
+                                    return ((<div className={`${style.pagination__page} ${style["pagination__page--active"]}`} key={index} onClick={() => setPage(index + 1)}>{index + 1}</div>))
                                 })}
 
-                                <div className="pagination__control pagination__control--next" style={page === data.page ? { backgroundColor: "#c8ced5" } : {}} onClick={() => data.page !== page ? setPage(page + 1) : page}></div>
+                                <div className={`${style.pagination__control} ${style["pagination__control--next"]}`} style={page === data.page ? { backgroundColor: "#c8ced5" } : {}} onClick={() => data.page !== page ? setPage(page + 1) : page}></div>
                             </div>
                         </div>
                     </div>
