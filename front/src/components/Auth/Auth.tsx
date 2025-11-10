@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import LoginPage from "./../../assets/LoginPage.png"
-import "./Auth.module.scss"
+import style from "./Auth.module.scss"
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
@@ -52,40 +52,40 @@ export default function Auth() {
 
     return (
     <>
-      <div className="section">
-        <div className="section__wrapper">
+      <div className={style.section}>
+        <div className={style.section__wrapper}>
 
-          <div className="section__img">
+          <div className={style.section__img}>
             <img src={LoginPage} alt="Login Page" />
           </div>
 
-          <div className="login">
+          <div className={style.login}>
 
-            <div className="login__welcome">
-              <p className="login__welcome-text">
+            <div className={style.login__welcome}>
+              <p className={style['login__welcome-text']}>
                 Welcome to <br />
-                <span className="login__welcome-span">Assets Management</span>
+                <span className={style['login__welcome-span']}>Assets Management</span>
               </p>
             </div>
 
-            <div className="login__integrations">
-              <button className="button login__integration login__integration-google">
+            <div className={style.login__integrations}>
+              <button className={`${style.button} ${style.login__integration} ${style['login__integration-google']}`}>
                 <img src="/assets/images/google.png" alt="Google" />
                 Login with Google
               </button>
-              <button className="button login__integration login__integration-keycloak">
+              <button className={`${style.button} ${style.login__integration} ${style['login__integration-keycloak']}`}>
                 <img src="/assets/images/keycloak.png" alt="Keycloak" />
                 Login with Keycloak
               </button>
             </div>
 
-            <div className="login__separator">OR</div>
+            <div className={style.login__separator}>OR</div>
 
-            <div className="login__form-container">
+            <div className={style['login__form-container']}>
               
-              <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
+              <form className={style['login-form']} onSubmit={handleSubmit(onSubmit)}>
                 <input
-                  className="form__email"
+                  className={style.form__email}
                   type="email"
                   placeholder="Email"
                   {...register('email', {
@@ -96,7 +96,7 @@ export default function Auth() {
                 />
                 {errors.email && <p>{errors.email.message}</p>}
                 <input
-                  className="form__password"
+                  className={style.form__password}
                   type="password"
                   placeholder="Password"
                   {...register('password', {
@@ -106,12 +106,12 @@ export default function Auth() {
                   })}
                 />
                 {errors.password && <p>{errors.password.message}</p>}
-                <div className="form__remember-me">
+                <div className={style['form__remember-me']}>
                   <input type="checkbox" id="remember-me" name="remember-me" />
                   <label htmlFor="remember-me">Remember me</label>
                 </div>
                 {/* <input className="form__btn-submit" type="submit" value="Login"  /> */}
-                <input className="form__btn" type="submit" value="Login"  />
+                <input className={style.form__btn} type="submit" value="Login"  />
               </form>
             </div>
           </div>

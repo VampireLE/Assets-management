@@ -31,20 +31,19 @@ export default function SideBar() {
     const [menu, setMenu] = useState(false)
     
     useEffect(() => {
+    const closePopup = (event) => {
         if (!menu) return
-
-        const closePopup = (event) => {
-            if (!(others.current).contains(event?.target) && 
-                !(btnDropDownMenu.current).contains(event?.target)) {
-                    console.log(123)
-                    setMenu(false)
-                }
+        if (!(others.current).contains(event?.target) && 
+            !(btnDropDownMenu.current).contains(event?.target)) {
+                console.log(123)
+                setMenu(false)
         }
-        addEventListener('click', () => closePopup)
-        
-    
-        return () => document.removeEventListener('click', () => closePopup)
-    }, [menu])
+    }
+
+    document.addEventListener('click', closePopup)
+    return () => document.removeEventListener('click', closePopup)
+}, [menu])
+
     
     return (
         <div className={`${style.sidebar} ${currentMode ? style['sidebar--dark'] : ""}`}>
