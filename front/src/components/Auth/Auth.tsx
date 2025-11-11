@@ -69,46 +69,52 @@ export default function Auth() {
             </div>
 
             <div className={style.login__integrations}>
-              <button className={`${style.button} ${style.login__integration} ${style['login__integration-google']}`}>
+              <div className={`${style.button} ${style.login__integration} ${style['login__integration-google']}`}>
                 <img src="/assets/images/google.png" alt="Google" />
                 Login with Google
-              </button>
-              <button className={`${style.button} ${style.login__integration} ${style['login__integration-keycloak']}`}>
+              </div>
+              <div className={`${style.button} ${style.login__integration} ${style['login__integration-keycloak']}`}>
                 <img src="/assets/images/keycloak.png" alt="Keycloak" />
                 Login with Keycloak
-              </button>
+              </div>
             </div>
 
-            <div className={style.login__separator}>OR</div>
+            <div className={style['login__separator']}>OR</div>
 
             <div className={style['login__form-container']}>
               
               <form className={style['login-form']} onSubmit={handleSubmit(onSubmit)}>
-                <input
-                  className={style.form__email}
-                  type="email"
-                  placeholder="Email"
-                  {...register('email', {
-                    required: "Email is required",
-                    minLength: {value: 1, message: "Password must be more 1"},
-                    maxLength: {value: 20, message: "Email cannot exceed 20 characters"}
-                  })}
-                />
-                {errors.email && <p>{errors.email.message}</p>}
-                <input
-                  className={style.form__password}
-                  type="password"
-                  placeholder="Password"
-                  {...register('password', {
-                    required: "Password is required",
-                    maxLength: {value: 20, message: "Email cannot exceed 20 characters"},
-                    maxLength: {value: 20, message: "Password cannot exceed 20 characters"},
-                  })}
-                />
-                {errors.password && <p>{errors.password.message}</p>}
-                <div className={style['form__remember-me']}>
-                  <input type="checkbox" id="remember-me" name="remember-me" />
-                  <label htmlFor="remember-me">Remember me</label>
+                <div className={style['form__container']}>
+                  <input
+                    className={style.form__email}
+                    style={errors.email && {margin: '0'}}
+                    type="email"
+                    placeholder="Email"
+                    {...register('email', {
+                      required: "Email is required",
+                      minLength: {value: 1, message: "Password must be more 1"},
+                      maxLength: {value: 20, message: "Email cannot exceed 20 characters"}
+                    })}
+                  />
+                  {errors.email && <p className={style.form__error}>{errors.email.message}</p>}
+                </div>
+                <div className={style['form__container']}>
+                  <input
+                    className={style.form__password}
+                    style={errors.password && {margin: '0'}}
+                    type="password"
+                    placeholder="Password"
+                    {...register('password', {
+                      required: "Password is required",
+                      maxLength: {value: 20, message: "Email cannot exceed 20 characters"},
+                      maxLength: {value: 20, message: "Password cannot exceed 20 characters"},
+                    })}
+                  />
+                  {errors.password && <p className={style.form__error}>{errors.password.message}</p>}
+                  <div className={style['form__remember-me']}>
+                    <input type="checkbox" id="remember-me" name="remember-me" />
+                    <label htmlFor="remember-me">Remember me</label>
+                  </div>
                 </div>
                 {/* <input className="form__btn-submit" type="submit" value="Login"  /> */}
                 <input className={style.form__btn} type="submit" value="Login"  />
