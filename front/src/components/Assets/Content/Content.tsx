@@ -17,11 +17,10 @@ export default function Content({ mode, setMode, onOpenPopup }) {
     const [id, setId] = useState(null);
     const [perpage, setPerpage] = useState(10);
     const rowMenu = useRef(null);
-    const table = useRef(null);
-    const [showMenu, setShowMenu] = useState(false); 
+
     const queryClient = useQueryClient();
 
-    const { data, isLoading, error } = useQuery({
+    const { data, isLoading } = useQuery({
         queryKey: ["assets", page, showAll, perpage],
         queryFn: async () => {
             const res = await fetch(`http://localhost:3000/assets?page=${page}&&count=${perpage}`)
@@ -77,7 +76,7 @@ export default function Content({ mode, setMode, onOpenPopup }) {
             rowMenu.forEach((el) => {
                 el.style.display = 'none'
             })
-            setShowMenu(true)
+
             btnActive.style.display = 'flex'
         }
 
@@ -87,7 +86,6 @@ export default function Content({ mode, setMode, onOpenPopup }) {
                 target !== menu &&
                 target !== menuActive
             ) {
-                setShowMenu(false)
                 clickOutside()
             }
         }
@@ -102,15 +100,9 @@ export default function Content({ mode, setMode, onOpenPopup }) {
             buttons.forEach((el) => {
                 el.removeEventListener('click', openMenu)
             })
-            
             document.removeEventListener('click', toggleMenu)
         }
     }, [data])
-
-    useEffect(() => {
-        if (table.current)
-        console.log((table.current).offsetHeight)
-    }, [showMenu])
 
     const styleStatus = (status: string) => {
         switch (status) {
@@ -181,7 +173,7 @@ export default function Content({ mode, setMode, onOpenPopup }) {
                     </div>
                     <div className={style.table__wrapper}>
 
-                        <table ref={table} className={style.table} style={overflow}>
+                        <table className={style.table} style={overflow}>
                             <thead>
                                 <tr className={style.table__cell}>
                                     <th>ASSET NAME</th>
@@ -193,7 +185,7 @@ export default function Content({ mode, setMode, onOpenPopup }) {
                             </thead>
                             <tbody>
                                 {
-                                    data?.data?.map((value, _) => {
+                                    data.data.map((value, _) => {
                                         const { _id, name, company, contact, status } = value;
                                         return (
                                             <tr key={_id} className={style['table-row']}>
