@@ -1,13 +1,20 @@
-import search from "./../../../assets/search.png";
-import processor from "./../../../assets/processor.png"
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Mutation, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import style from './Content.module.scss';
 import SideBar from "../../Sidebar/SideBar";
 import { useNavigate } from "react-router-dom";
 import Popup from "../../Popup/Popup";
+import Table from "../Table/Table";
+import { SideDrawerContext } from "../Assets";
 
 export default function Content({ mode, setMode, onOpenPopup }) {
+    const {
+        showSideDrawer, 
+        setShowSideDrawer, 
+        typeAction, 
+        setTypeAction
+    } = useContext(SideDrawerContext);
+
     const [overflow, setOverflow] = useState({});
     const [page, setPage] = useState(1);
     const [showAll, setShowAll] = useState(false);
@@ -16,9 +23,10 @@ export default function Content({ mode, setMode, onOpenPopup }) {
     const [nav, setNav] = useState(null);
     const [id, setId] = useState(null);
     const [perpage, setPerpage] = useState(10);
-    const rowMenu = useRef(null);
 
     const queryClient = useQueryClient();
+
+    const [viewMore, setViewMore] = useState(false);
 
     const { data, isLoading } = useQuery({
         queryKey: ["assets", page, showAll, perpage],
@@ -56,68 +64,7 @@ export default function Content({ mode, setMode, onOpenPopup }) {
         })
     }, [data, page])
 
-    useEffect(() => {
 
-        const menu = document.querySelector(`${style["table-row__menu"]}`)
-        const menuActive = document.querySelector(`${style["table-row__menu--active"]}`)
-        const buttons = document.querySelectorAll(`.${style['table-row__menu-toggle']}`);
-        const rowMenu = document.querySelectorAll(`.${style["table-row__menu"]}`);
-
-        const clickOutside = () => {
-            const menuActive = document.querySelectorAll(`.${style["table-row__menu--active"]}`)
-            menuActive.forEach((el) => {
-                el.style.display = 'none'
-            })
-        }
-
-        const openMenu = (event) => {
-            const td = (((event.target).parentNode).parentNode)
-            const btnActive = td.querySelector(`.${style["table-row__menu--active"]}`)
-            rowMenu.forEach((el) => {
-                el.style.display = 'none'
-            })
-
-            btnActive.style.display = 'flex'
-        }
-
-        const toggleMenu = (event) => {
-            const target = event.target as HTMLElement;
-            if (!target.classList.contains(style['table-row__menu-toggle']) &&
-                target !== menu &&
-                target !== menuActive
-            ) {
-                clickOutside()
-            }
-        }
-
-        buttons.forEach((button, _) => {
-            button.addEventListener('click', openMenu)
-        })
-
-        document.addEventListener('click', toggleMenu)
-
-        return () => {
-            buttons.forEach((el) => {
-                el.removeEventListener('click', openMenu)
-            })
-            document.removeEventListener('click', toggleMenu)
-        }
-    }, [data])
-
-    const styleStatus = (status: string) => {
-        switch (status) {
-            case "Broken":
-                return ({ backgroundColor: "#fcc3c3", width: '70px', height: '20px', borderRadius: '10px', lineHeight: '20px', border: '1px solid #ff4f4fff' });
-            case "In stock":
-                return ({ backgroundColor: "#e1e1e1", width: '70px', height: '20px', lineHeight: '20px', borderRadius: '10px', border: '1px solid #5a5a5aff' });
-            case "Issued":
-                return ({ backgroundColor: "#c5c6fc", width: '70px', height: '20px', lineHeight: '20px', borderRadius: '10px', border: '1px solid #5b5effff' });
-            case "Ready for pickup":
-                return ({ backgroundColor: "#fcedc5", width: '150px', height: '20px', lineHeight: '20px', borderRadius: '10px', border: '1px solid #ffbb00ff' });
-            default:
-                return {}
-        }
-    }
 
     const updateMutation = useMutation({
         mutationKey: ["assets"],
@@ -137,15 +84,13 @@ export default function Content({ mode, setMode, onOpenPopup }) {
         }
     })
 
-    const updateAsset = (_id: number, child) => {
-        const parent = ((child.parentNode).parentNode).parentNode;
-        const name = parent.querySelector('.asset-name').textContent;
-        const company = parent.querySelector('.asset-company').textContent;
-        const contact = parent.querySelector('.asset-contact').textContent;
-        const status = parent.querySelector('.status').textContent;
-        updateMutation.mutate({ id: _id, data: { name: 'Monitor', company, contact, status } });
-    }
+    
 
+    // const [cellData, setCellData] = useState({});
+
+    // useEffect(() => {
+    //     console.log(cellData)
+    // }, [])
 
     const showAllBtn = () => {
         setPaginationIsVisible(false);
@@ -158,108 +103,56 @@ export default function Content({ mode, setMode, onOpenPopup }) {
         <>
             <div className={style.content}>
                 <div className={style.content__wrapper}>
-                    <div className={style.navigation}>
-                        <div className={style.navigation__wrapper}>
-                            <div className={style.navigation__add} onClick={() => onOpenPopup(true)}>
-                                <button>+ Add</button>
+                    <div className={style.content__inner}>
+                        <div className={style.navigation}>
+                            <div className={style.navigation__wrapper}>
+                                <div className={style.navigation__add} onClick={() => {
+                                    setShowSideDrawer(true)
+                                    setTypeAction('create')
+                                    }
+                                }>
+                                    <button>+ Add</button>
+                                </div>
+                                <div className={style.navigation__filter}>
+                                </div>
                             </div>
-                            <div className={style.navigation__filter}>
-                            </div>
+                            {/* <div className={style.navigation__search}>
+                                <img src={search} alt="search" />
+                                <input placeholder="Search" />
+                            </div> */}
                         </div>
-                        <div className={style.navigation__search}>
-                            <img src={search} alt="search" />
-                            <input placeholder="Search" />
+                        <div>
+                                <Table data={data} overflow={overflow}/>
                         </div>
-                    </div>
-                    <div className={style.table__wrapper}>
 
-                        <table className={style.table} style={overflow}>
-                            <thead>
-                                <tr className={style.table__cell}>
-                                    <th>ASSET NAME</th>
-                                    <th>COMPANY</th>
-                                    <th>CONTACT</th>
-                                    <th>STATUS</th>
-                                    <th>NAVIGATE</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    data.data.map((value, _) => {
-                                        const { _id, name, company, contact, status } = value;
-                                        return (
-                                            <tr key={_id} className={style['table-row']}>
-                                                <td className={style['table__row-item']}>
-                                                    <div className={style["table-row__icon"]}>
-                                                        <img src={processor} alt="#" />
-                                                    </div>
-                                                    <div>
-                                                        <div className={style["table-row__element"]}>{name}</div>
-                                                        <div className={style["table-row__element"]}>Intel i5 9400</div>
-                                                    </div>
-                                                </td>
-                                                <td className={style["table__row-item"]}>
-                                                    <div>{company}</div>
-                                                </td>
-                                                <td className={style["table__row-item"]}>
-                                                    <div>{contact}</div>
-                                                </td>
-                                                <td className={style["table__row-item"]}>
-                                                    <div className={style["table__row-wrapper"]}>
-                                                        <div className={style["table-row__element"]} style={styleStatus(status)}>
-                                                            {status}
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td className={style["table__row-item"]}>
-                                                    <div ref={rowMenu} className={style["table__row-wrapper"]}>
-                                                        <div className={style["table-row__menu-toggle"]}>
-                                                            <div></div>
-                                                            <div></div>
-                                                            <div></div>
-                                                        </div>
-                                                    </div>
-                                                    <div className={`${style["table-row__menu"]} ${style["table-row__menu--active"]}`}>
-                                                        <div className={style["table-row__menu-item"]}>View more</div>
-                                                        <div className={style["table-row__menu-item"]} data-id={_id} onClick={(event) => updateAsset(event.target.getAttribute('data-id'), event.target)}>Edit</div>
-                                                        <div className={style["table-row__menu-item"]} data-id={_id} onClick={(event) => deleteMutation.mutate(event.target.getAttribute('data-id'))}>Delete</div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        )
-                                    })
-                                }
-                            </tbody>
-                        </table>
+                        {/* <div className={style.table__footer} style={paginationIsVisible ? { visibility: 'visible' } : { visibility: 'hidden' }}>
+                            <div className={style.perpage}>
+                                <label htmlFor={style.perpage}>Per page</label>
+                                <select name="perpage" defaultValue={perpage} onChange={(value) => setPerpage(value.target.value)}>
+                                    <option value="10">10</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                    <option value="150">150</option>
+                                    <option value="200">200</option>
+                                </select>
+                            </div>
+                            <div className={style.pagination}>
+                                <div className={style.pagination__wrapper}>
+                                    <div className={`${style.pagination__control} ${style['pagination__control--prev']}`} style={page === 1 ? {} : {}} onClick={() => setPage(page === 1 ? page : page - 1)}></div>
+
+                                    {[...Array(data.page)].map((_, index) => {
+                                        return ((<div className={`${style.pagination__page} ${style["pagination__page--active"]}`} key={index} onClick={() => setPage(index + 1)}>{index + 1}</div>))
+                                    })}
+
+                                    <div className={`${style.pagination__control} ${style["pagination__control--next"]}`} style={page === data.page ? { backgroundColor: "#c8ced5" } : {}} onClick={() => data.page !== page ? setPage(page + 1) : page}></div>
+                                </div>
+                            </div>
+                        </div> */}
                     </div>
 
-                    <div className={style.table__footer} style={paginationIsVisible ? { visibility: 'visible' } : { visibility: 'hidden' }}>
-                        <div className={style.perpage}>
-                            <label htmlFor={style.perpage}>Per page</label>
-                            <select name="perpage" defaultValue={perpage} onChange={(value) => setPerpage(value.target.value)}>
-                                <option value="10">10</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                                <option value="150">150</option>
-                                <option value="200">200</option>
-                            </select>
-                        </div>
-                        <div className={style.pagination}>
-                            <div className={style.pagination__wrapper}>
-                                <div className={`${style.pagination__control} ${style['pagination__control--prev']}`} style={page === 1 ? {} : {}} onClick={() => setPage(page === 1 ? page : page - 1)}></div>
-
-                                {[...Array(data.page)].map((_, index) => {
-                                    return ((<div className={`${style.pagination__page} ${style["pagination__page--active"]}`} key={index} onClick={() => setPage(index + 1)}>{index + 1}</div>))
-                                })}
-
-                                <div className={`${style.pagination__control} ${style["pagination__control--next"]}`} style={page === data.page ? { backgroundColor: "#c8ced5" } : {}} onClick={() => data.page !== page ? setPage(page + 1) : page}></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className={style.notifications}>
+                    {/* <div className={style.notifications}>
                         Asset has been added
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </>

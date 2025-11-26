@@ -2,7 +2,9 @@ var express = require('express');
 const Assets = require('./../Models/ModelAssets');
 const authentificateJWT = require('../middleware/auth');
 var router = express.Router();
+const multer = require('multer');
 
+const upload = multer({dest: 'uploads/'});
 
 router.get('/', async (req, res, next) => {
     try {
@@ -23,15 +25,19 @@ router.get('/count', authentificateJWT,  async (req, res, next) => {
     }
 })
 
-router.post('/', async (req, res, next) => {
-    try {
-        const asset = new Assets(req.body);
-        await asset.save();
-        res.status(201).json({ message: 'OK' })
-    } catch (err) {
-        res.status(500).json({error: err.message})
-    }
-})
+router.post('/', upload.single('icon'), async (req, res, next) => {
+    // const asset = await Assets();
+    // asset.save()
+    const file = req.file ? req.file.filename : '';
+
+    const data = req.body
+    data['icon'] = file
+    const asset = await Assets(data);
+    asset.save()
+    // console.log(asset);
+    
+    res.status(200).json({ message: 'Request received', body: req.file });
+});
 
 router.patch('/:id', async (req, res, next) => {
     try {

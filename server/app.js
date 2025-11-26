@@ -9,6 +9,7 @@ var componentsRouter = require('./routes/components');
 var usersRouter = require('./routes/users');
 const mongoose = require('mongoose');
 var cors = require('cors');
+const path = require('path');
 
 try {
   mongoose.connect("mongodb://root:password@localhost:27017/Assets_management?authSource=admin")
@@ -23,8 +24,8 @@ app.use(cors({
   origin: true
 }))
 app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Подключаем только существующие роутеры
 app.use('/', authRouter);
 app.use('/assets', assetsRouter);
 app.use('/licences', licencesRouter);
