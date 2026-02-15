@@ -1,14 +1,17 @@
 const JWT_SECRET = require('dotenv').config();
-var express = require('express');
-var authRouter = require('./routes/auth');
-var indexRouter = require('./routes/index');
-var assetsRouter = require('./routes/assets');
-var licencesRouter = require('./routes/licences');
-var accessoriesRouter = require('./routes/accessories');
-var componentsRouter = require('./routes/components');
-var usersRouter = require('./routes/users');
+const express = require('express');
+const historyRouter = require('./routes/history');
+const dashboardRouter = require('./routes/dashboard');
+const authRouter = require('./routes/auth');
+const indexRouter = require('./routes/index');
+const assetsRouter = require('./routes/assets');
+const licencesRouter = require('./routes/licences');
+const accessoriesRouter = require('./routes/accessories');
+const componentsRouter = require('./routes/components');
+const usersRouter = require('./routes/users');
+const profileRouter = require('./routes/profile');  
 const mongoose = require('mongoose');
-var cors = require('cors');
+const cors = require('cors');
 const path = require('path');
 
 try {
@@ -27,6 +30,9 @@ app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/', authRouter);
+app.use('/profile', profileRouter);
+app.use('/dashboard', dashboardRouter);
+app.use('/history', historyRouter);
 app.use('/assets', assetsRouter);
 app.use('/licences', licencesRouter);
 app.use('/accessories', accessoriesRouter);

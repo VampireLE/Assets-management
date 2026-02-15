@@ -92,11 +92,12 @@
 .dashboard {
     &__wrapper {
       height: 600px;
-    background: $color-white;
+    // background: $color-white;
     border-radius: $radius-base;
     padding: $padding-base * 1.5;
-    border: 1px solid lighten($color-bg, 5%);
-    box-shadow: $shadow-base;
+    // border: 1px solid lighten($color-bg, 5%);
+    // box-shadow: $shadow-base;
+    display: flex;
   }
   .tabs__activity--active {
     background-color: #5865f2 !important;
@@ -128,3 +129,7 @@
   }
 }
 
+.table__cell {
+  width: 200px;
+  height: 10px;
+}

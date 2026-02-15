@@ -12,6 +12,26 @@ router.get('/count', authentificateJWT, async (req, res, next) => {
     }
 });
 
+router.get('/', authentificateJWT, async (req, res, next) => {
+    try {
+        const users = await Users.find({});
+        return res.status(201).json({data: users});
+    } catch (err) {
+        res.status(404).json({error: "Not found records"})
+    }
+});
+
+
+
+router.get('/count/local', authentificateJWT, async (req, res, next) => {
+    try {
+        const users = await Users.countDocuments();
+        return res.status(201).json({data: users});
+    } catch (err) {
+        res.status(404).json({error: "Not found records"})
+    }
+});
+
 // router.get('/users?...', authentificateJWT, async (req, res, next) => {
     // try {
     //     let { q, page=1 } = req.query;

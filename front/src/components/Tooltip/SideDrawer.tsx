@@ -1,14 +1,14 @@
 import style from "./SideDrawer.module.scss";
-import qr from "./../../../assets/qr.svg"
+import qr from "./../../assets/qr.svg"
 import { useContext, useEffect, useRef, useState } from "react";
-import avatar from "./../../../assets/avatar.jpg";
+import avatar from "./../../assets/avatar.jpg";
 import { FormProvider, useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CellDataContext, SideDrawerContext } from "../Assets";
+import { CellDataContext, SideDrawerContext } from "../Assets/Assets";
 
 function SideDrawer({ setShowSideDrawer, sideDrawerOverlay }) {
   const {cellData, setCellData} = useContext(CellDataContext);
-  const { typeAction } = useContext(SideDrawerContext)
+  const { typeAction, setTypeAction } = useContext(SideDrawerContext)
   const queryClient = useQueryClient();
   const [showEditMenu, setShowEditMenu] = useState(false);
   const [showSubMenu, setSubShowMenu] = useState(false);
@@ -61,13 +61,46 @@ function SideDrawer({ setShowSideDrawer, sideDrawerOverlay }) {
   
   const methods = useForm({
     defaultValues: {
-      'name': name
+      name,
+      company,
+      contact,
+      status,
+      product,
+      supplier,
+      location,
+      department,
+      serialNumber,
+      orderNumber,
+      notes,
+      purchaseDate,
+      warrantyExpirationDate,
     }
   });
 
   const { register, reset, handleSubmit } = methods;
-  // console.log(cellData)
 
+
+  useEffect(() => {
+    if (typeAction === 'create') {
+        reset({
+        name: '',
+        company: '',
+        contact: '',
+        status: '',
+        product: '',
+        supplier: '',
+        location: '',
+        department: '',
+        serialNumber: '',
+        orderNumber: '',
+        notes: '',
+        purchaseDate: '',
+        warrantyExpirationDate: '',
+      }) 
+    } else if (typeAction === 'clone') {
+      reset({})
+    }
+  }, [typeAction])
 
   const onSubmit = (data) => {
     setIsEdit(false);
@@ -88,6 +121,14 @@ function SideDrawer({ setShowSideDrawer, sideDrawerOverlay }) {
   //   mutation2.mutate(id);
   // }
 
+
+  const handleClone = () => {
+    const cloned = { ...cellData }
+    delete cloned._id;
+    setTypeAction('clone');
+    reset(cloned);
+    setIsEdit(true);
+  }
 
   const mutationCreate = useMutation({
         mutationFn: async (asset) => {
@@ -144,7 +185,7 @@ function SideDrawer({ setShowSideDrawer, sideDrawerOverlay }) {
           <div className={style.sidedrawer__content}>
             <div className={style.sidedrawer__header}>
               <div>
-                {typeAction === 'create' 
+                {typeAction === 'create' || typeAction === 'clone'
                 ? (<h2 className={style.sidedrawer__title}>New asset</h2>) 
                 : (<h2 className={style.sidedrawer__title}>About asset</h2>)}
               </div>
@@ -155,16 +196,25 @@ function SideDrawer({ setShowSideDrawer, sideDrawerOverlay }) {
                         onSubmit(data)
                         setIsEdit(false)
                       })}>Save</div>
-                    <div className={style.sidedrawer__action} onClick={() => setIsEdit(false)}>
-                      Cancel edit
-                    </div>
+                    {typeAction === 'clone' ? (
+                      <div className={style.sidedrawer__action} onClick={() => setIsEdit(false)}>
+                      Cancel
+                    </div>  
+                    ) : (
+                      <div className={style.sidedrawer__action} onClick={() => setIsEdit(false)}>
+                        Cancel edit
+                      </div>
+                    )}
                   </>
                 )}
 
                 {!isEdit && typeAction !== 'create' && (
                   <>
                     <div className={style.sidedrawer__action} onClick={() => setIsEdit(true)}>Edit</div>
-                    <div className={style.sidedrawer__action}>Clone</div>
+                    <div 
+                      className={style.sidedrawer__action}
+                      onClick={handleClone}
+                      >Clone</div>
                     <div className={style.sidedrawer__action} onClick={() => onDelete(_id)}>Delete</div>
                     <div className={style.sidedrawer__action} onClick={() => setShowSideDrawer(false)}>Cancel</div>
                   </>
@@ -200,7 +250,7 @@ function SideDrawer({ setShowSideDrawer, sideDrawerOverlay }) {
                     </div>
                   </div>
                   
-                  {typeAction !=='create' && (
+                  {typeAction !=='create' && typeAction !== 'clone' && (
                     <div className={style.sidedrawer__qr}>
                       <div className={style['sidedrawer__qr-image']}>
                         <img src={qr} alt="" />
@@ -269,7 +319,7 @@ function SideDrawer({ setShowSideDrawer, sideDrawerOverlay }) {
                             </div>
                             <div>
                               <label>Status</label>
-                              <select disabled={typeAction === 'create' ? isEdit : !isEdit}>
+                              <select {...register("status")} disabled={typeAction === 'create' ? isEdit : !isEdit}>
                                 <option value="Broken">Broken</option>
                                 <option value="In stock">In stock</option>
                                 <option value="Issued">Issued</option>

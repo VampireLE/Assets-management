@@ -1,0 +1,45 @@
+
+.layout {
+    height: 100%;
+    display: flex;
+    gap: 30px;
+
+    .navigation {
+        display: flex;
+        gap: 30px;
+        &__element {
+            font-weight: bold;
+            cursor: pointer;
+            width: 100px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+        .element--active {
+            background-color: #e2e2e2;
+        }
+
+        &__element:hover {
+            background-color: #e2e2e2;
+        }
+    }
+}
+
+
+.content {
+    width: 100%;
+    
+    &__wrapper {
+        margin: 30px;
+    }
+
+    .header > hr {
+        margin-bottom: 30px;
+    }
+
+    .section {
+        margin-top: 50px;
+    }
+}

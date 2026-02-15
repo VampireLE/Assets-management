@@ -1,11 +1,11 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { Mutation, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import style from './Content.module.scss';
-import SideBar from "../../Sidebar/SideBar";
+import SideBar from "../Sidebar/SideBar";
 import { useNavigate } from "react-router-dom";
-import Popup from "../../Popup/Popup";
+import Popup from "../Popup/Popup";
 import Table from "../Table/Table";
-import { SideDrawerContext } from "../Assets";
+import { SideDrawerContext } from "../Assets/Assets";
 
 export default function Content({ mode, setMode, onOpenPopup }) {
     const {
@@ -28,10 +28,20 @@ export default function Content({ mode, setMode, onOpenPopup }) {
 
     const [viewMore, setViewMore] = useState(false);
 
+    const navigate = useNavigate();
+
     const { data, isLoading } = useQuery({
         queryKey: ["assets", page, showAll, perpage],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:3000/assets?page=${page}&&count=${perpage}`)
+            const res = await fetch(`http://localhost:3000/assets?page=${page}&&count=${perpage}`, {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+        })
+            // console.log(isLoading)
+            // if (res.status === 401) navigate('/');
             const json = await res.json();
 
             if (Array.isArray(json)) {
@@ -41,62 +51,62 @@ export default function Content({ mode, setMode, onOpenPopup }) {
         }
     })
 
-    const deleteMutation = useMutation({
-        mutationKey: ["assets"],
-        mutationFn: async (_id) => {
-            await fetch(`http://localhost:3000/assets/${_id}`, {
-                method: "DELETE"
-            })
-        }, onSuccess() {
-            queryClient.invalidateQueries(["assets"]);
-        }
-    })
+    // const deleteMutation = useMutation({
+    //     mutationKey: ["assets"],
+    //     mutationFn: async (_id) => {
+    //         await fetch(`http://localhost:3000/assets/${_id}`, {
+    //             method: "DELETE"
+    //         })
+    //     }, onSuccess() {
+    //         queryClient.invalidateQueries(["assets"]);
+    //     }
+    // })
 
-    useEffect(() => {
-        const pages = document.querySelectorAll('.page');
-        pages.forEach((value, index) => {
-            value.style.border = 'none'
-            value.style.color = 'black'
-            if (value.innerText == String(page)) {
-                value.style.border = '1px solid  #7140ff'
-                value.style.color = '#4200ff'
-            }
-        })
-    }, [data, page])
+    // useEffect(() => {
+    //     const pages = document.querySelectorAll('.page');
+    //     pages.forEach((value, index) => {
+    //         value.style.border = 'none'
+    //         value.style.color = 'black'
+    //         if (value.innerText == String(page)) {
+    //             value.style.border = '1px solid  #7140ff'
+    //             value.style.color = '#4200ff'
+    //         }
+    //     })
+    // }, [data, page])
 
 
 
-    const updateMutation = useMutation({
-        mutationKey: ["assets"],
-        mutationFn: async ({ id, data }) => {
-            await fetch(`http://localhost:3000/assets/${id}`, {
-                method: 'PATCH',
-                'headers': {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
+    // const updateMutation = useMutation({
+    //     mutationKey: ["assets"],
+    //     mutationFn: async ({ id, data }) => {
+    //         await fetch(`http://localhost:3000/assets/${id}`, {
+    //             method: 'PATCH',
+    //             'headers': {
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify(data)
 
-            })
-        }, onSuccess() {
-            queryClient.invalidateQueries(['assets'])
-        }, onError(error) {
-            console.log(error)
-        }
-    })
+    //         })
+    //     }, onSuccess() {
+    //         queryClient.invalidateQueries(['assets'])
+    //     }, onError(error) {
+    //         console.log(error)
+    //     }
+    // })
 
     
 
-    // const [cellData, setCellData] = useState({});
+    // // const [cellData, setCellData] = useState({});
 
-    // useEffect(() => {
-    //     console.log(cellData)
-    // }, [])
+    // // useEffect(() => {
+    // //     console.log(cellData)
+    // // }, [])
 
-    const showAllBtn = () => {
-        setPaginationIsVisible(false);
-        setShowAll(true)
-        setOverflow({ overflowX: "auto" })
-    }
+    // const showAllBtn = () => {
+    //     setPaginationIsVisible(false);
+    //     setShowAll(true)
+    //     setOverflow({ overflowX: "auto" })
+    // }
     if (isLoading) return <>Loading</>
 
     return (
@@ -121,7 +131,7 @@ export default function Content({ mode, setMode, onOpenPopup }) {
                                 <input placeholder="Search" />
                             </div> */}
                         </div>
-                        <div>
+                        <div className={style.navigation__table}>
                                 <Table data={data} overflow={overflow}/>
                         </div>
 

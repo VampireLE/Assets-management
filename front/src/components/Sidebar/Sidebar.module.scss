@@ -5,6 +5,7 @@ html, body #root {
 }
 
 .sidebar {
+    min-width: $sidebar-width;
     width: $sidebar-width;
     height: $sidebar-height;
     background-color: $sidebar-light-background-color;
@@ -25,6 +26,7 @@ html, body #root {
                 gap: 5px;
     
                 .menu__item {
+                    width: 100%;
                     transition: .4s;
                     cursor: pointer;
                     border-radius: $sidebar-border-radius;

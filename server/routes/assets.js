@@ -6,7 +6,7 @@ const multer = require('multer');
 
 const upload = multer({dest: 'uploads/'});
 
-router.get('/', async (req, res, next) => {
+router.get('/', authentificateJWT,  async (req, res, next) => {
     try {
         const count = await Assets.countDocuments()
         const accessories = await Assets.find({}).skip(req.query.page === 1 ? 0 : (req.query.page -1) * req.query.count).limit(req.query.count);
@@ -15,6 +15,20 @@ router.get('/', async (req, res, next) => {
         res.status(500).json({error: err.message})
     }
 });
+
+router.get('/status', async (req, res, next) => {
+    try {
+        const status = await Assets.aggregate([{
+            $group: {
+                _id: "$status",
+                count: {$sum: 1}
+            }
+        }])
+        res.json(status)
+    } catch (err) {
+        res.status(500).json({error: err.message})
+    }
+})
 
 router.get('/count', authentificateJWT,  async (req, res, next) => {
     try {
@@ -34,7 +48,6 @@ router.post('/', upload.single('icon'), async (req, res, next) => {
     data['icon'] = file
     const asset = await Assets(data);
     asset.save()
-    // console.log(asset);
     
     res.status(200).json({ message: 'Request received', body: req.file });
 });

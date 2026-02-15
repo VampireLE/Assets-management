@@ -27,7 +27,7 @@ export default function SideBar() {
     const location = useLocation();
     const btnDropDownMenu = useRef(null);
     const others = useRef(null);
-    const [dropDownMenu, setDropDownMenu] = useState('')
+    // const [dropDownMenu, setDropDownMenu] = useState('')
     const [menu, setMenu] = useState(false)
     
     useEffect(() => {

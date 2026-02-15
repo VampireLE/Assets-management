@@ -21,18 +21,27 @@ export default function Auth() {
       mutationFn:   async () => {
         const res = await fetch('http://localhost:3000/', {
           method: "POST",
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer '
-          },
+          headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({email: credation.email, password: credation.password})
         })
+        if (res.status === 401) console.log(req.status)
         return res.json()
       }
     })
 
     useEffect(() => {
-      console.log(alertError)
+
+      // if (!isSuccess) console.log(!isSuccess);
+      if (isError) console.log(isError)
+      if (data?.body) {
+        localStorage.setItem("token", data.body)
+        navigate('/dashboard')
+      }
+
+    }, [isSuccess, data, navigate, isError])
+
+    useEffect(() => {
+      
       if (data?.error) {
         setAlertError(data.error)
 
@@ -45,10 +54,10 @@ export default function Auth() {
       }      
     }, [data?.error])
     
-    if (isSuccess) {
-      localStorage.setItem("token", data.body)
-      navigate('/dashboard')
-    } 
+    // if (isSuccess) {
+    //   localStorage.setItem("token", data.body)
+    //   navigate('/dashboard')
+    // } 
 
     return (
     <>

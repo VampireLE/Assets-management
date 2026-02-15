@@ -1,0 +1,146 @@
+.content {
+  width: 100%;
+  background: #f5f7fb;
+  padding: 0 24px 24px 0;
+  font-family: Inter, system-ui, sans-serif;
+  &__title {
+    color: #444;
+  }
+}
+
+h1 {
+    font-size: 28px;
+    font-weight: 600;
+}
+
+h2 {
+    font-size: 18px;
+    font-weight: 500;
+    color: #444;
+}
+
+.header {
+    margin-bottom: 24px;
+}
+
+.header__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.header__text {
+    display: flex;
+    align-items: center;
+}
+
+.category {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 0 20px 20px 20px;;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.category__title {
+    margin-bottom: 16px;
+}
+
+.category__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+}
+
+.category-item {
+    cursor: pointer;
+    padding: 16px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #ffffff, #f3f4f6);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.category-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+}
+
+.category-item__title {
+    font-size: 14px;
+    color: #666;
+}
+
+.category-item__line {
+    display: none;
+}
+
+.category-item__total {
+    margin-top: 12px;
+    font-size: 28px;
+    font-weight: 600;
+    color: #111;
+}
+
+.category-item--assets { 
+  background: linear-gradient(135deg, #e0f2fe, #ffffff); 
+  min-height: 130px;
+}
+.category-item--licence { background: linear-gradient(135deg, #ede9fe, #ffffff); }
+.category-item--accessories { background: linear-gradient(135deg, #ecfeff, #ffffff); }
+.category-item--components { background: linear-gradient(135deg, #fef3c7, #ffffff); }
+.category__item--users { background: linear-gradient(135deg, #dcfce7, #ffffff); }
+
+.dashboard__wrapper {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+thead {
+    background: #f9fafb;
+}
+
+th {
+    text-align: center;
+    padding: 14px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #666;
+}
+
+td {
+    padding: 14px 16px;
+    font-size: 14px;
+    border-top: 1px solid #f0f0f0;
+}
+
+tbody {
+  height: 400px;
+}
+
+tbody tr:hover {
+    background: #f9fafb;
+}
+
+tbody tr td div {
+  width: 130px;
+  height: 30px;
+  text-align: center;
+}
+
+.chart-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 20px;
+    height: fit-content;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}

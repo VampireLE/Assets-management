@@ -23,6 +23,7 @@ router.post('/', async (req, res, next) => {
     // const email = req.headers.user;
 
     const jwtToken = jwt.sign({
+        id: user._id,
         username: email.split('@')[1],
         email: email
     },

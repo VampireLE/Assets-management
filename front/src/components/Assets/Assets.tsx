@@ -1,6 +1,6 @@
 // import './Assets.scss'
 import SideBar from '../Sidebar/SideBar';
-import Content from './Content/Content';
+import Content from '../Content/Content';
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectMode, toggleMode } from '../../features/counter/themeSlice';
@@ -8,40 +8,67 @@ import { useNavigate } from 'react-router-dom';
 import Popup from '../Popup/Popup';
 import style from "./Assets.module.scss";
 import { Tooltip } from 'chart.js';
-import SideDrawer from './Tooltip/SideDrawer';
+import SideDrawer from '../Tooltip/SideDrawer';
+import { useQuery } from '@tanstack/react-query';
 
 export const SideDrawerContext = createContext(null);
 export const CellDataContext = createContext(null);
 export const TypeActionContext = createContext(null);
 
+type ActionType = 'create' | 'update' | 'clone' | null;
+
 export default function Assets() {
     const mode = useAppSelector(selectMode);
     const dispatch = useAppDispatch()
     const navigate = useNavigate();
-    const [typeAction, setTypeAction] = useState(null);
+    const [typeAction, setTypeAction] = useState<ActionType>(null);
     
     const [showPopup, setShowPopup] = useState(false);
     const [showSideDrawer, setShowSideDrawer] = useState(false);
     const token = localStorage.getItem('token');
     const sideDrawerOverlay = useRef(null);
-
     const [cellData, setCellData] = useState({});
+    
+    useEffect(() => {
+        if (!token) {
+            navigate('/')
+        }
+    }, [token])
 
-    if (token === null) navigate('/')
+    const {isError, isSuccess, data} = useQuery({
+        queryKey: ["assets"],
+        queryFn: async () => {
+            const req = await fetch('http://localhost:3000/assets',{
+                method: "GET", 
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+        })
+            console.log(req.status)
+            if (req.status === 401) {
+                throw new Error("Unauthorized");
+            }
+            return req.json();
+        }
+        
+    })
+   
 
     useEffect(() => {
-        const outSedeDrawerClick = ((event) => {
+        const outSideDrawerClick = ((event) => {
             if (sideDrawerOverlay.current && !sideDrawerOverlay.current.contains(event.target)) {
                 setShowSideDrawer(false)
             }
         })
         
-        document.addEventListener('mousedown', outSedeDrawerClick);
+        document.addEventListener('mousedown', outSideDrawerClick);
 
         return (() => {
-            document.removeEventListener('mousedown', outSedeDrawerClick)
+            document.removeEventListener('mousedown', outSideDrawerClick)
         })
     }, [])
+
 
     return (
         <div className={`${style.layout} ${mode ? style["layout--dark"] : ""}`}>

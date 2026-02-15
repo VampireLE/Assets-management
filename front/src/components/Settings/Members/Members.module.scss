@@ -1,0 +1,133 @@
+.members {
+    &__header {
+        margin-bottom: 16px;
+    }
+
+    &__title {
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    &__top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__description {
+        color: #666;
+    }
+
+    &__invite {
+        cursor: pointer;
+        border: 0;
+        border-radius: 5px;
+        background-color: rgba(0, 0, 255, 0.753);
+        padding: 8px 12px;
+        font-size: 16px;
+        color: white;
+    }
+
+    &__stats {
+        display: flex;
+        gap: 16px;
+    }
+
+    &__stat {
+        display: flex;
+        flex-direction: row;
+        cursor: pointer;
+    position: relative;
+}
+
+&__stat::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 100%;
+    height: 1px;
+    background: rgb(2, 2, 255);
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+&__stat:hover::after {
+    opacity: 1;
+}
+
+
+    &__count {
+        width: 20px;
+        height: 20px;
+        display: block;
+        background-color: rgb(234, 234, 234);
+        border-radius: 100px;
+        margin-left: 6px;
+        color: #999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        max-height: 600px;
+        overflow-x: hidden;
+    }
+
+    &__item {
+        padding-top: 10px;
+        border-top: 1px solid rgb(228, 228, 228);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__user {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    &__avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #e0e0e0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__name {
+        font-weight: 500;
+    }
+
+    &__email {
+        font-size: 12px;
+        color: #888;
+    }
+
+    &__role {
+        outline: none;
+        border: 1px solid #00000063;
+        cursor: pointer;
+        border-radius: 5px;
+        height: 24px;
+        width: 120px;
+    }
+}

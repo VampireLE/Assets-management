@@ -1,24 +1,44 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import style from "./../Dashboard.module.scss"
-import { useState } from "react";
+import style from "./Content.module.scss"
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { PieChart, Pie, Tooltip, Legend, Cell } from "recharts";
+
 
 function Content() {
     const [tab, setTab] = useState(1);
+    const [perpage, setPerpage] = useState(5);
     const navigate = useNavigate();
+
+    const COLORS = [
+        '#2dcedd',
+        '#ca2424',
+        '#00fe08',
+        '#feba00'
+    ]
+    
 
     const queryClient = useQueryClient();
 
-    
+    const {data: statusData, isLoading: isLoadingData} = useQuery({
+        queryKey: ['status'],
+        queryFn: async () => {
+            const res = await fetch('http://localhost:3000/assets/status');
+            const json = await res.json();
+            return json;
+        }
+    })
 
     const {data: licencesLength, isLoading: isLoadinglicences} = useQuery({
         queryKey: ["licences"],
         queryFn: async () => {
             const res = await fetch("http://localhost:3000/licences/count", {
                 headers: {
+                    'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 }
             });
+            // if (res.status === 401) return navigate('/')
             const json = await res.json();
             return json;
         }
@@ -29,6 +49,7 @@ function Content() {
         queryFn: async () => {
             const res = await fetch("http://localhost:3000/accessories/count", {
                 headers: {
+                    'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 }
             });
@@ -42,6 +63,7 @@ function Content() {
         queryFn: async () => {
             const res = await fetch("http://localhost:3000/components/count", {
                 headers: {
+                    'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('token') 
                 }
             });
@@ -55,6 +77,7 @@ function Content() {
         queryFn: async () => {
             const res = await fetch("http://localhost:3000/users/count", {
                 'headers': {
+                    'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 }
             });
@@ -64,10 +87,11 @@ function Content() {
     })
 
     const {data: assetsLength, isLoading: isLoadingAssets} = useQuery({
-        queryKey: ["assets"],
+        queryKey: ["assets", "count"],
         queryFn: async () => {
             const res = await fetch("http://localhost:3000/assets/count", {
                 headers: {
+                    'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 }
             })
@@ -76,12 +100,34 @@ function Content() {
         }
     })
 
-    if (isLoadingAssets 
+    const {data: historyData, isLoading: isLoadingHistory} = useQuery({
+        queryKey: ['history'],
+        queryFn: async () => {
+            const req = await fetch(`http://localhost:3000/history?count=${perpage}`)
+            const json = req.json();
+            return json;
+        }
+    })
+
+    const historyList = useMemo(
+        () => Array.isArray(historyData?.data) 
+            ? historyData.data 
+            : [],[historyData]
+    )
+
+    const statusList = useMemo(
+        () => Array.isArray(statusData) ? statusData : []
+        , [statusData]
+        )
+
+    if (isLoadingHistory
+        && isLoadingAssets 
         && isLoadinglicences
         && isLoadingAccessories
         && isLoadingComponents
         && isLoadingUsers
-    
+        && isLoadingData
+        
     ) return <div>Loading</div>
 
     return (
@@ -127,20 +173,10 @@ function Content() {
             </header>
             <section className={style.dashboard}>
                 <div className={style.dashboard__wrapper}>
-                    <div className={style.tabs}>
-                        <div className={`${style.tabs__first} ${tab === 1 && ['tabs__activity--active']}`} onClick={() => setTab(1)}>Recent Activity</div>
-                        <div className={`${style.tabs__second} ${tab === 2 && ['tabs__activity--active']}`} onClick={() => setTab(2)}>Activity by status</div>
-                        <div className={`${style.tabs__three} ${tab === 3 && ['tabs__activity--active']}`} onClick={() => setTab(3)}>Three</div>
-                        <div className={`${style.tabs__four} ${tab === 4 && ['tabs__activity--active']}`} onClick={() => setTab(4)}>Four</div>
-                    </div>
-                    <hr />
                     <div className={style.content}>
-                        {tab === 1 && (
                             <>
-                                {/* <div>
-                                        <div><h2>Recent Activity</h2></div>
-                                    </div> */}
-                                <div style={{ marginTop: '30px', overflowY: 'auto', height: '400px' }}>
+                                <div className={style.content__title}><h2>History</h2></div>
+                                <div style={{ marginTop: '30px', height: '400px' }}>
                                     <table>
                                         <thead>
                                             <tr>
@@ -149,194 +185,72 @@ function Content() {
                                                 <th>Create</th>
                                                 <th>Action</th>
                                                 <th>Item</th>
+                                                <th>Note</th>
                                                 <th>Appointed</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>Return</td>
-                                                <td>2025-10-28 1:44PM</td>
-                                                <td>User create</td>
-                                                <td>Create new</td>
-                                                <td>(00278) - NoteBook</td>
-                                                <td>User Appointed</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Return</td>
-                                                <td>2025-10-28 1:44PM</td>
-                                                <td>User create</td>
-                                                <td>Create new</td>
-                                                <td>(00278) - NoteBook</td>
-                                                <td>User Appointed</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Return</td>
-                                                <td>2025-10-28 1:44PM</td>
-                                                <td>User create</td>
-                                                <td>Create new</td>
-                                                <td>(00278) - NoteBook</td>
-                                                <td>User Appointed</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Return</td>
-                                                <td>2025-10-28 1:44PM</td>
-                                                <td>User create</td>
-                                                <td>Create new</td>
-                                                <td>(00278) - NoteBook</td>
-                                                <td>User Appointed</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Return</td>
-                                                <td>2025-10-28 1:44PM</td>
-                                                <td>User create</td>
-                                                <td>Create new</td>
-                                                <td>(00278) - NoteBook</td>
-                                                <td>User Appointed</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Return</td>
-                                                <td>2025-10-28 1:44PM</td>
-                                                <td>User create</td>
-                                                <td>Create new</td>
-                                                <td>(00278) - NoteBook</td>
-                                                <td>User Appointed</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Return</td>
-                                                <td>2025-10-28 1:44PM</td>
-                                                <td>User create</td>
-                                                <td>Create new</td>
-                                                <td>(00278) - NoteBook</td>
-                                                <td>User Appointed</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Return</td>
-                                                <td>2025-10-28 1:44PM</td>
-                                                <td>User create</td>
-                                                <td>Create new</td>
-                                                <td>(00278) - NoteBook</td>
-                                                <td>User Appointed</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Return</td>
-                                                <td>2025-10-28 1:44PM</td>
-                                                <td>User create</td>
-                                                <td>Create new</td>
-                                                <td>(00278) - NoteBook</td>
-                                                <td>User Appointed</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Return</td>
-                                                <td>2025-10-28 1:44PM</td>
-                                                <td>User create</td>
-                                                <td>Create new</td>
-                                                <td>(00278) - NoteBook</td>
-                                                <td>User Appointed</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Return</td>
-                                                <td>2025-10-28 1:44PM</td>
-                                                <td>User create</td>
-                                                <td>Create new</td>
-                                                <td>(00278) - NoteBook</td>
-                                                <td>User Appointed</td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>Return</td>
-                                                <td>2025-10-28 1:44PM</td>
-                                                <td>User create</td>
-                                                <td>Create new</td>
-                                                <td>(00278) - NoteBook</td>
-                                                <td>User Appointed</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Return</td>
-                                                <td>2025-10-28 1:44PM</td>
-                                                <td>User create</td>
-                                                <td>Create new</td>
-                                                <td>(00278) - NoteBook</td>
-                                                <td>User Appointed</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Return</td>
-                                                <td>2025-10-28 1:44PM</td>
-                                                <td>User create</td>
-                                                <td>Create new</td>
-                                                <td>(00278) - NoteBook</td>
-                                                <td>User Appointed</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Return</td>
-                                                <td>2025-10-28 1:44PM</td>
-                                                <td>User create</td>
-                                                <td>Create new</td>
-                                                <td>(00278) - NoteBook</td>
-                                                <td>User Appointed</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Return</td>
-                                                <td>2025-10-28 1:44PM</td>
-                                                <td>User create</td>
-                                                <td>Create new</td>
-                                                <td>(00278) - NoteBook</td>
-                                                <td>User Appointed</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Return</td>
-                                                <td>2025-10-28 1:44PM</td>
-                                                <td>User create</td>
-                                                <td>Create new</td>
-                                                <td>(00278) - NoteBook</td>
-                                                <td>User Appointed</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Return</td>
-                                                <td>2025-10-28 1:44PM</td>
-                                                <td>User create</td>
-                                                <td>Create new</td>
-                                                <td>(00278) - NoteBook</td>
-                                                <td>User Appointed</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Return</td>
-                                                <td>2025-10-28 1:44PM</td>
-                                                <td>User create</td>
-                                                <td>Create new</td>
-                                                <td>(00278) - NoteBook</td>
-                                                <td>User Appointed</td>
-                                            </tr>
-
+                                            {historyList.map((el) => (
+                                                <tr key={el._id}>
+                                                    <td>
+                                                        <div>{el.type}</div>
+                                                    </td>
+                                                    <td>
+                                                        <div>{el.date}</div>
+                                                    </td>
+                                                    <td>
+                                                        <div>{el.create}</div>
+                                                    </td>
+                                                    <td>
+                                                        <div>{el.action}</div>
+                                                    </td>
+                                                    <td>
+                                                        <div>{el.item}</div>
+                                                    </td>
+                                                    <td>
+                                                        <div>{el.note}</div>
+                                                    </td>
+                                                    <td>
+                                                        <div>{el.appointed}</div>
+                                                    </td>
+                                                </tr>
+                                            ))}
                                         </tbody>
                                     </table>
                                 </div>
-                                <div style={{ width: '80%', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'stretch', position: 'absolute', bottom: '40px', alignContent: 'stretch' }}>
-                                    <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                                        <label>Records</label>
-                                        <select style={{ cursor: 'pointer' }}>
-                                            <option value="">10</option>
-                                            <option value="">20</option>
-                                            <option value="">30</option>
-                                            <option value="">50</option>
-                                            <option value="">150</option>
-                                            <option value="">200</option>
-                                            <option value="">250</option>
-                                            <option value="">300</option>
-                                        </select>
-                                    </div>
-                                    <div style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', width: '100%', marginRight: '20px', marginLeft: '20px' }}>
-                                        <div className="page">Prev</div>
-                                        <div className="page">1</div>
-                                        <div className="page">2</div>
-                                        <div className="page">3</div>
-                                        <div className="page">4</div>
-                                        <div className="page">...</div>
-                                        <div className="page">10</div>
-                                        <div className="page">Next</div>
-                                    </div>
-                                </div>
                             </>
-                        ) || tab === 2 && (<>2</>) || tab === 3 && (<>3</>) || tab == 4 && (<>4</>)}
+                    </div>
+
+                    <div>
+                        <div>
+                            <h2>Status by active</h2>
+                        </div>
+                        <div>
+                            <PieChart
+                                style={{ 
+                                    width: '100%', 
+                                    height: '100%', 
+                                    maxWidth: '500px', 
+                                    maxHeight: '80vh', 
+                                    aspectRatio: 1 
+                                }}
+                                responsive
+                            >
+                                <Pie
+                                    data={statusList}
+                                    dataKey='count'
+                                    nameKey='_id'
+                
+                                >
+                                    {statusList.map((entry, index) => 
+                                        <Cell key={`cell-${index}`} fill={COLORS[index]}/>
+                                    )}
+                                </Pie>
+                                <Tooltip formatter={(value, name, props) => [
+                                    `${name}: ${value}`
+                                ]}/>
+                            </PieChart>
+                        </div>
                     </div>
                 </div>
             </section>
