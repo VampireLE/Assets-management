@@ -8,7 +8,7 @@ function Members() {
     const {data, isLoading, isError} = useQuery({
         queryKey: ["users", "count"],
         queryFn: async () => {
-            const res = await fetch("http://localhost:3000/users/count/local", {
+            const res = await fetch("http://server:3000/users/count/local", {
                 method: "GET", 
                 headers: {
                     'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ function Members() {
     const {data: usersData, isLoading: isLoadingUsersData} = useQuery({
         queryKey: ["users"],
         queryFn: async () => {
-            const res = await fetch("http://localhost:3000/users", {
+            const res = await fetch("http://server:3000/users", {
                 method: "GET", 
                 headers: {
                     'Content-Type': 'application/json',

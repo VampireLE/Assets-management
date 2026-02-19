@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 
 async function createAdmin() {
-    await mongoose.connect('mongodb://root:password@127.0.0.1:27017/Assets_management?authSource=admin')
+    await mongoose.connect('mongodb://root:password@mongo:27017/Assets_management?authSource=admin')
     .then(() => console.log("Connected"))
     .catch(() => console.log("Could not connect"))
 

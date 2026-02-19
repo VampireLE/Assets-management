@@ -15,7 +15,7 @@ const cors = require('cors');
 const path = require('path');
 
 try {
-  mongoose.connect("mongodb://root:password@localhost:27017/Assets_management?authSource=admin")
+  mongoose.connect("mongodb://root:password@mongo:27017/Assets_management?authSource=admin")
   .then(() => console.log('connect'))
   .catch((err) => console.log(err))
 } catch (error) {

@@ -55,7 +55,7 @@ function Profile() {
                     className={style.form}
                 >
                     <div className={style.form__title}>
-                        <div>
+                        <div className={style.title__wrapper}>
                             <div className={style.form__icon}
                                 onClick={() => ref.current.click()}
                             >
@@ -101,7 +101,7 @@ function Profile() {
                         </div>
                         <div className={style.form__field}>
                             <label className={style.form__label} htmlFor="">Number</label>
-                            <input className={style.form__input} type="text" />
+                            <input className={style.form__input} type="tel" />
                         </div>
                         <div className={style.form__field}>
                             <div className={style.submit}>Update</div>

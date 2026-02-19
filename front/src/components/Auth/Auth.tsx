@@ -82,7 +82,16 @@ export default function Auth() {
                 <img src="/assets/images/google.png" alt="Google" />
                 Login with Google
               </div>
-              <div className={`${style.button} ${style.login__integration} ${style['login__integration-keycloak']}`}>
+              <div
+                onClick={() => 
+                  window.location.href =
+                  "https://auth-test-test.yoonion.ru/realms/master/protocol/openid-connect/auth" +
+                  "?client_id=test-postman" +
+                  "&response_type=code" +
+                  "&scope=openid" +
+                  "&redirect_uri=http://localhost:5173/Dashboard"
+                }
+              className={`${style.button} ${style.login__integration} ${style['login__integration-keycloak']}`}>
                 <img src="/assets/images/keycloak.png" alt="Keycloak" />
                 Login with Keycloak
               </div>

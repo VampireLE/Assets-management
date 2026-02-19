@@ -24,7 +24,7 @@ export default function Users() {
     const { data, isLoading } = useQuery({
         queryKey: ["users", page, showAll, debouncedSearch],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:3000/users`, {
+            const res = await fetch(`http://server:3000/users`, {
                 headers: {
                     'Authorisation': 'Bearer ' + localStorage.getItem('token') 
                 }

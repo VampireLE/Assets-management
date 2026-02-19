@@ -21,7 +21,7 @@ export default function Popup({popupIsShow, onClosePopup}) {
     const mutation = useMutation({
         mutationFn: async (asset) => {
             console.log(asset)
-            const { data } = await fetch("http://localhost:3000/assets", {
+            const { data } = await fetch("http://server:3000/assets", {
                 method: 'POST',
                 headers: {
                     'Content-Type': "application/json"

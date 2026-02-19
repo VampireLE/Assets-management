@@ -132,7 +132,7 @@ function SideDrawer({ setShowSideDrawer, sideDrawerOverlay }) {
 
   const mutationCreate = useMutation({
         mutationFn: async (asset) => {
-            const response = await fetch("http://localhost:3000/assets", {
+            const response = await fetch("http://server:3000/assets", {
                 method: 'POST',
                 body: asset
             });
@@ -149,7 +149,7 @@ function SideDrawer({ setShowSideDrawer, sideDrawerOverlay }) {
   const mutationUpdate = useMutation({
     mutationKey: ['assets'],
     mutationFn: async (data) => {
-      await fetch(`http://localhost:3000/assets/${_id}`, {
+      await fetch(`http://server:3000/assets/${_id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'
@@ -164,7 +164,7 @@ function SideDrawer({ setShowSideDrawer, sideDrawerOverlay }) {
   const mutationDelete = useMutation({
     mutationKey: ['assets'],
     mutationFn: async () => {
-      await fetch(`http://localhost:3000/assets/${_id}`, {
+      await fetch(`http://server:3000/assets/${_id}`, {
         method: 'DELETE'
       })
     }, onSuccess: async () => {

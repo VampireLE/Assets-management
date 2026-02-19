@@ -30,7 +30,7 @@
         const handleStatusChange = useMutation({
                     mutationKey: ["assests"],
                     mutationFn: async (selectStatus) => {
-                        await fetch(`http://localhost:3000/assets/${selectStatus.id}`, {
+                        await fetch(`http://server:3000/assets/${selectStatus.id}`, {
                             method: "PATCH",
                             'headers': {
                                 'Content-Type': 'application/json'
