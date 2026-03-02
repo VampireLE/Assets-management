@@ -96,6 +96,11 @@ html, body #root {
                     display: flex;
                     border-radius: 10px;
                 }
+                
+                .others__item > a {
+                    color: black;
+                    text-decoration: none;
+                }
                 .others__item:hover {
                     background-color: rgba(63, 63, 63, 0.131);
                 }

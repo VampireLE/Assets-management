@@ -58,13 +58,10 @@
 }
 
 .integration__control {
-    border-radius: 10px;
     position: relative;
     display: inline-block;
     width: 60px;
     height: 30px;
-    cursor: pointer;
-    background-color: rgb(231, 231, 231);
 }
 
 .slider::before {
@@ -84,12 +81,14 @@
 
 .slider {
     position: absolute;
-    width: 70px;
+    width: 60px;
     height: 30px;
     left: 0;
     top: 0;
     bottom: 0;
     border-radius: 30px;
+    background-color: #e7e7e7;
+    cursor: pointer;
 }
 
 .slider::before {
@@ -105,32 +104,12 @@
 }
 
 .integration__checkbox:checked + .slider {
-    // background-color: #2553b6;
+    background-color: #2553b6;
 }
 
 .integration__checkbox:checked + .slider::before {
     transform: translateX(30px);
 }
-
-// .integration__configurate {
-//     box-shadow: 0 0 0 0.1px gray;
-//     user-select: none;
-//     width: 100px;
-//     height: 30px;
-//     padding: 5px 20px;
-//     gap: 10px;
-//     align-items: center;
-//     display: flex;
-//     justify-content: center;
-//     border: 1px solid rgb(214, 214, 214);
-//     border-radius: 10px;  
-// }
-
-// .integration__configurate:active {
-//     outline: none;
-//             border-color: #2563eb;
-//             box-shadow: 0 0 0 3px rgba(56, 112, 234, 0.1);
-// }
 
 .configurate__icon > img {
     width: 25px;

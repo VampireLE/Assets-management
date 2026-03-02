@@ -13,12 +13,12 @@ import Users from './components/Users/Users';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import storage from 'redux-persist/lib/storage';
-
+import { useQuery } from '@tanstack/react-query';
 import { store, persistor } from "./app/store"
 
 function App() {
-
   const client = new QueryClient();
+
   return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>

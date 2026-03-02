@@ -10,6 +10,7 @@ const accessoriesRouter = require('./routes/accessories');
 const componentsRouter = require('./routes/components');
 const usersRouter = require('./routes/users');
 const profileRouter = require('./routes/profile');  
+const settingsRouter = require('./routes/settings');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
@@ -38,7 +39,7 @@ app.use('/licences', licencesRouter);
 app.use('/accessories', accessoriesRouter);
 app.use('/components', componentsRouter)
 app.use('/users', usersRouter);
-
+app.use('/settings', settingsRouter);
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'jade');

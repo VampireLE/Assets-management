@@ -10,7 +10,7 @@ import Members from "./Members/Members";
 import Integration from "./Integration/Integration";
 
 
-export default function Settings() {
+export default function Settings({integration, setIntegration}) {
 
     const [activeTab, setActiveTab] = useState("profile");
     
@@ -54,7 +54,7 @@ export default function Settings() {
                         {activeTab === "profile" && <Profile />}
                         {activeTab === "general" && <General />}
                         {activeTab === "members" && <Members />}
-                        {activeTab === "integration" && <Integration />}
+                        {activeTab === "integration" && <Integration integration={integration} setIntegration={setIntegration} />}
                     </div>
                 </div>
                 {/* <div className="darkmode">

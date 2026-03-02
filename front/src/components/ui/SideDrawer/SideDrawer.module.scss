@@ -1,0 +1,13 @@
+.drawer {
+    height: 100%;
+    top: 0;
+    right: 0;
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 0 10px 1px rgb(209, 209, 209);
+
+    &__wrapper {
+        width: 100%;
+        padding: 10px;
+    }
+}

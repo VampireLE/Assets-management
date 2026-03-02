@@ -131,7 +131,7 @@ function SideDrawer({ setShowSideDrawer, sideDrawerOverlay }) {
 
   const mutationCreate = useMutation({
         mutationFn: async (asset) => {
-            const response = await fetch("http://server:3000/assets", {
+            const response = await fetch("http://localhost:3000/assets", {
                 method: 'POST',
                 body: asset
             });
