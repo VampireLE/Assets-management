@@ -3,9 +3,9 @@ import settings from "./../../../assets/settings.svg"
 import { useState } from "react";
 
 function Integration() {
-
     const [integrations, setIntegrations] = useState(false);
     console.log(integrations)
+    
     return (
         <div className={style.section__wrapper}>
 

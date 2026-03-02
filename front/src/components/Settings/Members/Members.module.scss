@@ -1,4 +1,10 @@
 .members {
+    background-color: white;
+    border-radius: 10px;
+    height: 600px;
+    &__wrapper {
+        padding: 20px;
+    }
     &__header {
         margin-bottom: 16px;
     }

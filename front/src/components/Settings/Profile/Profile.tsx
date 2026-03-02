@@ -1,28 +1,14 @@
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 import style from "./Profile.module.scss";
 import { useForm } from "react-hook-form";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 function Profile() {
     const ref = useRef(null);
-    const {register, handleSubmit} = useForm();
+    const token = localStorage.getItem('token');
+    const [preview, serPreview] = useState(null);
     const fileReader = new FileReader();
 
-    const [preview, serPreview] = useState(null);
-    const onSubmit = (data) => {
-        console.log(data)
-    }
-
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        const url = URL.createObjectURL(file);
-
-        serPreview(url);
-    }
-    const token = localStorage.getItem('token');
-    
     const {data, isSuccess, isError} = useQuery({
         queryKey: ['profile'],
         queryFn: async () => {
@@ -38,10 +24,66 @@ function Profile() {
             return json
         }
     })
+
+    const {_id, 
+        icon,
+        name,
+        surname,
+        email,
+        role,
+        status,
+        number,
+        language,
+        password,
+    } = isSuccess ? data.body : {};
+
+    const {register, handleSubmit, setValue, reset} = useForm({
+            defaultValues: {
+                name,
+                surname,
+                email,
+                number
+            }
+        });
+
+    useEffect(() => {
+        if (isSuccess && data?.body) {
+            reset(data.body)
+        }
+    }, [isSuccess, data, reset])
+
+    const onSubmit = (data) => {
+        const formData = new FormData();
+        formData.append("profile_id", _id)
+        Object.keys(data).forEach((key) => {
+            if (key !== "icon") {
+                formData.append(key, data[key])
+            }
+        })
+        mutation.mutate(formData)
+    }
+    
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        setValue("icon", file)
+        const url = URL.createObjectURL(file);
+        
+        serPreview(url);
+    }
+
+    const mutation = useMutation({
+        mutationKey: ["profile"],
+        mutationFn: async () => {
+            await fetch('http://localhost:3000/profile', {
+                method: 'PATCH',
+                body: preperationData
+            })
+        }
+    })
     
     if (!isSuccess) return
-    const {_id, email, name, role, status} = data.body;
-
+    
     return (
         <section className={style.section}>
             <div className={style.section__wrapper}>
@@ -63,7 +105,7 @@ function Profile() {
                                     <img src={preview}/>
                                 </div> : <div className={style['form__icon--name']}>D</div>}
                                 <input
-                                    {...register("icon")} 
+                                    // {...register("icon")} 
                                     onChange={handleFileChange}
                                     ref={ref} 
                                     style={{display: 'none'}} 
@@ -75,36 +117,50 @@ function Profile() {
                         <div className={style.field__container}>
                             <div className={style.form__field}>
                                 <label className={style.form__label} htmlFor="">Name</label>
-                                <input className={style.form__input} type="text" value={name}/>
+                                <input
+                                 {...register("name")}
+                                 className={style.form__input} type="text"/>
                             </div>
                             <div className={style.form__field}>
                                 <label className={style.form__label} htmlFor="">Surname</label>
-                                <input className={style.form__input} type="text" />
+                                <input 
+                                {...register("surname")}
+                                className={style.form__input} type="text" />
                             </div>
                         </div>
                     </div>
                     <div className={style.form__info}>
                         <div className={style.form__field}>
                             <label className={style.form__label} htmlFor="">Location</label>
-                            <input className={style.form__input} type="text" />
+                            <select
+                            className={style.form__input} name="" id="">
+                                <option value="Ru">Ru</option>
+                                <option value="Eng">Eng</option>
+                            </select>
                         </div>
                         <div className={style.form__field}>
                             <label className={style.form__label} htmlFor="">Email</label>
-                            <input className={style.form__input} type="mail" value={email}/>
+                            <input
+                            {...register("email")}
+                            className={style.form__input} type="mail"/>
                         </div>
                         <div className={style.form__field}>
                             <label className={style.form__label} htmlFor="">Language</label>
-                            <select className={style.form__input} name="" id="">
-                                <option value="">English</option>
-                                <option value="">Russian</option>
+                            <select
+                            {...register("language")}
+                            className={style.form__input} name="" id="">
+                                <option value="English">English</option>
+                                <option value="Russian">Russian</option>
                             </select>
                         </div>
                         <div className={style.form__field}>
                             <label className={style.form__label} htmlFor="">Number</label>
-                            <input className={style.form__input} type="tel" />
+                            <input
+                            {...register("number")}
+                            className={style.form__input} type="tel"/>
                         </div>
                         <div className={style.form__field}>
-                            <div className={style.submit}>Update</div>
+                            <input className={style.submit} type="submit" />
                         </div>
                     </div>
                 </form>

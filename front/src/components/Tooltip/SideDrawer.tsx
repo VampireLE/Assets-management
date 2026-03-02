@@ -57,7 +57,6 @@ function SideDrawer({ setShowSideDrawer, sideDrawerOverlay }) {
   } = cellData ?? {};
   
   const defaultValue = typeAction === 'create' ? {} : {...cellData};
-
   
   const methods = useForm({
     defaultValues: {

@@ -11,10 +11,14 @@ async function createAdmin() {
     
     try {
         await Users.create({
+            icon: "path",
             name: 'admin',
+            surname: "admin",
             email: 'admin@test.ru',
             role: 'admin',
             status: 'active',
+            number: "+71234567890",
+            language: "ru",
             password: hashPassword
         })
         console.log('user was create successfully')
