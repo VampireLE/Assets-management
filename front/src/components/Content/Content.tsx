@@ -131,8 +131,8 @@ export default function Content({ mode, setMode, onOpenPopup }) {
                                 <input placeholder="Search" />
                             </div> */}
                         </div>
-                        <div className={style.navigation__table}>
-                                <Table data={data} overflow={overflow}/>
+                        <div>
+                            <Table data={data} overflow={overflow}/>
                         </div>
 
                         {/* <div className={style.table__footer} style={paginationIsVisible ? { visibility: 'visible' } : { visibility: 'hidden' }}>

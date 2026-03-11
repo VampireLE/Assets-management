@@ -1,182 +1,54 @@
-// .table__row-wrapper {
-//     width: 0;
-// }
 
 .table {
-    width: 1400px;
+    &__wrapper {
+            padding: 30px;
+        }
+
+    &__row {
+        height: 70px;
+    }
+}
+
+.table-element {
+    height: 600px;
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.05);
+}
+
+thead {
+    background: #f9fafb;
+}
+
+th {
+    text-align: center;
+    padding: 14px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #666;
+}
+
+td {
+    padding: 14px 16px;
+    font-size: 14px;
+    border-top: 1px solid #f0f0f0;
+}
+
+tbody {
     overflow-x: auto;
+
+  height: 400px;
 }
 
-.table__row-wrapper {
-    width: 150px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+tbody tr:hover {
+    background: #f9fafb;
 }
 
-.label__menu {
-    display: none;
+tbody tr td div {
+  width: 130px;
+  height: 30px;
+  text-align: center;
 }
-
-.table-row__element {
-}
-
-.table-row__menu-item {
-    display: none;
-}
-
-// .table {
-//     margin: 30px auto auto;
-//     width: 85%;
-//     background: #ffffff;
-//     border-radius: 16px;
-//     padding: 0;
-//     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-//     overflow-y: auto;
-// }
-
-// table {
-//     width: 100px;
-//     border-collapse: collapse;
-//     min-width: 1400px;
-// }
-
-// thead {
-//     position: sticky;
-//     top: 0;
-//     z-index: 2;
-//     background: #f9fafb;
-// }
-
-// th {
-//     padding: 14px 16px;
-//     font-size: 12px;
-//     font-weight: 500;
-//     text-align: left;
-//     color: #6b7280;
-//     border-bottom: 1px solid #e5e7eb;
-//     white-space: nowrap;
-// }
-
-// td {
-//     padding: 14px 16px;
-//     font-size: 14px;
-//     color: #111827;
-//     border-bottom: 1px solid #f1f5f9;
-//     white-space: nowrap;
-// }
-
-// .table-row {
-//     transition: background 0.15s ease;
-// }
-
-// .table-row:hover {
-//     background: #f9fafb;
-// }
-
-// .table__row-item {
-//     vertical-align: middle;
-// }
-
-// .table__row-wrapper {
-//     display: flex;
-//     align-items: center;
-//     gap: 8px;
-// }
-
-// .cell--toggle,
-// .row-item--toggle {
-//     width: 42px;
-//     text-align: center;
-// }
-
-// input[type="checkbox"] {
-//     width: 16px;
-//     height: 16px;
-//     accent-color: #2563eb;
-//     cursor: pointer;
-// }
-
-// .table-row__element {
-//     max-width: 220px;
-//     overflow: hidden;
-//     text-overflow: ellipsis;
-//     white-space: nowrap;
-// }
-
-// .table-row__label {
-//     padding: 4px 10px;
-//     border-radius: 999px;
-//     font-size: 12px;
-//     font-weight: 500;
-//     background: #f3f4f6;
-// }
-
-// .label__menu {
-//     position: absolute;
-//     margin-top: 6px;
-//     background: #ffffff;
-//     border-radius: 12px;
-//     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-//     overflow: hidden;
-//     display: none;
-// }
-
-// .label__menu div {
-//     padding: 10px 14px;
-//     font-size: 13px;
-//     cursor: pointer;
-// }
-
-// .label__menu div:hover {
-//     background: #f3f4f6;
-// }
-
-// .table-row__menu-toggle {
-//     width: 24px;
-//     height: 24px;
-//     border-radius: 6px;
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: center;
-//     gap: 3px;
-//     cursor: pointer;
-// }
-
-// .table-row__menu-toggle div {
-//     width: 4px;
-//     height: 4px;
-//     background: #6b7280;
-//     border-radius: 50%;
-// }
-
-// .table-row__menu {
-//     position: absolute;
-//     right: 16px;
-//     margin-top: 8px;
-//     background: #ffffff;
-//     border-radius: 12px;
-//     min-width: 140px;
-//     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
-//     display: none;
-//     overflow: hidden;
-//     z-index: 10;
-// }
-
-// .table-row__menu--active {
-//     display: block;
-// }
-
-// .table-row__menu-item {
-//     padding: 10px 14px;
-//     font-size: 13px;
-//     cursor: pointer;
-// }
-
-// .table-row__menu-item:hover {
-//     background: #f3f4f6;
-// }
-
-// .table-row__menu-item:last-child {
-//     color: #dc2626;
-// }

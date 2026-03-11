@@ -3,6 +3,8 @@ const Assets = require('./../Models/ModelAssets');
 const authentificateJWT = require('../middleware/auth');
 var router = express.Router();
 const multer = require('multer');
+const sharp = require('sharp');
+const QRCode = require('qrcode')
 
 const upload = multer({dest: 'uploads/'});
 
@@ -42,14 +44,50 @@ router.get('/count', authentificateJWT,  async (req, res, next) => {
 router.post('/', upload.single('icon'), async (req, res, next) => {
     // const asset = await Assets();
     // asset.save()
-    const file = req.file ? req.file.filename : '';
+    try {
+        const qr = await QRCode.toDataURL('https://assets/id/123')
 
-    const data = req.body
-    data['icon'] = file
-    const asset = await Assets(data);
-    asset.save()
+        console.log(qr)
+        console.log(123)
+        // const qrData = JSON.stringify({
+        //     id: req.body.id,
+        //     type: 'asset',
+        //     url: `${proccess.env.FRONTEND_URL}/assets${req.body.id}`,
+        //     timestamp: Date.now()
+        // })
+
+        // const options = {
+        //     errorCorrectionLevel: 'H',
+        //     margin: 1,
+        //     width: parseInt(size),
+        //     color: {
+        //         dark: '#000000',
+        //         light: '#ffffff'
+        //     }
+        // }
+
+        // const qrSvg = await QRCode.toString(qrData, {
+        //     ...options,
+        //     type: 'svg',
+        // });
+
+        // res.setHeader('Content-Type', 'image/svg+xml');
+        // res.send(qrData);
+
+
+
+
+        const file = req.file ? req.file.filename : '';
     
-    res.status(200).json({ message: 'Request received', body: req.file });
+        const data = req.body
+        data['icon'] = file
+        const asset = await Assets(data);
+        asset.save()
+        res.status(200).json({ message: 'Request received', body: req.file });
+    } catch (err) {
+        res.status(503).json({ message: 'Dont can save ' + err.message });
+    }
+    
 });
 
 router.patch('/:id', async (req, res, next) => {

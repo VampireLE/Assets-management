@@ -43,7 +43,6 @@ export default function SideBar() {
     document.addEventListener('click', closePopup)
     return () => document.removeEventListener('click', closePopup)
 }, [menu])
-
     
     return (
         <div className={`${style.sidebar} ${currentMode ? style['sidebar--dark'] : ""}`}>
