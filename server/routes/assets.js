@@ -115,4 +115,13 @@ router.delete('/:id', async (req, res, next) => {
     }
 })
 
+router.delete('/delete', async(req, res, next) => {
+    try {
+        console.log(req.body)
+        
+    } catch (err) {
+        res.status(500).json({error: err.message})
+    }
+})
+
 module.exports = router;

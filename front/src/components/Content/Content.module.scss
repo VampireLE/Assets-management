@@ -1,9 +1,23 @@
 #root {
     display: flex;
 }
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #d7dbdf;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #c1c8cd;
+}
 
 .content {
     width: 100%;
+    overflow: auto;
     &__wrapper {
         display: flex;
         flex-direction: column;
@@ -22,11 +36,27 @@
 
 }
 
+.test {
+    max-width: 100%;
+    height: 100%;
+}
+
 .navigation {
-    display: flex;
-    justify-content: start;
+    position: relative;
     margin-top: 150px;
     margin-left: 100px;
+
+    &__wrapper{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    &__actions {
+        display: flex;
+        gap: 30px;
+    }
+
     &__table {
         display: flex;
         flex-direction: column;
@@ -34,6 +64,16 @@
     }
 
     &__add > button {
+        display: inline;
+        width: 30px;
+    }
+
+    &__add > button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        font-size: 16px;
         width: 100px;
         height: 30px;
         border-radius: 10px;
@@ -45,10 +85,91 @@
     }
 
     &__add > button:hover {
-        background-color: rgb(69, 127, 210);
-        box-shadow: 0 0 1px 1.5px rgb(197, 197, 197);
+        background-color: rgb(63, 117, 191);
+    }
+
+        &__search input {
+        border: 1px solid rgb(233, 233, 233);
+        font-size: 16px;
+        border-radius: 8px;
+        outline: none;
+        height: 30px;
+        width: 140px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding-left: 35px;
+        cursor: text;
+        transition: 0.5s;
+        margin-right: 20px;
+    }
+
+    &__search input:hover {
+            border-color: #9ca3af;
+        }
+
+    &__search input:focus {
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        border: 1px solid #2563eb;
+        width: 260px;
+        transition: 0.5s;
+    }
+    
+    &__search img {
+        padding-left: 10px;
+        padding-top: 6px;
+        position: absolute;
+        pointer-events: none;
     }
 }
+
+
+
+
+
+.table__footer {
+    position: absolute;
+    bottom: 30px;
+    right: 300px;
+    display: flex;
+}
+
+.pagination__wrapper {
+    display: flex;
+    gap: 15px;
+}
+
+.pagination__page {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: #f0f2f4;
+    transition: .1s;
+}
+
+.pagination__page:active {
+    transform: scale(1.1);
+}
+
+.pagination__page:hover :not(.pagination__page--active) {
+    background-color: #e6e9ea;
+}
+
+.pagination__page--active {
+    background-color: #1582ff;
+}
+
+
+
+
+
+
+
+
 //     &__wrapper {
 //         display: flex;
 //         margin-left: 20px;
@@ -88,33 +209,33 @@
 //         height: 30px;
 //     }
 
-//     &__search input {
-//         font-size: 16px;
-//         border-radius: 8px;
-//         outline: none;
-//         border: 0;
-//         height: 30px;
-//         width: 140px;
-//         display: flex;
-//         justify-content: flex-start;
-//         align-items: center;
-//         padding-left: 35px;
-//         cursor: text;
-//         transition: 0.5s;
-//         margin-right: 20px;
-//     }
+    // &__search input {
+    //     font-size: 16px;
+    //     border-radius: 8px;
+    //     outline: none;
+    //     border: 0;
+    //     height: 30px;
+    //     width: 140px;
+    //     display: flex;
+    //     justify-content: flex-start;
+    //     align-items: center;
+    //     padding-left: 35px;
+    //     cursor: text;
+    //     transition: 0.5s;
+    //     margin-right: 20px;
+    // }
 
-//     &__search input:focus {
-//         width: 260px;
-//         transition: 0.5s;
-//     }
+    // &__search input:focus {
+    //     width: 260px;
+    //     transition: 0.5s;
+    // }
     
-//     &__search img {
-//         padding-left: 10px;
-//         padding-top: 6px;
-//         position: absolute;
-//         pointer-events: none;
-//     }
+    // &__search img {
+    //     padding-left: 10px;
+    //     padding-top: 6px;
+    //     position: absolute;
+    //     pointer-events: none;
+    // }
 // }
 
 // .pagination__wrapper {

@@ -15,12 +15,12 @@ router.post('/', authentificateJWT, async (req, res, next) => {
 })
 
 router.patch('/', authentificateJWT, async (req, res, next) => {
-
-    // const user = await Users.findByIdAndUpdate(req.user.id, {});
-
-    // user.updateOne()
-    console.log(req.body)
-    res.json({ ok: true });
+    try {
+        await Users.findByIdAndUpdate(req.body._id, req.body);
+        await res.status(200).json({text: 'success'})
+    } catch (err) {
+        await res.status(500).json({error: err.message})
+    }
 })
 
 module.exports = router;

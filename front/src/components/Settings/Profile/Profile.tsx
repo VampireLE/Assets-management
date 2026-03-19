@@ -62,7 +62,6 @@
             //         formData.append(key, data[key])
             //     }
             // })
-            console.log(data)
             mutation.mutate(formData)
         }
         
@@ -78,17 +77,18 @@
         const mutation = useMutation({
             mutationKey: ["profile"],
             mutationFn: async (formData) => {
-                await fetch('http://localhost:3000/profile', {
+                const response = await fetch('http://localhost:3000/profile', {
                     method: 'PATCH',
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({
-                        ...formData,
-                        profile_id: _id
-                    })
+                    body: JSON.stringify(formData)
                 })
+                return await response.json()
+            },
+            onSuccess: (ans) => {
+                console.log(ans)
             }
         })
         

@@ -1,7 +1,9 @@
 
 .table {
     &__wrapper {
+            height: 680px;
             padding: 30px;
+            overflow-x: auto;
         }
 
     &__row {
@@ -10,7 +12,8 @@
 }
 
 .table-element {
-    height: 600px;
+    // height: 600px;
+    min-width: 1200px;
     width: 100%;
     border-collapse: collapse;
     background: #ffffff;
@@ -31,6 +34,10 @@ th {
     color: #666;
 }
 
+tr {
+    cursor: pointer;
+}
+
 td {
     padding: 14px 16px;
     font-size: 14px;
@@ -40,7 +47,7 @@ td {
 tbody {
     overflow-x: auto;
 
-  height: 400px;
+//   height: 400px;
 }
 
 tbody tr:hover {
@@ -51,4 +58,27 @@ tbody tr td div {
   width: 130px;
   height: 30px;
   text-align: center;
+}
+
+.table-row__menu {
+    display: none;
+}
+
+.table-row__menu-toggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 3px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.element-checkbox {
+    display: none;
+}
+
+.table-row:hover .element-checkbox {
+    display:block;
 }

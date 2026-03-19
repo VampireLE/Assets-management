@@ -45,7 +45,6 @@ export default function Assets() {
                     'Authorization': `Bearer ${token}`
                 }
         })
-            console.log(req.status)
             if (req.status === 401) {
                 throw new Error("Unauthorized");
             }

@@ -240,38 +240,31 @@ function SideDrawer({ setShowSideDrawer, sideDrawerOverlay }) {
                 <div className={style.sidedrawer__print}>
                   <div className={style.sidedrawer__icon}>
                     <div className={style['sidedrawer__icon-image']}>
-                      <img className={style['sidedrawer__icon-avatar']} src={icon ? `http://localhost:3000/uploads/${icon}` : avatar} alt="#" />
-                      <input 
-                        className={style['sidedrawer__icon-upload']}
-                        type="file"
-                        {...register('icon')}
-                        />
+                      <label>
+                        <img 
+                          className={style['sidedrawer__icon-avatar']} 
+                          src={
+                            icon ? 
+                              `http://localhost:3000/uploads/${icon}` : 
+                              avatar
+                            } 
+                          alt="#" />
+
+                        <input
+                          hidden
+                          className={style['sidedrawer__icon-upload']}
+                          type="file"
+                          {...register('icon')}
+                          />
+                      </label>
                     </div>
                   </div>
                   
                   {typeAction !=='create' && typeAction !== 'clone' && (
                     <div className={style.sidedrawer__qr}>
-                      <div className={style['sidedrawer__qr-image']}>
                         <img src={qr} alt="" />
-                      </div>
                     </div>
                   )}
-                  
-                  {/* <div className="">
-                    <div>You can customize the text and size in the <a href="/settings">Settings.</a></div>
-                    <div className={style['sidedrawer__btn-print']}>
-                      <img src="#" alt="#" />
-                      <p>Print</p>
-                    </div>
-                    <div>
-                      <p>
-                        <span>Tip:</span>
-                        To print labels in bulk, go to the main Assets table,
-                        select the checkboxes of the assets you want to print
-                        labels for and click on the Print button that appears.
-                      </p>
-                    </div>
-                  </div> */}
                 </div>
                 </form>
                 <div className={style.sidedrawer__separator}></div>

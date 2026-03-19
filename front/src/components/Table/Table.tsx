@@ -7,6 +7,8 @@ function Table({ data, overflow }) {
 
     const queryClient = useQueryClient();
 
+    const checkbox = useRef(null);
+
     const { cellData, setCellData } = useContext(CellDataContext);
     const {
         showSideDrawer,
@@ -210,75 +212,129 @@ function Table({ data, overflow }) {
                 return {}
         }
     }
-    console.log(data.data)
+
+    // useEffect(() => {
+    //     if (data?.data) {
+           
+    //         const checkboxArr = Array.from(checkbox);
+    //         const res = checkboxArr.map((val) => val)
+    //         console.log(res)
+    //     }
+    // }, [data])
+
+    const {data: assetDelete, mutate} = useMutation({
+        mutationKey: ['remove'],
+        mutationFn: async (cellToggle) => {
+            const res = await fetch('http://localhost:3000/asset/remove', {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(cellToggle)
+            })
+
+            const json = await res.json();
+            return json;
+        }
+    })
+
+    const handleTrash = () => {
+        if (cellToggle.length < 1) return
+        mutate(cellToggle)
+    }
+
     return (
         <div className={style.table}>
             <div className={style.table__wrapper}>
                 <table className={style['table-element']}>
                     <thead>
                         <tr>
-                                <th
-                                    className={style['cell--toggle']}>
-                                    <input
-                                        checked={cellToggle.length > 0}
-                                        onChange={
-                                            () => {
-                                                if (data?.data.length === cellToggle.length) {
-                                                    setCellToggle([])
-                                                } else {
-                                                    setCellToggle(data?.data?.map(value => value._id))
-                                                }
+                            <th
+                                className={style['cell--toggle']}>
+                                <input
+                                    checked={cellToggle.length > 0}
+                                    onChange={
+                                        () => {
+                                            if (data?.data.length === cellToggle.length) {
+                                                setCellToggle([])
+                                            } else {
+                                                setCellToggle(data?.data?.map(value => value._id))
                                             }
                                         }
-                                        type="checkbox" /></th>
-                                <th>Asset Name</th>
-                                <th>Company</th>
-                                <th>Contact</th>
-                                <th>Status</th>
-                                <th>Product</th>
-                                <th>Supplier</th>
-                                <th>Location</th>
-                                <th>Department</th>
-                                <th>Serial Number</th>
-                                <th>Order Number</th>
-                                <th>Notes</th>
-                                <th>Purchase Date</th>
-                                <th>Warranty Expiration Date</th>
+                                    }
+                                    type="checkbox" /></th>
+                            <th>Asset Name</th>
+                            <th>Company</th>
+                            <th>Contact</th>
+                            <th>Status</th>
+                            <th>Product</th>
+                            <th>Supplier</th>
+                            <th>Location</th>
+                            <th>Department</th>
+                            <th>Serial Number</th>
+                            <th>Order Number</th>
+                            <th>Notes</th>
+                            <th>Purchase Date</th>
+                            <th>Warranty Expiration Date</th>
                         </tr>
                     </thead>
                     <tbody>
                         {data?.data?.map((value) => (
-                            <tr key={value._id}>
-                                    <td>
-                                        <input
-                                            type="checkbox"
-                                            checked={cellToggle.includes(value._id)}
-                                            onChange={() => {
-                                                setCellToggle(
-                                                    prev => prev.includes(value._id)
-                                                        ? prev.filter(id => id !== value._id)
-                                                        : [...prev, value._id]
-                                                )
-                                            }}
-                                        />
-                                    </td>
-                                    <td>{value.name || '-'}</td>
-                                    <td>{value.company || '-'}</td>
-                                    <td>{value.contact || '-'}</td>
-                                    <td>
-                                        <div className={style["table-row__element"]} style={styleStatus(value.status)}>
-                                            {value.status || '-'}
-                                        </div>
-                                    </td>
-                                    <td>{value.product || '-'}</td>
-                                    <td>{value.supplier || '-'}</td>
-                                    <td>{value.location || '-'}</td>
-                                    <td>{value.department || '-'}</td>
-                                    <td>{value.serialNumber || '-'}</td>
-                                    <td>{value.orderNumber || '-'}</td>
-                                    <td>{value.notes || '-'}</td>
-                                    <td>{value.purchaseDate || '-'}</td>
-                                    <td>{value.warrantyExpirationDate || '-'}</td>
+                            <tr 
+                            className={style['table-row']}
+                            onClick={() => {
+                                setShowSideDrawer(true)
+                                setTypeAction('update')
+                                setCellData({
+                                    _id,
+                                    name,
+                                    company,
+                                    contact,
+                                    status,
+                                    product,
+                                    supplier,
+                                    location,
+                                    department,
+                                    serialNumber,
+                                    orderNumber,
+                                    notes,
+                                    purchaseDate,
+                                    warrantyExpirationDate,
+                                    icon
+                                })
+                            }} key={value._id}>
+                                <td>
+                                    <input
+                                        className={style['element-checkbox']}
+                                        type="checkbox"
+                                        checked={cellToggle.includes(value._id)}
+                                        onChange={() => {
+                                            setCellToggle(
+                                                prev => prev.includes(value._id)
+                                                    ? prev.filter(id => id !== value._id)
+                                                    : [...prev, value._id]
+                                            )
+                                        }}
+                                    />
+                                </td>
+                                <td>{value.name || '-'}</td>
+                                <td>{value.company || '-'}</td>
+                                <td>{value.contact || '-'}</td>
+                                <td>
+                                    <div className={style["table-row__element"]} style={styleStatus(value.status)}>
+                                        {value.status || '-'}
+                                    </div>
+                                </td>
+                                <td>{value.product}</td>
+                                <td>{value.supplier}</td>
+                                <td>{value.location}</td>
+                                <td>{value.department}</td>
+                                <td>{value.serialNumber}</td>
+                                <td>{value.orderNumber}</td>
+                                <td>{value.notes}</td>
+                                <td>{value.purchaseDate}</td>
+                                <td>{value.warrantyExpirationDate}</td>
+                               
+                               
                             </tr>
                         ))}
                     </tbody>
@@ -286,251 +342,6 @@ function Table({ data, overflow }) {
             </div>
         </div>
     );
-
-    // return (
-    //     <div className={style.table}>
-    //         <table style={overflow}>
-    //             <thead>
-    //                 <tr className={style.table__cell}>
-    // <th
-    //     className={style['cell--toggle']}>
-    //     <input
-    //         checked={cellToggle.length > 0}
-    //         onChange={
-    //             () => {
-    //                 if (data?.data.length === cellToggle.length) {
-    //                     setCellToggle([])
-    //                 } else {
-    //                     setCellToggle(data?.data?.map(value => value._id))
-    //                 }
-    //             }
-    //         }
-    //         type="checkbox" /></th>
-    //                     <th>Asset Name</th>
-    //                     <th>Company</th>
-    //                     <th>Contact</th>
-    //                     <th>Status</th>
-    //                     <th>Product</th>
-    //                     <th>Supplier</th>
-    //                     <th>Location</th>
-    //                     <th>Department</th>
-    //                     <th>Serial Number</th>
-    //                     <th>Order Number</th>
-    //                     <th>Notes</th>
-    //                     <th>Purchase Date</th>
-    //                     <th>Warranty Expiration Date</th>
-    //                 </tr>
-    //             </thead>
-    //             <tbody>
-    //                 {
-    //                     data.data.map((value, _) => {
-    //                         const {
-    //                             _id,
-    //                             name,
-    //                             company,
-    //                             contact,
-    //                             status,
-    //                             product,
-    //                             supplier,
-    //                             location,
-    //                             department,
-    //                             serialNumber,
-    //                             orderNumber,
-    //                             notes,
-    //                             purchaseDate,
-    //                             warrantyExpirationDate,
-    //                             icon,
-    //                         } = value;
-
-    //                         return (
-    //                             <tr key={_id} className={style["table-row"]}>
-    //                                 <div>
-
-    //                                 </div>
-    // <td>
-    //     <div className={style["table__row-item"]}>
-    //         <input
-    //             type="checkbox"
-    //             checked={cellToggle.includes(_id)}
-    //             onChange={() => {
-    //                 setCellToggle(
-    //                     prev => prev.includes(_id)
-    //                         ? prev.filter(id => id !== _id)
-    //                         : [...prev, _id]
-    //                 )
-    //             }}
-    //         />
-    //     </div>
-    // </td>
-    //                                 <td className={style['table__row-item']}>
-    //                                     <div className={style["table__row-wrapper"]}>
-    //                                         <div className={style["table-row__element"]}>{name}</div>
-    //                                     </div>
-    //                                 </td>
-    //                                 <td className={style["table__row-item"]}>
-    //                                     <div className={style["table__row-wrapper"]}>
-    //                                         <div className={style["table-row__element"]}>{company}</div>
-    //                                     </div>
-    //                                 </td>
-    //                                 <td className={style["table__row-item"]}>
-    //                                     <div className={style["table__row-wrapper"]}>
-    //                                         <div className={style["table-row__element"]}>{contact}</div>
-    //                                     </div>
-    //                                 </td>
-    //                                 <td className={style["table__row-item"]}>
-    //                                     <div ref={el => {
-    //                                         if (el) label.current[_] = el;
-    //                                     }} className={style["table__row-wrapper"]}>
-    //                                         <div className={`${style["table-row__element"]} ${style["table-row__label"]}`} style={styleStatus(status)}>
-    //                                             {status}
-    //                                         </div>
-    //                                     </div>
-    //                                     <div data-id={_id} className={style["label__menu"]}>
-    //                                         <div>Broken</div>
-    //                                         <div>In stock</div>
-    //                                         <div>Issued</div>
-    //                                         <div>Ready for pickup</div>
-    //                                     </div>
-    //                                 </td>
-    //                                 <td className={style["table__row-item"]}>
-    //                                     <div className={style["table__row-wrapper"]}>
-    //                                         <div className={style["table-row__element"]} style={styleStatus(product)}>
-    //                                             {product}
-    //                                         </div>
-    //                                     </div>
-    //                                 </td>
-    //                                 <td className={style["table__row-item"]}>
-    //                                     <div className={style["table__row-wrapper"]}>
-    //                                         <div className={style["table-row__element"]} style={styleStatus(supplier)}>
-    //                                             {supplier}
-    //                                         </div>
-    //                                     </div>
-    //                                 </td>
-    //                                 <td className={style["table__row-item"]}>
-    //                                     <div className={style["table__row-wrapper"]}>
-    //                                         <div className={style["table-row__element"]} style={styleStatus(location)}>
-    //                                             {location}
-    //                                         </div>
-    //                                     </div>
-    //                                 </td>
-    //                                 <td className={style["table__row-item"]}>
-    //                                     <div className={style["table__row-wrapper"]}>
-    //                                         <div className={style["table-row__element"]} style={styleStatus(department)}>
-    //                                             {department}
-    //                                         </div>
-    //                                     </div>
-    //                                 </td>
-    //                                 <td className={style["table__row-item"]}>
-    //                                     <div className={style["table__row-wrapper"]}>
-    //                                         <div className={style["table-row__element"]} style={styleStatus(serialNumber)}>
-    //                                             {serialNumber}
-    //                                         </div>
-    //                                     </div>
-    //                                 </td>
-    //                                 <td className={style["table__row-item"]}>
-    //                                     <div className={style["table__row-wrapper"]}>
-    //                                         <div className={style["table-row__element"]} style={styleStatus(orderNumber)}>
-    //                                             {orderNumber}
-    //                                         </div>
-    //                                     </div>
-    //                                 </td>
-    //                                 <td className={style["table__row-item"]}>
-    //                                     <div className={style["table__row-wrapper"]}>
-    //                                         <div className={style["table-row__element"]} style={styleStatus(notes)}>
-    //                                             {
-    //                                                 notes.length > 10
-    //                                                     ? `${notes.substring(0, 10)}...`
-    //                                                     : notes
-    //                                             }
-    //                                         </div>
-    //                                     </div>
-    //                                 </td>
-    //                                 <td className={style["table__row-item"]}>
-    //                                     <div className={style["table__row-wrapper"]}>
-    //                                         <div className={style["table-row__element"]} style={styleStatus(purchaseDate)}>
-    //                                             {purchaseDate}
-    //                                         </div>
-    //                                     </div>
-    //                                 </td>
-    //                                 <td className={style["table__row-item"]}>
-    //                                     <div className={style["table__row-wrapper"]}>
-    //                                         <div className={style["table-row__element"]} style={styleStatus(warrantyExpirationDate)}>
-    //                                             {warrantyExpirationDate}
-    //                                         </div>
-    //                                     </div>
-    //                                 </td>
-    //                                 <td className={style["table__row-item"]}>
-    //                                     <div ref={rowMenu} className={style["table__row-wrapper"]}>
-    //                                         <div className={style["table-row__menu-toggle"]}>
-    //                                             <div></div>
-    //                                             <div></div>
-    //                                             <div></div>
-    //                                         </div>
-    //                                     </div>
-    //                                     <div className={`${style["table-row__menu"]} ${style["table-row__menu--active"]}`}>
-    //                                         <div className={style["table-row__menu-item"]} onClick={() => {
-    //                                             setShowSideDrawer(true)
-    //                                             setTypeAction('update')
-    //                                             setCellData({
-    //                                                 _id,
-    //                                                 name,
-    //                                                 company,
-    //                                                 contact,
-    //                                                 status,
-    //                                                 product,
-    //                                                 supplier,
-    //                                                 location,
-    //                                                 department,
-    //                                                 serialNumber,
-    //                                                 orderNumber,
-    //                                                 notes,
-    //                                                 purchaseDate,
-    //                                                 warrantyExpirationDate,
-    //                                                 icon
-    //                                             })
-    //                                         }}>View more</div>
-    //                                         <div
-    //                                             className={style["table-row__menu-item"]}
-    //                                             data-id={_id}
-    //                                             onClick={(event) => {
-    //                                                 setShowSideDrawer(true)
-    //                                                 setTypeAction('clone')
-    //                                                 setCellData({
-    //                                                     _id,
-    //                                                     name,
-    //                                                     company,
-    //                                                     contact,
-    //                                                     status,
-    //                                                     product,
-    //                                                     supplier,
-    //                                                     location,
-    //                                                     department,
-    //                                                     serialNumber,
-    //                                                     orderNumber,
-    //                                                     notes,
-    //                                                     purchaseDate,
-    //                                                     warrantyExpirationDate,
-    //                                                     icon
-    //                                                 })
-    //                                             }}>
-    //                                             Clone
-    //                                         </div>
-    //                                         <div
-    //                                             className={style["table-row__menu-item"]}
-    //                                             data-id={_id}
-    //                                             onClick={(event) => deleteMutation.mutate(event.target.getAttribute('data-id'))}>
-    //                                             Delete
-    //                                         </div>
-    //                                     </div>
-    //                                 </td>
-    //                             </tr>
-    //                         )
-    //                     })
-    //                 }
-    //             </tbody>
-    //         </table>
-    //     </div>
-    // )
 }
 
 export default Table;

@@ -50,8 +50,6 @@
         cursor: pointer;
     }
 
-    
-
     &__separator {
         content: "";
         position: absolute;
@@ -66,9 +64,8 @@
 
     &__print {
         display: flex;
-        justify-content: space-between;
         align-items: start;
-        gap: 30px;
+        gap: 120px;
     }
 
     &__icon-avatar {
@@ -82,16 +79,12 @@
     }
 
     &__qr {
-        margin-top: 30px;
-        margin-bottom: 30px;
         width: 350px;
         height: 130px;
         border-radius: 10px;
-        // box-shadow: 0px 0px 15px -4px rgba(34, 60, 80, 0.2);
     }
 
-    &__qr-image img {
-        margin: 10px;
+    &__qr img {
         width: 100px;
         height: 100px;
     }
@@ -107,6 +100,7 @@
     }
 
     &__details {
+        margin-top: 10px;
         height: 600px;
         overflow-y: auto;
     }
@@ -232,7 +226,6 @@
 
 }
 
-.sidedrawer__separator
 
 
 
